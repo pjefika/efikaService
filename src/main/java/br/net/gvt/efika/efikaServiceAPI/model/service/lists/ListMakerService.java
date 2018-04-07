@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.net.gvt.efika.efikaServiceAPI.rest;
+package br.net.gvt.efika.efikaServiceAPI.model.service.lists;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import br.net.gvt.efika.efikaServiceAPI.model.enums.AcaoEnum;
+import java.util.List;
 
 /**
  *
  * @author G0041775
  */
-@ApplicationPath("/efikaServiceAPI")
-public class JaxRsConfiguration extends Application {
+public interface ListMakerService {
+
+    public List<AcaoEnum> listarAcoes();
 }

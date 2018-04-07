@@ -43,11 +43,8 @@ public class CertificationServiceImpl implements CertificationService {
 
     @Override
     public CustomerCertification certificationByParam(GenericRequest req) throws Exception {
-        if (req.getCustomer() == null) {
-            cust = FactoryService.customerFinder().getCustomer(req);
-        } else {
-            cust = req.getCustomer();
-        }
+        cust = FactoryService.customerFinder().getCustomer(req);
+
         this.certification.setCustomer(cust);
         this.certification.setExecutor(req.getExecutor());
 
@@ -129,11 +126,11 @@ public class CertificationServiceImpl implements CertificationService {
 
     @Override
     public ValidacaoResult certifyRede(GenericRequest req) throws Exception {
-        if (req.getCustomer() == null) {
+//        if (req.getCustomer() == null) {
             cust = finder.getCustomer(req);
-        } else {
-            cust = req.getCustomer();
-        }
+//        } else {
+//            cust = req.getCustomer();
+//        }
         ValidacaoResult confRede = confPortaDAO.confiabilidadeRede(new FulltestRequest(cust, req.getExecutor()));
 
         return confRede;
@@ -141,11 +138,11 @@ public class CertificationServiceImpl implements CertificationService {
 
     @Override
     public List<SerialOntGpon> ontsDisp(GenericRequest req) throws Exception {
-        if (req.getCustomer() == null) {
+//        if (req.getCustomer() == null) {
             cust = finder.getCustomer(req);
-        } else {
-            cust = req.getCustomer();
-        }
+//        } else {
+//            cust = req.getCustomer();
+//        }
         List<SerialOntGpon> ontsDisp = confPortaDAO.ontsDisponiveis(new FulltestRequest(cust, req.getExecutor()));
 
         return ontsDisp;
@@ -153,11 +150,11 @@ public class CertificationServiceImpl implements CertificationService {
 
     @Override
     public ValidacaoResult setOntToOlt(GenericRequest req) throws Exception {
-        if (req.getCustomer() == null) {
+//        if (req.getCustomer() == null) {
             cust = finder.getCustomer(req);
-        } else {
-            cust = req.getCustomer();
-        }
+//        } else {
+//            cust = req.getCustomer();
+//        }
 
         ValidacaoResult settedOnt = confPortaDAO.setOntToOlt(new SetOntToOltRequest(cust, req.getExecutor(), new SerialOntGpon(req.getParameter())));
 

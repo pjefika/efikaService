@@ -11,6 +11,8 @@ import br.net.gvt.efika.efikaServiceAPI.model.service.certification.impl.Certifi
 import br.net.gvt.efika.efikaServiceAPI.model.service.certification.impl.CertificationService;
 import br.net.gvt.efika.efikaServiceAPI.model.service.customer.EfikaCustomerService;
 import br.net.gvt.efika.efikaServiceAPI.model.service.customer.EfikaCustomerServiceImpl;
+import br.net.gvt.efika.efikaServiceAPI.model.service.lists.ListMakerService;
+import br.net.gvt.efika.efikaServiceAPI.model.service.lists.ListMakerServiceImpl;
 
 /**
  *
@@ -28,6 +30,10 @@ public class FactoryService {
 
     public static EfikaCustomerService createEfikaCustomerService() throws Exception {
         return new EfikaCustomerServiceImpl();
+    }
+
+    public static ListMakerService createListMakerService() throws Exception {
+        return new ListMakerServiceImpl();
     }
 
 }

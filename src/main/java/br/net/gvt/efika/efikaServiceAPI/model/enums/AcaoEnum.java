@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.net.gvt.efika.efikaServiceAPI.rest;
-
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+package br.net.gvt.efika.efikaServiceAPI.model.enums;
 
 /**
  *
  * @author G0041775
  */
-@ApplicationPath("/efikaServiceAPI")
-public class JaxRsConfiguration extends Application {
+public enum AcaoEnum {
+
+    VALIDADOR_PARAMETROS,
+    CORRETOR_ESTADO_PORTA,
+    CORRETOR_PROFILE;
+
 }
