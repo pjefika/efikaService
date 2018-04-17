@@ -3,15 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.net.gvt.efika.efikaServiceAPI.model.service.certificator;
+package br.net.gvt.efika.efikaServiceAPI.model.enums;
 
 /**
  *
  * @author G0041775
- * @param <T>
  */
-public interface Certifier <T>{
-
-    public void certify(T t);
-
+public enum ExecDetailedEnum {
+    GET_ONTS,
+    SET_ONT;
 }

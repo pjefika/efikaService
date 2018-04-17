@@ -3,25 +3,41 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.net.gvt.efika.efikaServiceAPI.model.entity;
+package br.net.gvt.efika.efikaServiceAPI.model.validador;
 
 import br.net.gvt.efika.efikaServiceAPI.model.enums.AcaoEnum;
 import br.net.gvt.efika.efikaServiceAPI.model.enums.AcaoResultEnum;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
+import br.net.gvt.efika.mongo.model.entity.AbstractMongoEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Date;
 
 /**
  *
  * @author G0041775
  */
-public class AcaoValidadora {
+public class AcaoValidadora extends AbstractMongoEntity {
 
     private AcaoEnum nome;
 
+    @JsonIgnore
     private ValidacaoResult valid;
+
+    @JsonIgnore
+    private EfikaCustomer customer;
+
+    @JsonIgnore
+    private Date dataInicio;
+
+    @JsonIgnore
+    private Date dataFim;
 
     private String mensagem;
 
-    private AcaoResultEnum resultado;
+    private AcaoResultEnum tipo;
+
+    private Boolean resultado;
 
     public AcaoValidadora() {
     }
@@ -59,12 +75,44 @@ public class AcaoValidadora {
         this.mensagem = mensagem;
     }
 
-    public AcaoResultEnum getResultado() {
+    public AcaoResultEnum getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(AcaoResultEnum tipo) {
+        this.tipo = tipo;
+    }
+
+    public Boolean getResultado() {
         return resultado;
     }
 
-    public void setResultado(AcaoResultEnum resultado) {
+    public void setResultado(Boolean resultado) {
         this.resultado = resultado;
+    }
+
+    public EfikaCustomer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(EfikaCustomer customer) {
+        this.customer = customer;
+    }
+
+    public Date getDataInicio() {
+        return dataInicio;
+    }
+
+    public void setDataInicio(Date dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+
+    public Date getDataFim() {
+        return dataFim;
+    }
+
+    public void setDataFim(Date dataFim) {
+        this.dataFim = dataFim;
     }
 
 }

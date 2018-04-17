@@ -7,12 +7,12 @@ package br.net.gvt.efika.efikaServiceAPI.model.service.factory;
 
 import br.net.gvt.efika.efikaServiceAPI.model.service.finder.CustomerFinder;
 import br.net.gvt.efika.efikaServiceAPI.model.service.finder.CustomerFinderImpl;
-import br.net.gvt.efika.efikaServiceAPI.model.service.certification.impl.CertificationServiceImpl;
-import br.net.gvt.efika.efikaServiceAPI.model.service.certification.impl.CertificationService;
 import br.net.gvt.efika.efikaServiceAPI.model.service.customer.EfikaCustomerService;
 import br.net.gvt.efika.efikaServiceAPI.model.service.customer.EfikaCustomerServiceImpl;
 import br.net.gvt.efika.efikaServiceAPI.model.service.lists.ListMakerService;
 import br.net.gvt.efika.efikaServiceAPI.model.service.lists.ListMakerServiceImpl;
+import br.net.gvt.efika.efikaServiceAPI.model.service.validator.TelecomServicesDistribution;
+import br.net.gvt.efika.efikaServiceAPI.model.service.validator.TelecomServicesDistributionImpl;
 
 /**
  *
@@ -24,16 +24,16 @@ public class FactoryService {
         return new CustomerFinderImpl();
     }
 
-    public static CertificationService certSrvc() {
-        return new CertificationServiceImpl();
-    }
-
     public static EfikaCustomerService createEfikaCustomerService() throws Exception {
         return new EfikaCustomerServiceImpl();
     }
 
     public static ListMakerService createListMakerService() throws Exception {
         return new ListMakerServiceImpl();
+    }
+
+    public static TelecomServicesDistribution createTelecomServicesDistribution() throws Exception {
+        return new TelecomServicesDistributionImpl();
     }
 
 }

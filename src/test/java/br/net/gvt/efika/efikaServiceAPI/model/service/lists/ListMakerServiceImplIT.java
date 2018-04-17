@@ -1,0 +1,54 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.net.gvt.efika.efikaServiceAPI.model.service.lists;
+
+import br.net.gvt.efika.efikaServiceAPI.model.enums.AcaoEnum;
+import br.net.gvt.efika.util.json.JacksonMapper;
+import java.util.List;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+/**
+ *
+ * @author G0041775
+ */
+public class ListMakerServiceImplIT {
+    
+    public ListMakerServiceImplIT() {
+    }
+    
+    @BeforeClass
+    public static void setUpClass() {
+    }
+    
+    @AfterClass
+    public static void tearDownClass() {
+    }
+    
+    @Before
+    public void setUp() {
+    }
+    
+    @After
+    public void tearDown() {
+    }
+
+    /**
+     * Test of listarAcoes method, of class ListMakerServiceImpl.
+     */
+    @Test
+    public void testListarAcoes() throws Exception{
+        System.out.println("listarAcoes");
+        ListMakerServiceImpl instance = new ListMakerServiceImpl();
+        
+        List<AcaoEnum> result = instance.listarAcoes();
+        System.out.println(new JacksonMapper(List.class).serialize(result));
+    }
+    
+}

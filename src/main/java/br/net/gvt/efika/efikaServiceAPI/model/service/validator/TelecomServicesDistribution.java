@@ -5,8 +5,10 @@
  */
 package br.net.gvt.efika.efikaServiceAPI.model.service.validator;
 
-import br.net.gvt.efika.efikaServiceAPI.model.entity.AcaoValidadora;
-import br.net.gvt.efika.efikaServiceAPI.model.enums.AcaoEnum;
+import br.net.gvt.efika.efikaServiceAPI.model.ExecDetailedRequest;
+import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoValidadora;
+import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoRequest;
+import br.net.gvt.efika.efikaServiceAPI.model.validador.ExecucaoDetalhada;
 
 /**
  *
@@ -14,6 +16,7 @@ import br.net.gvt.efika.efikaServiceAPI.model.enums.AcaoEnum;
  */
 public interface TelecomServicesDistribution {
 
-    public AcaoValidadora validacao(AcaoEnum acao) throws Exception;
+    public AcaoValidadora validacao(AcaoRequest acao) throws Exception;
 
+    public ExecucaoDetalhada execucaoDetalhada(ExecDetailedRequest req) throws Exception;
 }

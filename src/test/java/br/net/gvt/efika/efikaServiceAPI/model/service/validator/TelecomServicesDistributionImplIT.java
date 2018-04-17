@@ -5,8 +5,12 @@
  */
 package br.net.gvt.efika.efikaServiceAPI.model.service.validator;
 
-import br.net.gvt.efika.efikaServiceAPI.model.entity.AcaoValidadora;
+import br.net.gvt.efika.efikaServiceAPI.model.ExecDetailedRequest;
+import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoValidadora;
 import br.net.gvt.efika.efikaServiceAPI.model.enums.AcaoEnum;
+import br.net.gvt.efika.efikaServiceAPI.model.enums.ExecDetailedEnum;
+import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoRequest;
+import br.net.gvt.efika.efikaServiceAPI.model.validador.ExecucaoDetalhada;
 import br.net.gvt.efika.util.json.JacksonMapper;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -45,10 +49,22 @@ public class TelecomServicesDistributionImplIT {
     @Test
     public void testValidacao() throws Exception {
         System.out.println("validacao");
-        AcaoEnum acao = AcaoEnum.CORRETOR_ESTADO_ADM_PORTA;
+        AcaoEnum acao = AcaoEnum.ASSOCIACAO_ONT;
         TelecomServicesDistributionImpl instance = new TelecomServicesDistributionImpl();
-        AcaoValidadora result = instance.validacao(acao);
+        AcaoValidadora result = instance.validacao(new AcaoRequest(acao, ""));
         System.out.println(new JacksonMapper(AcaoValidadora.class).serialize(result));
+    }
+
+    /**
+     * Test of execucaoDetalhada method, of class TelecomServicesDistributionImpl.
+     */
+    @Test
+    public void testExecucaoDetalhada() throws Exception {
+        System.out.println("execucaoDetalhada");
+        ExecDetailedRequest req = new ExecDetailedRequest("4135016493", "MSTC2FEC6F7C", ExecDetailedEnum.SET_ONT);
+        TelecomServicesDistributionImpl instance = new TelecomServicesDistributionImpl();
+        ExecucaoDetalhada result = instance.execucaoDetalhada(req);
+        System.out.println(new JacksonMapper(ExecucaoDetalhada.class).serialize(result));
     }
     
 }

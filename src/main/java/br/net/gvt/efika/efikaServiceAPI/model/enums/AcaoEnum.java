@@ -11,8 +11,8 @@ package br.net.gvt.efika.efikaServiceAPI.model.enums;
  */
 public enum AcaoEnum {
 
-    VALIDADOR_PARAMETROS,
-    CORRETOR_ESTADO_ADM_PORTA,
+    PARAMETROS_REDE,
+    ASSOCIACAO_ONT,
     VALIDADOR_ESTADO_OPER_PORTA,
     CORRETOR_PROFILE;
 

@@ -5,6 +5,7 @@
  */
 package br.net.gvt.efika.efikaServiceAPI.model.service.lists;
 
+import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoValidadora;
 import br.net.gvt.efika.efikaServiceAPI.model.enums.AcaoEnum;
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +15,13 @@ public class ListMakerServiceImpl implements ListMakerService {
     @Override
     public List<AcaoEnum> listarAcoes() {
         return Arrays.asList(AcaoEnum.values());
+    }
+
+    @Override
+    public List<AcaoValidadora> listarValidacoes(AcaoEnum acao) {
+        
+        
+        return null;
     }
 
 }

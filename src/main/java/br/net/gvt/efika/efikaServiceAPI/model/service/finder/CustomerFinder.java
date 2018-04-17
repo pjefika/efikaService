@@ -7,6 +7,7 @@ package br.net.gvt.efika.efikaServiceAPI.model.service.finder;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.efikaServiceAPI.model.GenericRequest;
+import java.util.Date;
 
 /**
  *
@@ -15,5 +16,7 @@ import br.net.gvt.efika.efikaServiceAPI.model.GenericRequest;
 public interface CustomerFinder {
 
     public EfikaCustomer getCustomer(GenericRequest req) throws Exception;
+
+    public EfikaCustomer getCustomerFromHist(String instancia, Date dataLimite) throws Exception;
 
 }

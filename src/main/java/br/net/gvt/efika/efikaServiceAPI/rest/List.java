@@ -4,13 +4,13 @@ import br.net.gvt.efika.efikaServiceAPI.model.service.factory.FactoryService;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.*;
 
-@Path("/serviceList")
-public class ServiceList {
+@Path("/list")
+public class List {
 
     @GET
     @Path("/acoes")
     @Produces({"application/json"})
-    public Response certification() {
+    public Response listAcoes() {
 
         try {
             return Response.status(200).entity(FactoryService.createListMakerService().listarAcoes()).build();

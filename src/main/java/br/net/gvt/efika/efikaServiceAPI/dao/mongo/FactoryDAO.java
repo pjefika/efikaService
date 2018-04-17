@@ -5,11 +5,11 @@
  */
 package br.net.gvt.efika.efikaServiceAPI.dao.mongo;
 
-import br.net.gvt.efika.efikaServiceAPI.dao.certification.CertificationDAO;
-import br.net.gvt.efika.efikaServiceAPI.dao.certification.CertificationDAOImpl;
+import br.net.gvt.efika.efikaServiceAPI.dao.acao_validadora.AcaoValidadoraDAOImpl;
 import br.net.gvt.efika.efikaServiceAPI.dao.exception.ExceptionLogDAOImpl;
 import br.net.gvt.efika.efikaServiceAPI.model.entity.ExceptionLog;
 import br.net.gvt.efika.mongo.dao.AbstractMongoDAO;
+import br.net.gvt.efika.efikaServiceAPI.dao.acao_validadora.AcaoValidadoraDAO;
 
 /**
  *
@@ -21,8 +21,8 @@ public class FactoryDAO {
         return new ExceptionLogDAOImpl();
     }
 
-    public static CertificationDAO newCertificationDAO() {
-        return new CertificationDAOImpl();
+    public static AcaoValidadoraDAO newAcaoValidadoraDAO() {
+        return new AcaoValidadoraDAOImpl();
     }
 
 }
