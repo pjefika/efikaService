@@ -6,6 +6,7 @@
 package br.net.gvt.efika.efikaServiceAPI.model.service.lists;
 
 import br.net.gvt.efika.efikaServiceAPI.model.enums.AcaoEnum;
+import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoValidadora;
 import br.net.gvt.efika.util.json.JacksonMapper;
 import java.util.List;
 import org.junit.After;
@@ -48,6 +49,18 @@ public class ListMakerServiceImplIT {
         ListMakerServiceImpl instance = new ListMakerServiceImpl();
         
         List<AcaoEnum> result = instance.listarAcoes();
+        System.out.println(new JacksonMapper(List.class).serialize(result));
+    }
+
+    /**
+     * Test of listarValidacoes method, of class ListMakerServiceImpl.
+     */
+    @Test
+    public void testListarValidacoes() throws Exception{
+        System.out.println("listarValidacoes");
+        AcaoEnum acao = AcaoEnum.ASSOCIACAO_ONT;
+        ListMakerServiceImpl instance = new ListMakerServiceImpl();
+        List<AcaoValidadora> result = instance.listarValidacoes(acao);
         System.out.println(new JacksonMapper(List.class).serialize(result));
     }
     

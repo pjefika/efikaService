@@ -7,6 +7,7 @@ package br.net.gvt.efika.efikaServiceAPI.model.service.lists;
 
 import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoValidadora;
 import br.net.gvt.efika.efikaServiceAPI.model.enums.AcaoEnum;
+import br.net.gvt.efika.efikaServiceAPI.model.validador.factory.FactoryAcaoValidadora;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,9 +20,7 @@ public class ListMakerServiceImpl implements ListMakerService {
 
     @Override
     public List<AcaoValidadora> listarValidacoes(AcaoEnum acao) {
-        
-        
-        return null;
+        return FactoryAcaoValidadora.fakeListCreation(acao);
     }
 
 }

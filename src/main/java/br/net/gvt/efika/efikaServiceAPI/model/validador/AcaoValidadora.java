@@ -39,6 +39,8 @@ public class AcaoValidadora extends AbstractMongoEntity {
 
     private Boolean resultado;
 
+    private String urlCorrecao;
+
     public AcaoValidadora() {
     }
 
@@ -113,6 +115,14 @@ public class AcaoValidadora extends AbstractMongoEntity {
 
     public void setDataFim(Date dataFim) {
         this.dataFim = dataFim;
+    }
+
+    public String getUrlCorrecao() {
+        return urlCorrecao;
+    }
+
+    public void setUrlCorrecao(String urlCorrecao) {
+        this.urlCorrecao = urlCorrecao;
     }
 
 }
