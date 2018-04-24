@@ -1,6 +1,6 @@
 package br.net.gvt.efika.efikaServiceAPI.rest;
 
-import br.net.gvt.efika.efikaServiceAPI.model.enums.AcaoEnum;
+import br.net.gvt.efika.efikaServiceAPI.model.ResponsesRequest;
 import br.net.gvt.efika.efikaServiceAPI.model.service.factory.FactoryService;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.*;
@@ -20,13 +20,14 @@ public class List {
         }
     }
     
-    @GET
-    @Path("/respostas/{acao}")
+    @POST
+    @Path("/respostas/")
     @Produces({"application/json"})
-    public Response listResp(@PathParam("acao") String acao) {
+    @Consumes({"application/json"})
+    public Response listResp(ResponsesRequest acao) {
 
         try {
-            return Response.status(200).entity(FactoryService.createListMakerService().listarValidacoes(AcaoEnum.valueOf(acao))).build();
+            return Response.status(200).entity(FactoryService.createListMakerService().listarValidacoes(acao.getAcao())).build();
         } catch (Exception ex) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ex).build();
         }
