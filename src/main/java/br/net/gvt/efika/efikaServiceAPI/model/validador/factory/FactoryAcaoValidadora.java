@@ -56,6 +56,7 @@ public class FactoryAcaoValidadora {
 //        String m = ResourceBundle.getBundle("messages", FactoryLocale.createLocale(SystemEnum.CRM)).getString(av.getNome() + "_" + r.name());
 
         av.setMensagem(valid.getMensagem());
+        av.setConsulta(hasConsulta(av));
         av.setTipo(r);
         return av;
     }
@@ -72,6 +73,18 @@ public class FactoryAcaoValidadora {
                 break;
         }
         return s;
+    }
+
+    public static Boolean hasConsulta(AcaoValidadora acao) {
+        Boolean bool = false;
+        switch (acao.getAcao()) {
+            case ASSOCIACAO_ONT:
+                bool = !acao.getResultado();
+                break;
+            default:
+                break;
+        }
+        return bool;
     }
 
 }
