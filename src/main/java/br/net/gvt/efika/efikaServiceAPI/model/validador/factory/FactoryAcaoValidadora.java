@@ -79,7 +79,7 @@ public class FactoryAcaoValidadora {
         Boolean bool = false;
         switch (acao.getAcao()) {
             case ASSOCIACAO_ONT:
-                bool = !acao.getResultado();
+                bool = (!acao.getResultado()) && acao.getTipo()!= AcaoResultEnum.CORRIGIDO_NOK;
                 break;
             default:
                 break;
