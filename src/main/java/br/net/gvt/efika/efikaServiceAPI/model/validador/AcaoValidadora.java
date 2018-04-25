@@ -19,7 +19,7 @@ import java.util.Date;
  */
 public class AcaoValidadora extends AbstractMongoEntity {
 
-    private AcaoEnum nome;
+    private AcaoEnum acao;
 
     @JsonIgnore
     private ValidacaoResult valid;
@@ -37,7 +37,7 @@ public class AcaoValidadora extends AbstractMongoEntity {
 
     private AcaoResultEnum tipo;
 
-    private Boolean resultado;
+    private Boolean resultado, consulta;
 
     private String urlCorrecao;
 
@@ -45,20 +45,28 @@ public class AcaoValidadora extends AbstractMongoEntity {
     }
 
     public AcaoValidadora(AcaoEnum nome) {
-        this.nome = nome;
+        this.acao = nome;
     }
 
     public AcaoValidadora(AcaoEnum nome, ValidacaoResult valid) {
-        this.nome = nome;
+        this.acao = nome;
         this.valid = valid;
     }
 
-    public AcaoEnum getNome() {
-        return nome;
+    public AcaoEnum getAcao() {
+        return acao;
     }
 
-    public void setNome(AcaoEnum nome) {
-        this.nome = nome;
+    public void setAcao(AcaoEnum acao) {
+        this.acao = acao;
+    }
+
+    public Boolean getConsulta() {
+        return consulta;
+    }
+
+    public void setConsulta(Boolean consulta) {
+        this.consulta = consulta;
     }
 
     public ValidacaoResult getValid() {
@@ -124,5 +132,6 @@ public class AcaoValidadora extends AbstractMongoEntity {
     public void setUrlCorrecao(String urlCorrecao) {
         this.urlCorrecao = urlCorrecao;
     }
+
 
 }

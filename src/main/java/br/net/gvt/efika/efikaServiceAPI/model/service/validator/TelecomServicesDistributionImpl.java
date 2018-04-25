@@ -38,7 +38,7 @@ public class TelecomServicesDistributionImpl implements TelecomServicesDistribut
             r = valid.getResultado() ? AcaoResultEnum.VALIDADO_OK : AcaoResultEnum.VALIDADO_NOK;
             av.setResultado(valid.getResultado());
         }
-        String m = ResourceBundle.getBundle("messages", FactoryLocale.createLocale(SystemEnum.CRM)).getString(av.getNome() + "_" + r.name());
+        String m = ResourceBundle.getBundle("messages", FactoryLocale.createLocale(SystemEnum.CRM)).getString(av.getAcao() + "_" + r.name());
         av.setTipo(r);
         av.setMensagem(m);
         av.setValid(valid);

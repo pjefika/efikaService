@@ -43,7 +43,7 @@ public class ValidacaoResultGenerator {
     public static ValidacaoResult generate(AcaoValidadora a) throws Exception {
         ValidacaoResult v = null;
 
-        switch (a.getNome()) {
+        switch (a.getAcao()) {
             case ASSOCIACAO_ONT:
                 v = FactoryFulltestService.newConfigPortaService().getOntFromOlt(new FulltestRequest(a.getCustomer(), "efikaServiceAPI"));
                 break;

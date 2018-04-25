@@ -7,8 +7,6 @@ package br.net.gvt.efika.efikaServiceAPI.model.validador.factory;
 
 import br.net.gvt.efika.efikaServiceAPI.model.enums.AcaoEnum;
 import br.net.gvt.efika.efikaServiceAPI.model.enums.AcaoResultEnum;
-import br.net.gvt.efika.efikaServiceAPI.model.enums.SystemEnum;
-import br.net.gvt.efika.efikaServiceAPI.model.service.factory.FactoryLocale;
 import br.net.gvt.efika.efikaServiceAPI.model.service.validator.ValidacaoResultGenerator;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoValidadora;
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
@@ -16,7 +14,6 @@ import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.ResourceBundle;
 
 /**
  *
@@ -65,7 +62,7 @@ public class FactoryAcaoValidadora {
 
     public static String urlResponseGenerator(AcaoValidadora acao) {
         String s = null;
-        switch (acao.getNome()) {
+        switch (acao.getAcao()) {
             case ASSOCIACAO_ONT:
                 if (!acao.getResultado()) {
                     s = "http://10.40.196.171:7178/efikaServiceAPI/execAcao/detailed";

@@ -5,15 +5,39 @@
  */
 package br.net.gvt.efika.efikaServiceAPI.model.enums;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  *
  * @author G0041775
  */
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum AcaoEnum {
 
 //    PARAMETROS_REDE,
-    ASSOCIACAO_ONT,
+    ASSOCIACAO_ONT("Associação ONT a OLT");
 //    VALIDADOR_ESTADO_OPER_PORTA,
 //    CORRETOR_PROFILE;
+
+    private String value;
+
+    AcaoEnum(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
+
+    public String getNome() {
+        return toString();
+    }
+
+//    @JsonValue
+    public String getAlias() {
+        return this.name();
+    }
 
 }
