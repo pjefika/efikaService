@@ -69,7 +69,7 @@ public class FactoryAcaoValidadora {
         switch (acao.getAcao()) {
             case ASSOCIACAO_ONT:
                 if (!acao.getResultado()) {
-                    s = "http://10.40.196.171:7178/efikaServiceAPI/execAcao/detailed";
+                    s = "http://10.40.196.171/efika_gps/pages/associacao_olt/associacao_olt.html?instancia=1234567890";
                 }
                 break;
             default:
