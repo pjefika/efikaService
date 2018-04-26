@@ -7,18 +7,13 @@ package br.net.gvt.efika.efikaServiceAPI.model.service.validator;
 
 import br.net.gvt.efika.efikaServiceAPI.model.ExecDetailedRequest;
 import br.net.gvt.efika.efikaServiceAPI.model.enums.AcaoResultEnum;
-import br.net.gvt.efika.efikaServiceAPI.model.enums.SystemEnum;
-import br.net.gvt.efika.efikaServiceAPI.model.service.factory.FactoryLocale;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoValidadora;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.factory.FactoryAcaoValidadora;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoRequest;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.ExecucaoDetalhada;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.factory.FactoryExecucaoDetalhada;
-import br.net.gvt.efika.fulltest.exception.MetodoNaoImplementadoException;
-import br.net.gvt.efika.fulltest.exception.SemGerenciaException;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import java.util.Calendar;
-import java.util.ResourceBundle;
 
 public class TelecomServicesDistributionImpl implements TelecomServicesDistribution {
 
@@ -45,9 +40,8 @@ public class TelecomServicesDistributionImpl implements TelecomServicesDistribut
             r = valid.getResultado() ? AcaoResultEnum.VALIDADO_OK : AcaoResultEnum.VALIDADO_NOK;
             av.setResultado(valid.getResultado());
         }
-        String m = ResourceBundle.getBundle("messages", FactoryLocale.createLocale(SystemEnum.CRM)).getString(av.getAcao() + "_" + r.name());
         av.setTipo(r);
-        av.setMensagem(m);
+        av.setMensagem(valid.getMensagem());
         av.setValid(valid);
         av.setDataFim(Calendar.getInstance().getTime());
 
