@@ -39,7 +39,9 @@ public class FactoryAcaoValidadora {
         AcaoValidadora av = new AcaoValidadora(acao, valid);
         av.setDataInicio(Calendar.getInstance().getTime());
         av.setDataFim(Calendar.getInstance().getTime());
-        av.setCustomer(new EfikaCustomer("4125252525"));
+        EfikaCustomer ec = new EfikaCustomer("4125252525");
+        ec.setInstancia("4125252525");
+        av.setCustomer(ec);
         AcaoResultEnum r;
         if (valid.getFoiCorrigido() != null) {
             if (valid.getResultado()) {
