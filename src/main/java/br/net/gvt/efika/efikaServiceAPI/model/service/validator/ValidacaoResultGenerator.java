@@ -107,6 +107,9 @@ public class ValidacaoResultGenerator {
                         return s;
                     }
                 }, Boolean.FALSE));
+                l.add(new ValidacaoResult("", "Falha ao conectar-se com o Jump Access.", Boolean.FALSE, Boolean.FALSE));
+                l.add(new ValidacaoResult("", "Método não implementado para este DSLAM/OLT.", Boolean.FALSE, Boolean.FALSE));
+                l.add(new ValidacaoResult("", "Identificado Shelf sem gerência.", Boolean.FALSE, Boolean.FALSE));
                 break;
             default:
                 break;

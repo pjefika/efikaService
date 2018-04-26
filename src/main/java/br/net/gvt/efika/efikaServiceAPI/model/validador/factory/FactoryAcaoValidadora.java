@@ -53,11 +53,14 @@ public class FactoryAcaoValidadora {
             av.setResultado(valid.getResultado());
             av.setUrlCorrecao(urlResponseGenerator(av));
         }
+        if(valid.getNome().isEmpty()){
+            r = AcaoResultEnum.EXCEPTION;
+        }
 //        String m = ResourceBundle.getBundle("messages", FactoryLocale.createLocale(SystemEnum.CRM)).getString(av.getNome() + "_" + r.name());
 
         av.setMensagem(valid.getMensagem());
-        av.setConsulta(hasConsulta(av));
         av.setTipo(r);
+        av.setConsulta(hasConsulta(av));
         return av;
     }
 
@@ -76,10 +79,10 @@ public class FactoryAcaoValidadora {
     }
 
     public static Boolean hasConsulta(AcaoValidadora acao) {
-        Boolean bool = false;
+        Boolean bool = true;
         switch (acao.getAcao()) {
             case ASSOCIACAO_ONT:
-                bool = (!acao.getResultado()) && acao.getTipo()!= AcaoResultEnum.CORRIGIDO_NOK;
+                bool = acao.getTipo() != AcaoResultEnum.VALIDADO_NOK;
                 break;
             default:
                 break;

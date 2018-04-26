@@ -14,6 +14,7 @@ public enum AcaoResultEnum {
     VALIDADO_OK,
     VALIDADO_NOK,
     CORRIGIDO_OK,
-    CORRIGIDO_NOK
+    CORRIGIDO_NOK,
+    EXCEPTION
     
 }

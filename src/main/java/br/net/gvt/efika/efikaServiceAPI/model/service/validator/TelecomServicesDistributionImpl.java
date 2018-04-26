@@ -14,6 +14,8 @@ import br.net.gvt.efika.efikaServiceAPI.model.validador.factory.FactoryAcaoValid
 import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoRequest;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.ExecucaoDetalhada;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.factory.FactoryExecucaoDetalhada;
+import br.net.gvt.efika.fulltest.exception.MetodoNaoImplementadoException;
+import br.net.gvt.efika.fulltest.exception.SemGerenciaException;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import java.util.Calendar;
 import java.util.ResourceBundle;
@@ -25,7 +27,12 @@ public class TelecomServicesDistributionImpl implements TelecomServicesDistribut
         AcaoValidadora av = FactoryAcaoValidadora.create(acao.getAcao());
         av.setCustomer(ValidacaoResultGenerator.getCust(acao.getInstancia()));
         AcaoResultEnum r;
-        ValidacaoResult valid = ValidacaoResultGenerator.generate(av);
+        ValidacaoResult valid = null;
+        try {
+            valid = ValidacaoResultGenerator.generate(av);
+        } catch (Exception e) {
+            valid = new ValidacaoResult("", e.getMessage(), Boolean.FALSE, Boolean.FALSE);
+        }
 
         if (valid.getFoiCorrigido() != null) {
             if (valid.getResultado()) {
