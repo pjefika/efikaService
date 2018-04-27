@@ -23,12 +23,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  *
  * @author G0041775
  */
 public class ValidacaoResultGenerator {
+
+    
+    protected static ResourceBundle bundle = ResourceBundle.getBundle("messages", new Locale("co", "CO"));
 
     public ValidacaoResultGenerator() {
     }
@@ -76,40 +81,40 @@ public class ValidacaoResultGenerator {
         List<ValidacaoResult> l = new ArrayList<>();
         switch (a) {
             case ASSOCIACAO_ONT:
-                l.add(new ValidacaoResult("Associação ONT", "Identificado ONT associado ABC123456.", Boolean.TRUE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
+                l.add(new ValidacaoResult("Associação ONT", bundle.getString("validacaoSerialOnt_ok")+" ABC123456", Boolean.TRUE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
                     public SerialOntGpon getSerial() {
                         return new SerialOntGpon("ABC123456");
                     }
                 }, Boolean.FALSE));
-                l.add(new ValidacaoResult("Associação ONT", "Não foi identificado ONT associado.", Boolean.FALSE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
+                l.add(new ValidacaoResult("Associação ONT", bundle.getString("validacaoSerialOnt_nok"), Boolean.FALSE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
                     public SerialOntGpon getSerial() {
                         return new SerialOntGpon("");
                     }
                 }, null));
-                l.add(new ValidacaoResult("Associação ONT", "Identificado SLID associado 0123456789.", Boolean.TRUE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
+                l.add(new ValidacaoResult("Associação ONT", bundle.getString("validacaoSerialOnt_ok")+ "0123456789", Boolean.TRUE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
                     public SerialOntGpon getSerial() {
                         SerialOntGpon s = new SerialOntGpon();
                         s.setIdOnt("0123456789");
                         return s;
                     }
                 }, Boolean.FALSE));
-                l.add(new ValidacaoResult("Associação ONT", "Associado SLID 0123456789.", Boolean.FALSE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
+                l.add(new ValidacaoResult("Associação ONT", bundle.getString("correcaoSerilOnt_ok")+ "0123456789", Boolean.FALSE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
                     public SerialOntGpon getSerial() {
                         SerialOntGpon s = new SerialOntGpon();
                         s.setIdOnt("0123456789");
                         return s;
                     }
                 }, Boolean.TRUE));
-                l.add(new ValidacaoResult("Associação ONT", "Não foi possível associar o SLID.", Boolean.FALSE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
+                l.add(new ValidacaoResult("Associação ONT", bundle.getString("correcaoSerilOnt_nok"), Boolean.FALSE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
                     public SerialOntGpon getSerial() {
                         SerialOntGpon s = new SerialOntGpon();
                         s.setIdOnt("0123456789");
                         return s;
                     }
                 }, Boolean.FALSE));
-                l.add(new ValidacaoResult("", "Falha ao conectar-se com o Jump Access.", Boolean.FALSE, Boolean.FALSE));
-                l.add(new ValidacaoResult("", "Método não implementado para este DSLAM/OLT.", Boolean.FALSE, Boolean.FALSE));
-                l.add(new ValidacaoResult("", "Identificado Shelf sem gerência.", Boolean.FALSE, Boolean.FALSE));
+                l.add(new ValidacaoResult("Associação ONT", "Falha ao conectar-se com o Jump Access.", Boolean.FALSE, Boolean.FALSE));
+                l.add(new ValidacaoResult("Associação ONT", "Método não implementado para este DSLAM/OLT.", Boolean.FALSE, Boolean.FALSE));
+                l.add(new ValidacaoResult("Associação ONT", "Identificado Shelf sem gerência.", Boolean.FALSE, Boolean.FALSE));
                 break;
             default:
                 break;
