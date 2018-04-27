@@ -40,6 +40,9 @@ public class TelecomServicesDistributionImpl implements TelecomServicesDistribut
             r = valid.getResultado() ? AcaoResultEnum.VALIDADO_OK : AcaoResultEnum.VALIDADO_NOK;
             av.setResultado(valid.getResultado());
         }
+        if(valid.getNome().isEmpty()){
+            r = AcaoResultEnum.EXCEPTION;
+        }
         av.setTipo(r);
         av.setConsulta(FactoryAcaoValidadora.hasConsulta(av));
         av.setMensagem(valid.getMensagem());
