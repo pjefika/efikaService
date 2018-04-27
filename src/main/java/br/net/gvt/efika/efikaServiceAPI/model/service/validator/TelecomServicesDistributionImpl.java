@@ -44,9 +44,9 @@ public class TelecomServicesDistributionImpl implements TelecomServicesDistribut
             r = AcaoResultEnum.EXCEPTION;
         }
         av.setTipo(r);
-        av.setConsulta(FactoryAcaoValidadora.hasConsulta(av));
-        av.setMensagem(valid.getMensagem());
         av.setValid(valid);
+        av.setMensagem(valid.getMensagem());
+        av.setConsulta(FactoryAcaoValidadora.hasConsulta(av));
         av.setDataFim(Calendar.getInstance().getTime());
 
         return av;
