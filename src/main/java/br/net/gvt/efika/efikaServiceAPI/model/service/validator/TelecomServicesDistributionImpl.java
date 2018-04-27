@@ -41,6 +41,7 @@ public class TelecomServicesDistributionImpl implements TelecomServicesDistribut
             av.setResultado(valid.getResultado());
         }
         av.setTipo(r);
+        av.setConsulta(FactoryAcaoValidadora.hasConsulta(av));
         av.setMensagem(valid.getMensagem());
         av.setValid(valid);
         av.setDataFim(Calendar.getInstance().getTime());
