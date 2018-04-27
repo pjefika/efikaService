@@ -105,7 +105,7 @@ public class ValidacaoResultGenerator {
                         return s;
                     }
                 }, Boolean.TRUE));
-                l.add(new ValidacaoResult("Associação ONT", bundle.getString("correcaoSerialOnt_ok"), Boolean.FALSE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
+                l.add(new ValidacaoResult("Associação ONT", bundle.getString("correcaoSerialOnt_nok"), Boolean.FALSE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
                     public SerialOntGpon getSerial() {
                         SerialOntGpon s = new SerialOntGpon();
                         s.setIdOnt("0123456789");
