@@ -11,7 +11,6 @@ import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoValidadora;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.factory.FactoryAcaoValidadora;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoRequest;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.ExecucaoDetalhada;
-import static br.net.gvt.efika.efikaServiceAPI.model.validador.factory.FactoryAcaoValidadora.urlResponseGenerator;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.factory.FactoryExecucaoDetalhada;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import java.util.Calendar;

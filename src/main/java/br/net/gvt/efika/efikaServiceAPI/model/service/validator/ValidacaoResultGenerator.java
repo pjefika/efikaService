@@ -32,7 +32,6 @@ import java.util.ResourceBundle;
  */
 public class ValidacaoResultGenerator {
 
-    
     protected static ResourceBundle bundle = ResourceBundle.getBundle("messages", new Locale("co", "CO"));
 
     public ValidacaoResultGenerator() {
@@ -50,7 +49,13 @@ public class ValidacaoResultGenerator {
 
         switch (a.getAcao()) {
             case ASSOCIACAO_ONT:
-                v = FactoryFulltestService.newConfigPortaService().getOntFromOlt(new FulltestRequest(a.getCustomer(), "efikaServiceAPI"));
+                v = FactoryFulltestService.newConfigPortaService().getOntFromOlt(
+                        new FulltestRequest(a.getCustomer(), "efikaServiceAPI"));
+                break;
+            case CHECK_GERENCIA:
+                v = new ValidacaoResult(a.getAcao().toString(), "Gerência disponível",
+                        FactoryFulltestService.newConfigPortaService().isManageable(
+                                new FulltestRequest(a.getCustomer(), "efikaServiceAPI")), null);
                 break;
             default:
                 break;
@@ -81,46 +86,50 @@ public class ValidacaoResultGenerator {
         List<ValidacaoResult> l = new ArrayList<>();
         switch (a) {
             case ASSOCIACAO_ONT:
-                l.add(new ValidacaoResult("Associação ONT", bundle.getString("validacaoSerialOnt_ok")+" ABC123456", Boolean.TRUE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoSerialOnt_ok") + " ABC123456", Boolean.TRUE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
                     public SerialOntGpon getSerial() {
                         return new SerialOntGpon("ABC123456");
                     }
                 }, Boolean.FALSE));
-                l.add(new ValidacaoResult("Associação ONT", bundle.getString("validacaoSerialOnt_nok"), Boolean.FALSE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoSerialOnt_nok"), Boolean.FALSE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
                     public SerialOntGpon getSerial() {
                         return new SerialOntGpon("");
                     }
                 }, null));
-                l.add(new ValidacaoResult("Associação ONT", bundle.getString("validacaoSerialOnt_ok")+ "0123456789", Boolean.TRUE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoSerialOnt_ok") + "0123456789", Boolean.TRUE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
                     public SerialOntGpon getSerial() {
                         SerialOntGpon s = new SerialOntGpon();
                         s.setIdOnt("0123456789");
                         return s;
                     }
                 }, Boolean.FALSE));
-                l.add(new ValidacaoResult("Associação ONT", bundle.getString("correcaoSerialOnt_ok")+ "0123456789", Boolean.FALSE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaoSerialOnt_ok") + "0123456789", Boolean.FALSE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
                     public SerialOntGpon getSerial() {
                         SerialOntGpon s = new SerialOntGpon();
                         s.setIdOnt("0123456789");
                         return s;
                     }
                 }, Boolean.TRUE));
-                l.add(new ValidacaoResult("Associação ONT", bundle.getString("correcaoSerialOnt_nok"), Boolean.FALSE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaoSerialOnt_nok"), Boolean.FALSE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
                     public SerialOntGpon getSerial() {
                         SerialOntGpon s = new SerialOntGpon();
                         s.setIdOnt("0123456789");
                         return s;
                     }
                 }, Boolean.FALSE));
-                l.add(new ValidacaoResult("", "Falha ao conectar-se com o Jump Access.", Boolean.FALSE, Boolean.FALSE));
-                l.add(new ValidacaoResult("", "Inventário de Rede inexistente.", Boolean.FALSE, Boolean.FALSE));
-                l.add(new ValidacaoResult("", "Inventário de Rede incompleto.", Boolean.FALSE, Boolean.FALSE));
-                l.add(new ValidacaoResult("", "Funcionalidade indisponível para este modelo de DSLAM/OLT.", Boolean.FALSE, Boolean.FALSE));
-                l.add(new ValidacaoResult("", "Identificado Shelf sem gerência.", Boolean.FALSE, Boolean.FALSE));
+
+                break;
+            case CHECK_GERENCIA:
+                l.add(new ValidacaoResult(a.toString(), "Gerência disponível", true, null));
                 break;
             default:
                 break;
         }
+        l.add(new ValidacaoResult("", "Falha ao conectar-se com o Jump Access.", Boolean.FALSE, Boolean.FALSE));
+        l.add(new ValidacaoResult("", "Inventário de Rede inexistente.", Boolean.FALSE, Boolean.FALSE));
+        l.add(new ValidacaoResult("", "Inventário de Rede incompleto.", Boolean.FALSE, Boolean.FALSE));
+        l.add(new ValidacaoResult("", "Funcionalidade indisponível para este modelo de DSLAM/OLT.", Boolean.FALSE, Boolean.FALSE));
+        l.add(new ValidacaoResult("", "Identificado Shelf sem gerência.", Boolean.FALSE, Boolean.FALSE));
         return l;
     }
 }

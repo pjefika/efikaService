@@ -6,7 +6,6 @@
 package br.net.gvt.efika.efikaServiceAPI.model.enums;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  *
@@ -16,7 +15,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum AcaoEnum {
 
 //    PARAMETROS_REDE,
-    ASSOCIACAO_ONT("Associação ONT a OLT");
+    ASSOCIACAO_ONT("Associação ONT a OLT"),
+    CHECK_GERENCIA("Disponibilidade de Gerência");
 //    VALIDADOR_ESTADO_OPER_PORTA,
 //    CORRETOR_PROFILE;
 
