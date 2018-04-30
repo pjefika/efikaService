@@ -57,6 +57,10 @@ public class ValidacaoResultGenerator {
                         FactoryFulltestService.newConfigPortaService().isManageable(
                                 new FulltestRequest(a.getCustomer(), "efikaServiceAPI")), null);
                 break;
+            case ESTADO_PORTA:
+                v = FactoryFulltestService.newConfigPortaService().corretorEstadoPorta(
+                        new FulltestRequest(a.getCustomer(), "efikaServiceAPI"));
+                break;
             default:
                 break;
         }
@@ -121,6 +125,12 @@ public class ValidacaoResultGenerator {
                 break;
             case CHECK_GERENCIA:
                 l.add(new ValidacaoResult(a.toString(), "Gerência disponível", true, null));
+                break;
+            case ESTADO_PORTA:
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoEstadoOper_ok"), Boolean.TRUE, null));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoEstadoOper_nok"), Boolean.FALSE, null));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaoEstadoAdm_ok"), Boolean.FALSE, Boolean.TRUE));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaoEstadoAdm_nok"), Boolean.FALSE, Boolean.FALSE));
                 break;
             default:
                 break;

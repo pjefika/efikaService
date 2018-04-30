@@ -16,7 +16,8 @@ public enum AcaoEnum {
 
 //    PARAMETROS_REDE,
     ASSOCIACAO_ONT("Associação ONT a OLT"),
-    CHECK_GERENCIA("Disponibilidade de Gerência");
+    CHECK_GERENCIA("Disponibilidade de Gerência"),
+    ESTADO_PORTA("Estado da Porta");
 //    VALIDADOR_ESTADO_OPER_PORTA,
 //    CORRETOR_PROFILE;
 
