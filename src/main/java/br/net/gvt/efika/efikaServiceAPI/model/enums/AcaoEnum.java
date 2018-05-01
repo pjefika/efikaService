@@ -17,7 +17,8 @@ public enum AcaoEnum {
 //    PARAMETROS_REDE,
     ASSOCIACAO_ONT("Associação ONT a OLT"),
     CHECK_GERENCIA("Disponibilidade de Gerência"),
-    ESTADO_PORTA("Estado da Porta");
+    ESTADO_PORTA("Estado da Porta"),
+    VLAN_BANDA("Vlan de Banda");
 //    VALIDADOR_ESTADO_OPER_PORTA,
 //    CORRETOR_PROFILE;
 
