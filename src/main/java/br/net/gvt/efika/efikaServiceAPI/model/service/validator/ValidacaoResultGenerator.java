@@ -65,6 +65,10 @@ public class ValidacaoResultGenerator {
                 v = FactoryFulltestService.newConfigPortaService().corretorVlanBanda(
                         new FulltestRequest(a.getCustomer(), "efikaServiceAPI"));
                 break;
+            case PROFILE:
+                v = FactoryFulltestService.newConfigPortaService().corretorProfile(
+                        new FulltestRequest(a.getCustomer(), "efikaServiceAPI"));
+                break;
             default:
                 break;
         }
@@ -141,6 +145,12 @@ public class ValidacaoResultGenerator {
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoVlan_nok"), Boolean.FALSE, null));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaoVlan_ok"), Boolean.FALSE, Boolean.TRUE));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaoVlan_nok"), Boolean.FALSE, Boolean.FALSE));
+                break;
+            case PROFILE:
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoProfile_ok"), Boolean.TRUE, null));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoProfile_nok"), Boolean.FALSE, null));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaoProfile_ok"), Boolean.FALSE, Boolean.TRUE));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaoProfile_nok"), Boolean.FALSE, Boolean.FALSE));
                 break;
             default:
                 break;
