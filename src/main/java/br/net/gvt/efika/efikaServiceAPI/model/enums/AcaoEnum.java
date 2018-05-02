@@ -19,7 +19,8 @@ public enum AcaoEnum {
     CHECK_GERENCIA("Disponibilidade de Gerência"),
     ESTADO_PORTA("Estado da Porta"),
     VLAN_BANDA("Vlan de Banda"),
-    PROFILE("Profile");
+    PROFILE("Profile"),
+    VLANS_VIDEO("Vlans de Vídeo");
 //    VALIDADOR_ESTADO_OPER_PORTA,
 //    CORRETOR_PROFILE;
 
