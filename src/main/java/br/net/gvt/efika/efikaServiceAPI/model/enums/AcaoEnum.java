@@ -20,7 +20,8 @@ public enum AcaoEnum {
     ESTADO_PORTA("Estado da Porta"),
     VLAN_BANDA("Vlan de Banda"),
     PROFILE("Profile"),
-    VLANS_VIDEO("Vlans de Vídeo");
+    VLANS_VIDEO("Vlans de Vídeo"),
+    VLAN_VOIP("Vlan de VoIP");
 //    VALIDADOR_ESTADO_OPER_PORTA,
 //    CORRETOR_PROFILE;
 

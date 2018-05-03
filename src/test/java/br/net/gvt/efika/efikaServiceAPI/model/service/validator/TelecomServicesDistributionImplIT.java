@@ -49,10 +49,10 @@ public class TelecomServicesDistributionImplIT {
     @Test
     public void testValidacao() throws Exception {
         System.out.println("validacao");
-        AcaoEnum acao = AcaoEnum.ESTADO_PORTA;
+        AcaoEnum acao = AcaoEnum.VLANS_VIDEO;
         //4830309808
         TelecomServicesDistributionImpl instance = new TelecomServicesDistributionImpl();
-        AcaoValidadora result = instance.validacao(new AcaoRequest(acao, "4730441489"));
+        AcaoValidadora result = instance.validacao(new AcaoRequest(acao, "4130157784"));
         System.out.println(new JacksonMapper(AcaoValidadora.class).serialize(result));
     }
 

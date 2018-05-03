@@ -73,6 +73,10 @@ public class ValidacaoResultGenerator {
                 v = FactoryFulltestService.newConfigPortaService().corretorVlansVideo(
                         new FulltestRequest(a.getCustomer(), "efikaServiceAPI"));
                 break;
+            case VLAN_VOIP:
+                v = FactoryFulltestService.newConfigPortaService().corretorVlanVoIP(
+                        new FulltestRequest(a.getCustomer(), "efikaServiceAPI"));
+                break;
             default:
                 break;
         }
@@ -159,6 +163,13 @@ public class ValidacaoResultGenerator {
             case VLANS_VIDEO:
                 l.add(new ValidacaoResult(a.toString(), "Cliente sem TV Híbrida/IPTV.", Boolean.TRUE, null));
                 l.add(new ValidacaoResult(a.toString(), "Cliente sem TV.", Boolean.TRUE, null));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoVlan_ok"), Boolean.TRUE, null));
+//                l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoVlan_nok"), Boolean.FALSE, null));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaoVlan_ok"), Boolean.FALSE, Boolean.TRUE));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaoVlan_nok"), Boolean.FALSE, Boolean.FALSE));
+                break;
+            case VLAN_VOIP:
+                l.add(new ValidacaoResult(a.toString(), "Cliente sem VoIP.", Boolean.TRUE, null));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoVlan_ok"), Boolean.TRUE, null));
 //                l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoVlan_nok"), Boolean.FALSE, null));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaoVlan_ok"), Boolean.FALSE, Boolean.TRUE));
