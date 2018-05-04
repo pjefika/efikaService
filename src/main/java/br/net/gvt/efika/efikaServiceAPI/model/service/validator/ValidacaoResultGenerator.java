@@ -81,6 +81,11 @@ public class ValidacaoResultGenerator {
                 v = FactoryFulltestService.newConfigPortaService().validadorParametros(
                         new FulltestRequest(a.getCustomer(), "efikaServiceAPI"));
                 break;
+            case ATM:
+                Boolean booleano = a.getCustomer().getRede().getModeloDslam().equalsIgnoreCase("MA5100");
+                String str = booleano ? "É ATM":"Não é ATM";
+                v = new ValidacaoResult("ATM", str, booleano, null);
+                break;
             default:
                 break;
         }
@@ -178,6 +183,10 @@ public class ValidacaoResultGenerator {
 //                l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoVlan_nok"), Boolean.FALSE, null));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaoVlan_ok"), Boolean.FALSE, Boolean.TRUE));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaoVlan_nok"), Boolean.FALSE, Boolean.FALSE));
+                break;
+            case ATM:
+                l.add(new ValidacaoResult("ATM", "É ATM", Boolean.TRUE, null));
+                l.add(new ValidacaoResult("ATM", "Não é ATM", Boolean.FALSE, null));
                 break;
 //            case PARAMETROS:
 //                l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoVlan_ok"), Boolean.TRUE, null));
