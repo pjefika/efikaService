@@ -188,10 +188,10 @@ public class ValidacaoResultGenerator {
                 l.add(new ValidacaoResult("ATM", "É ATM", Boolean.TRUE, null));
                 l.add(new ValidacaoResult("ATM", "Não é ATM", Boolean.FALSE, null));
                 break;
-//            case PARAMETROS:
-//                l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoVlan_ok"), Boolean.TRUE, null));
-//                l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoVlan_nok"), Boolean.FALSE, null));
-//                break;
+            case PARAMETROS:
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoParametros_ok"), Boolean.TRUE, null));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoParametros_nok"), Boolean.FALSE, null));
+                break;
             default:
                 break;
         }
