@@ -30,6 +30,11 @@ public class CustomerFinderImpl implements CustomerFinder {
             ec.setInstancia("86048801785");
             return ec;
         }
+        if (instancia.equalsIgnoreCase("4130157784")) {
+            EfikaCustomer ec = CustomerMock.metalicoHuawei5300();
+            ec.setInstancia("4130157784");
+            return ec;
+        }
 
         try {
             return FactoryDAO.newAcaoValidadoraDAO().findRecentCustomer(instancia, dataLimite);
