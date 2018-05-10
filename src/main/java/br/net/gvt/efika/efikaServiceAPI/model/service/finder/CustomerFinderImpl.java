@@ -30,9 +30,9 @@ public class CustomerFinderImpl implements CustomerFinder {
             ec.setInstancia("1156421252");
             return ec;
         }
-        if (instancia.equalsIgnoreCase("1125252525")) {
-            EfikaCustomer ec = CustomerMock.metalicoHuawei5300();
-            ec.setInstancia("1125252525");
+        if (instancia.equalsIgnoreCase("1156863239")) {
+            EfikaCustomer ec = CustomerMock.gponHuaweiV1();
+            ec.setInstancia("1156863239");
             return ec;
         }
 
