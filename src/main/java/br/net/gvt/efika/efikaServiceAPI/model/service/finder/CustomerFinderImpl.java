@@ -25,15 +25,11 @@ public class CustomerFinderImpl implements CustomerFinder {
 
     @Override
     public EfikaCustomer getCustomerFromHist(String instancia, Date dataLimite) throws Exception {
-        if (instancia.equalsIgnoreCase("1156421252")) {
-            EfikaCustomer ec = CustomerMock.metalicoHuawei5100();
-            ec.setInstancia("1156421252");
-            return ec;
-        }
-        if (instancia.equalsIgnoreCase("1156863239")) {
-            EfikaCustomer ec = CustomerMock.gponHuaweiV1();
-            ec.setInstancia("1156863239");
-            return ec;
+        String mockIT = "1156421252;1156863239;1156421252;4131496819;1156422022;"
+                + "1135300853;1125252525;4131492882;1151813390;4130176173";
+
+        if (mockIT.contains(instancia)) {
+            return CustomerMock.mockIt(instancia);
         }
 
         try {
