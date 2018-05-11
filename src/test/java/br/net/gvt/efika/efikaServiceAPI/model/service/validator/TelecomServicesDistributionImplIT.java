@@ -52,7 +52,7 @@ public class TelecomServicesDistributionImplIT {
         AcaoEnum acao = AcaoEnum.CHECK_GERENCIA;
         //4830309808
         TelecomServicesDistributionImpl instance = new TelecomServicesDistributionImpl();
-        AcaoValidadora result = instance.validacao(new AcaoRequest(acao, "1156421252"));
+        AcaoValidadora result = instance.validacao(new AcaoRequest(acao, "4130176173"));
         System.out.println(new JacksonMapper(AcaoValidadora.class).serialize(result));
     }
 

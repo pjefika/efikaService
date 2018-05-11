@@ -211,27 +211,27 @@ public class ValidacaoResultGenerator {
     public static ValidacaoResult mockValidation(AcaoValidadora a) {
         ValidacaoResult v = null;
         switch (a.getCustomer().getInstancia()) {
-            case "1156421252":
-//                r.setModeloDslam("MA5600T");
-//                r.setPlanta(OrigemPlanta.VIVO1);
-                v = fakeGeneration(a.getAcao()).get(0);
-                break;
+//            case "1156421252":
+////                r.setModeloDslam("MA5600T");
+////                r.setPlanta(OrigemPlanta.VIVO1);
+//                v = fakeGeneration(a.getAcao()).get(0);
+//                break;
             case "4131496819":
 //                r.setModeloDslam("SUVD11");
 //                r.setPlanta(OrigemPlanta.VIVO2);
                 v = fakeGeneration(a.getAcao()).get(0);
                 break;
-            case "1156422022":
+//            case "1156422022":
 //                r.setModeloDslam("MA5103");
 //                r.setPlanta(OrigemPlanta.VIVO1);
-                v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size() - 2);
-                break;
+//                v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size() - 2);
+//                break;
             case "1135300853":
 //                r.setModeloDslam("SUVD1");
 //                r.setPlanta(OrigemPlanta.VIVO2);
                 v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size() - 2);
                 break;
-            case "1125252525":
+            case "1156421252":
 //                r.setModeloDslam("MA5100");
 //                r.setPlanta(OrigemPlanta.VIVO1);
                 v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size() - 1);
@@ -241,7 +241,7 @@ public class ValidacaoResultGenerator {
 //                r.setPlanta(OrigemPlanta.VIVO2);
                 v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size() - 1);
                 break;
-            case "1151813390":
+            case "1156422022":
 //                r.setModeloDslam("ALCATELATM");
 //                r.setPlanta(OrigemPlanta.VIVO2);
                 v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size() - 3);
