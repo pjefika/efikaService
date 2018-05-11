@@ -26,6 +26,7 @@ public class TelecomServicesDistributionImpl implements TelecomServicesDistribut
         try {
             valid = ValidacaoResultGenerator.generate(av);
         } catch (Exception e) {
+            e.printStackTrace();
             valid = new ValidacaoResult("", e.getMessage(), Boolean.FALSE, Boolean.FALSE);
         }
 

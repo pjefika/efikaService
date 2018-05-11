@@ -203,7 +203,7 @@ public class ValidacaoResultGenerator {
         l.add(new ValidacaoResult("", "Inventário de Rede inexistente.", Boolean.FALSE, Boolean.FALSE));
         l.add(new ValidacaoResult("", "Inventário de Rede incompleto.", Boolean.FALSE, Boolean.FALSE));
         l.add(new ValidacaoResult("", "Funcionalidade indisponível para este modelo de DSLAM/OLT.", Boolean.FALSE, Boolean.FALSE));
-        l.add(new ValidacaoResult("", "Identificado Shelf sem gerência. Não foi possível completar a conexão através do protocolo padrão.", Boolean.FALSE, Boolean.FALSE));
+        l.add(new ValidacaoResult("", "Identificado Shelf sem gerência. Não foi possível completar a conexão através do protocolo utilizado pelo Efika(telnet/ssh/http(s)).", Boolean.FALSE, Boolean.FALSE));
         l.add(new ValidacaoResult("", "Identificado Shelf sem gerência. Não é possível contactar o equipamento.", Boolean.FALSE, Boolean.FALSE));
         return l;
     }
