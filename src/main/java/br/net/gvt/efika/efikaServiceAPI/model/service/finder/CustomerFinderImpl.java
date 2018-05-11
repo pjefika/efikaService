@@ -25,10 +25,8 @@ public class CustomerFinderImpl implements CustomerFinder {
 
     @Override
     public EfikaCustomer getCustomerFromHist(String instancia, Date dataLimite) throws Exception {
-        String mockIT = "1156421252;1156863239;1156421252;4131496819;1156422022;"
-                + "1135300853;1125252525;4131492882;1151813390;4130176173";
 
-        if (mockIT.contains(instancia)) {
+        if (CustomerMock.mockIT().contains(instancia)) {
             return CustomerMock.mockIt(instancia);
         }
 

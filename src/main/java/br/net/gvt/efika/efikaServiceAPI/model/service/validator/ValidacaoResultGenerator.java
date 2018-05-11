@@ -13,6 +13,7 @@ import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoValidadora;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.ExecucaoDetalhada;
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.efika_customer.model.customer.enums.OrigemPlanta;
+import br.net.gvt.efika.efika_customer.model.customer.mock.CustomerMock;
 import br.net.gvt.efika.fulltest.model.fulltest.FulltestRequest;
 import br.net.gvt.efika.fulltest.model.fulltest.SetOntToOltRequest;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
@@ -47,7 +48,9 @@ public class ValidacaoResultGenerator {
 
     public static ValidacaoResult generate(AcaoValidadora a) throws Exception {
         ValidacaoResult v = null;
-
+        if (CustomerMock.mockIT().contains(a.getCustomer().getInstancia())) {
+            return mockValidation(a);
+        }
         switch (a.getAcao()) {
             case ASSOCIACAO_ONT:
                 v = FactoryFulltestService.newConfigPortaService().getOntFromOlt(
@@ -205,9 +208,9 @@ public class ValidacaoResultGenerator {
         return l;
     }
 
-    public ValidacaoResult mockValidation(AcaoValidadora a) {
+    public static ValidacaoResult mockValidation(AcaoValidadora a) {
         ValidacaoResult v = null;
-        switch(a.getCustomer().getInstancia()){
+        switch (a.getCustomer().getInstancia()) {
             case "1156421252":
 //                r.setModeloDslam("MA5600T");
 //                r.setPlanta(OrigemPlanta.VIVO1);
@@ -221,32 +224,32 @@ public class ValidacaoResultGenerator {
             case "1156422022":
 //                r.setModeloDslam("MA5103");
 //                r.setPlanta(OrigemPlanta.VIVO1);
-                v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size()-2);
+                v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size() - 2);
                 break;
             case "1135300853":
 //                r.setModeloDslam("SUVD1");
 //                r.setPlanta(OrigemPlanta.VIVO2);
-                v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size()-2);
+                v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size() - 2);
                 break;
             case "1125252525":
 //                r.setModeloDslam("MA5100");
 //                r.setPlanta(OrigemPlanta.VIVO1);
-                v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size()-1);
+                v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size() - 1);
                 break;
             case "4131492882":
 //                r.setModeloDslam("SUVD3");
 //                r.setPlanta(OrigemPlanta.VIVO2);
-                v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size()-1);
+                v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size() - 1);
                 break;
             case "1151813390":
 //                r.setModeloDslam("ALCATELATM");
 //                r.setPlanta(OrigemPlanta.VIVO2);
-                v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size()-3);
+                v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size() - 3);
                 break;
             case "4130176173":
 //                r.setModeloDslam("BA1000");
 //                r.setPlanta(OrigemPlanta.VIVO2);
-                v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size()-3);
+                v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size() - 3);
                 break;
             default:
                 break;
