@@ -314,9 +314,15 @@ public class ValidacaoResultGenerator {
             if (a.getAcao() == AcaoEnum.PROFILE) {
                 v = fakeGeneration(a.getAcao()).get(0);
             }
+            if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
+                v = fakeGeneration(a.getAcao()).get(1);
+            }
             break;
         case "4131496819":
             if (a.getAcao() == AcaoEnum.PROFILE) {
+                v = fakeGeneration(a.getAcao()).get(0);
+            }
+            if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
                 v = fakeGeneration(a.getAcao()).get(0);
             }
             break;
@@ -324,10 +330,16 @@ public class ValidacaoResultGenerator {
             if (a.getAcao() == AcaoEnum.PROFILE) {
                 v = fakeGeneration(a.getAcao()).get(0);
             }
+            if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
+                v = fakeGeneration(a.getAcao()).get(0);
+            }
             break;
         case "4131522654":
             if (a.getAcao() == AcaoEnum.PROFILE) {
                 v = fakeGeneration(a.getAcao()).get(0);
+            }
+            if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
+                v = fakeGeneration(a.getAcao()).get(2);
             }
             break;
         case "1156422022":
@@ -339,9 +351,15 @@ public class ValidacaoResultGenerator {
             if (a.getAcao() == AcaoEnum.PROFILE) {
                 v = fakeGeneration(a.getAcao()).get(1);
             }
+            if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
+                v = fakeGeneration(a.getAcao()).get(1);
+            }
             break;
         case "1136891105":
             if (a.getAcao() == AcaoEnum.PROFILE) {
+                v = fakeGeneration(a.getAcao()).get(1);
+            }
+            if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
                 v = fakeGeneration(a.getAcao()).get(1);
             }
             break;
@@ -349,10 +367,18 @@ public class ValidacaoResultGenerator {
             if (a.getAcao() == AcaoEnum.PROFILE) {
                 v = fakeGeneration(a.getAcao()).get(1);
             }
+            if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
+                v = fakeGeneration(a.getAcao()).get(1);
+            }
             break;
         case "1155230481":
             if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
                 v = fakeGeneration(a.getAcao()).get(0);
+            }
+            break;
+        case "1136891024":
+            if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
+                v = fakeGeneration(a.getAcao()).get(2);
             }
             break;
         default:
