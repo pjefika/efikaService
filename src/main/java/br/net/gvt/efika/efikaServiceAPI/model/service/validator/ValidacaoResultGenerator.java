@@ -271,6 +271,46 @@ public class ValidacaoResultGenerator {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
                 break;
+            case "1156421252":
+                if (a.getAcao() == AcaoEnum.PROFILE) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                break;
+            case "4131496819":
+                if (a.getAcao() == AcaoEnum.PROFILE) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                break;
+            case "1151842070":
+                if (a.getAcao() == AcaoEnum.PROFILE) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                break;
+            case "4131522654":
+                if (a.getAcao() == AcaoEnum.PROFILE) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                break;
+            case "1156422022":
+                if (a.getAcao() == AcaoEnum.PROFILE) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "1135300853":
+                if (a.getAcao() == AcaoEnum.PROFILE) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "1136891105":
+                if (a.getAcao() == AcaoEnum.PROFILE) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "4131521805":
+                if (a.getAcao() == AcaoEnum.PROFILE) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
             default:
                 break;
         }
