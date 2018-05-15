@@ -338,7 +338,7 @@ public class ValidacaoResultGenerator {
             if (a.getAcao() == AcaoEnum.PROFILE) {
                 v = fakeGeneration(a.getAcao()).get(0);
             }
-            if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
+            if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
                 v = fakeGeneration(a.getAcao()).get(2);
             }
             break;
@@ -377,7 +377,7 @@ public class ValidacaoResultGenerator {
             }
             break;
         case "1136891024":
-            if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
+            if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
                 v = fakeGeneration(a.getAcao()).get(2);
             }
             break;
