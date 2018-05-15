@@ -258,7 +258,7 @@ public class ValidacaoResultGenerator {
                 break;
             case "1156421670":
                 if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
-                    v = fakeGeneration(a.getAcao()).get(0);
+                    v = fakeGeneration(a.getAcao()).get(1);
                 }
                 break;
             case "1135302098":
