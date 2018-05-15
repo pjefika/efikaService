@@ -211,45 +211,65 @@ public class ValidacaoResultGenerator {
     public static ValidacaoResult mockValidation(AcaoValidadora a) {
         ValidacaoResult v = null;
         switch (a.getCustomer().getInstancia()) {
-//            case "1156421252":
-////                r.setModeloDslam("MA5600T");
-////                r.setPlanta(OrigemPlanta.VIVO1);
-//                v = fakeGeneration(a.getAcao()).get(0);
-//                break;
-            case "4131496819":
-//                r.setModeloDslam("SUVD11");
-//                r.setPlanta(OrigemPlanta.VIVO2);
-                v = fakeGeneration(a.getAcao()).get(0);
+            case "1151834829":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(2);
+                }
                 break;
-//            case "1156422022":
-//                r.setModeloDslam("MA5103");
-//                r.setPlanta(OrigemPlanta.VIVO1);
-//                v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size() - 2);
-//                break;
-            case "1135300853":
-//                r.setModeloDslam("SUVD1");
-//                r.setPlanta(OrigemPlanta.VIVO2);
-                v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size() - 2);
+            case "1135300239":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(2);
+                }
                 break;
-            case "1156421252":
-//                r.setModeloDslam("MA5100");
-//                r.setPlanta(OrigemPlanta.VIVO1);
-                v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size() - 1);
+            case "1135300782":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(2);
+                }
                 break;
-            case "4131492882":
-//                r.setModeloDslam("SUVD3");
-//                r.setPlanta(OrigemPlanta.VIVO2);
-                v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size() - 1);
+            case "1135310155":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(2);
+                }
                 break;
-            case "1156422022":
-//                r.setModeloDslam("ALCATELATM");
-//                r.setPlanta(OrigemPlanta.VIVO2);
-                v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size() - 3);
+            case "1136891110":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
                 break;
-            case "4130176173":
-//                r.setModeloDslam("BA1000");
-//                r.setPlanta(OrigemPlanta.VIVO2);
-                v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size() - 3);
+            case "9156420321":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "4131495583":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "1135302490":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "1151842138":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                break;
+            case "1156421670":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                break;
+            case "1135302098":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                break;
+            case "1135310138":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
                 break;
             default:
                 break;
