@@ -239,6 +239,9 @@ public class ValidacaoResultGenerator {
             if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
                 v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size() - 3);
             }
+            if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                v = fakeGeneration(a.getAcao()).get(1);
+            }
             break;
         case "1135300239":
             if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
@@ -254,6 +257,9 @@ public class ValidacaoResultGenerator {
         case "1135300782":
             if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
                 v = fakeGeneration(a.getAcao()).get(2);
+            }
+            if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                v = fakeGeneration(a.getAcao()).get(0);
             }
             break;
         case "1135310155":
@@ -279,6 +285,9 @@ public class ValidacaoResultGenerator {
             if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
                 v = fakeGeneration(a.getAcao()).get(1);
             }
+            if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                v = fakeGeneration(a.getAcao()).get(1);
+            }
             break;
         case "4131495583":
             if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
@@ -294,9 +303,15 @@ public class ValidacaoResultGenerator {
             if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
                 v = fakeGeneration(a.getAcao()).get(0);
             }
+            if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                v = fakeGeneration(a.getAcao()).get(1);
+            }
             break;
         case "1156421670":
             if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                v = fakeGeneration(a.getAcao()).get(1);
+            }
+            if (a.getAcao() == AcaoEnum.PARAMETROS) {
                 v = fakeGeneration(a.getAcao()).get(1);
             }
             break;
@@ -324,6 +339,9 @@ public class ValidacaoResultGenerator {
                 v = fakeGeneration(a.getAcao()).get(0);
             }
             if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
+                v = fakeGeneration(a.getAcao()).get(1);
+            }
+            if (a.getAcao() == AcaoEnum.PARAMETROS) {
                 v = fakeGeneration(a.getAcao()).get(1);
             }
             break;
@@ -411,6 +429,46 @@ public class ValidacaoResultGenerator {
         case "1135301572":
             if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
                 v = fakeGeneration(a.getAcao()).get(3);
+            }
+            break;
+        case "1156850068":
+            if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                v = fakeGeneration(a.getAcao()).get(1);
+            }
+            break;
+        case "1151842073":
+            if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                v = fakeGeneration(a.getAcao()).get(0);
+            }
+            break;
+        case "1156420632":
+            if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                v = fakeGeneration(a.getAcao()).get(0);
+            }
+            break;
+        case "1135300575":
+            if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                v = fakeGeneration(a.getAcao()).get(1);
+            }
+            break;
+        case "1135302761":
+            if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                v = fakeGeneration(a.getAcao()).get(1);
+            }
+            break;
+        case "4132650103":
+            if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                v = fakeGeneration(a.getAcao()).get(0);
+            }
+            break;
+        case "4131492882":
+            if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                v = fakeGeneration(a.getAcao()).get(1);
+            }
+            break;
+        case "4130176173":
+            if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                v = fakeGeneration(a.getAcao()).get(1);
             }
             break;
         default:
