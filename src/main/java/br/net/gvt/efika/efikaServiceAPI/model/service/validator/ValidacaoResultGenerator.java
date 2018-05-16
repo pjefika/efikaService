@@ -263,6 +263,9 @@ public class ValidacaoResultGenerator {
             if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
                 v = fakeGeneration(a.getAcao()).get(0);
             }
+            if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
+                v = fakeGeneration(a.getAcao()).get(1);
+            }
             break;
         case "1136891110":
             if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
@@ -301,6 +304,9 @@ public class ValidacaoResultGenerator {
             if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
                 v = fakeGeneration(a.getAcao()).get(0);
             }
+            if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
+                v = fakeGeneration(a.getAcao()).get(2);
+            }
             break;
         case "1135310138":
             if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
@@ -308,6 +314,9 @@ public class ValidacaoResultGenerator {
             }
             if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
                 v = fakeGeneration(a.getAcao()).get(0);
+            }
+            if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
+                v = fakeGeneration(a.getAcao()).get(2);
             }
             break;
         case "1156421252":
@@ -346,6 +355,9 @@ public class ValidacaoResultGenerator {
             if (a.getAcao() == AcaoEnum.PROFILE) {
                 v = fakeGeneration(a.getAcao()).get(1);
             }
+            if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
+                v = fakeGeneration(a.getAcao()).get(2);
+            }
             break;
         case "1135300853":
             if (a.getAcao() == AcaoEnum.PROFILE) {
@@ -379,6 +391,26 @@ public class ValidacaoResultGenerator {
         case "1136891024":
             if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
                 v = fakeGeneration(a.getAcao()).get(2);
+            }
+            break;
+        case "1156422076":
+            if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
+                v = fakeGeneration(a.getAcao()).get(1);
+            }
+            break;
+        case "1151837555":
+            if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
+                v = fakeGeneration(a.getAcao()).get(2);
+            }
+            break;
+        case "1151841998":
+            if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
+                v = fakeGeneration(a.getAcao()).get(3);
+            }
+            break;
+        case "1135301572":
+            if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
+                v = fakeGeneration(a.getAcao()).get(3);
             }
             break;
         default:
