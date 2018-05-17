@@ -107,6 +107,7 @@ public class ValidacaoResultGenerator {
                 v = new ValidacaoResult("Wifi Ssid e Pass", strwifi, isAnyOnline, null);
             default:
                 break;
+
         }
         return v;
     }
@@ -171,7 +172,6 @@ public class ValidacaoResultGenerator {
                             return s;
                         }
                     }, Boolean.FALSE));
-
                 break;
             case CHECK_GERENCIA:
                 l.add(new ValidacaoResult(a.toString(), "Gerência disponível", true, null));
@@ -223,6 +223,7 @@ public class ValidacaoResultGenerator {
                 return l;
             default:
                 break;
+
         }
         l.add(new ValidacaoResult("", "Falha ao conectar-se com o Jump Access.", Boolean.FALSE, Boolean.FALSE));
         l.add(new ValidacaoResult("", "Inventário de Rede inexistente.", Boolean.FALSE, Boolean.FALSE));
