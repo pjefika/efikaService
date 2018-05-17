@@ -104,7 +104,7 @@ public class ValidacaoResultGenerator {
                 req1.setExecutor("efikaServiceAPI");
                 Boolean isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(req1);
                 String strwifi = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
-                v = new ValidacaoResult("Wifi Ssid e Pass", strwifi, isAnyOnline, null);
+                v = new ValidacaoResult(a.getAcao().toString(), strwifi, isAnyOnline, null);
             default:
                 break;
 

@@ -116,6 +116,12 @@
         
         <dependency>
             <groupId>br.net.gvt.efika</groupId>
+            <artifactId>acs</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>br.net.gvt.efika</groupId>
             <artifactId>fulltest</artifactId>
             <version>1.0.2</version>
         </dependency>
