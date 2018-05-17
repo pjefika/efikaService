@@ -23,7 +23,8 @@ public enum AcaoEnum {
     VLANS_VIDEO("Vlans de Vídeo"),
     VLAN_VOIP("Vlan de VoIP"),
     PARAMETROS("Parâmetros de Rede"),
-    ATM("ATM");
+    ATM("ATM"),
+    WIFI_CRED("Nome e senha da rede Wifi");
 //    VALIDADOR_ESTADO_OPER_PORTA,
 //    CORRETOR_PROFILE;
 

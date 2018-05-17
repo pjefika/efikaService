@@ -5,6 +5,10 @@
  */
 package br.net.gvt.efika.efikaServiceAPI.model.service.validator;
 
+import br.net.gvt.efika.acs.model.dto.ForceOnlineDevicesIn;
+import br.net.gvt.efika.acs.model.search.SearchCriteria;
+import br.net.gvt.efika.acs.model.search.SearchIn;
+import br.net.gvt.efika.acs.model.service.factory.FactoryAcsService;
 import br.net.gvt.efika.efikaServiceAPI.model.enums.AcaoEnum;
 import static br.net.gvt.efika.efikaServiceAPI.model.enums.AcaoEnum.ASSOCIACAO_ONT;
 import static br.net.gvt.efika.efikaServiceAPI.model.enums.ExecDetailedEnum.GET_ONTS;
@@ -21,6 +25,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.TelecomPropertiesEnum;
 import br.net.gvt.efika.fulltest.model.telecom.properties.ValidavelAbs;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import br.net.gvt.efika.fulltest.service.factory.FactoryFulltestService;
+import com.alcatel.hdm.service.nbi2.NbiDeviceData;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -90,6 +95,16 @@ public class ValidacaoResultGenerator {
                 String str = booleano ? "É ATM" : "Não é ATM";
                 v = new ValidacaoResult("ATM", str, booleano, null);
                 break;
+            case WIFI_CRED:
+                SearchIn req = new SearchIn(SearchCriteria.SUBSCRIBER, a.getCustomer().getDesignador());
+                req.setExecutor("efikaServiceAPI");
+                List<NbiDeviceData> l = FactoryAcsService.searchService().search(req);
+                ForceOnlineDevicesIn req1 = new ForceOnlineDevicesIn();
+                req1.setDevices(l);
+                req1.setExecutor("efikaServiceAPI");
+                Boolean isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(req1);
+                String strwifi = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
+                v = new ValidacaoResult("Wifi Ssid e Pass", strwifi, isAnyOnline, null);
             default:
                 break;
         }
@@ -196,6 +211,10 @@ public class ValidacaoResultGenerator {
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoParametros_ok"), Boolean.TRUE, null));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoParametros_nok"), Boolean.FALSE, null));
                 break;
+            case WIFI_CRED:
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_nok"), Boolean.FALSE, null));
+                return l;
             default:
                 break;
         }

@@ -58,7 +58,7 @@ public class ListMakerServiceImplIT {
     @Test
     public void testListarValidacoes() throws Exception{
         System.out.println("listarValidacoes");
-        AcaoEnum acao = AcaoEnum.ASSOCIACAO_ONT;
+        AcaoEnum acao = AcaoEnum.WIFI_CRED;
         ListMakerServiceImpl instance = new ListMakerServiceImpl();
         List<AcaoValidadora> result = instance.listarValidacoes(acao);
         System.out.println(new JacksonMapper(List.class).serialize(result));

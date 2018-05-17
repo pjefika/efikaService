@@ -74,6 +74,11 @@ public class FactoryAcaoValidadora {
                     s = "http://10.40.196.171/efika_gps/pages/associacao_olt/associacao_olt.html?instancia="+acao.getCustomer().getInstancia();
                 }
                 break;
+            case WIFI_CRED:
+                if(acao.getResultado()){
+                    s = "http://10.40.196.171/efika_gps/pages/wificonf/wificonf.html?instancia="+acao.getCustomer().getInstancia();
+                }
+                break;
             default:
                 break;
         }
