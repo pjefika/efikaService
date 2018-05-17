@@ -286,7 +286,7 @@ public class ValidacaoResultGenerator {
                 v = fakeGeneration(a.getAcao()).get(1);
             }
             if (a.getAcao() == AcaoEnum.PARAMETROS) {
-                v = fakeGeneration(a.getAcao()).get(1);
+                v = fakeGeneration(a.getAcao()).get(0);
             }
             break;
         case "4131495583":
