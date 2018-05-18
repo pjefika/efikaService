@@ -105,6 +105,29 @@ public class ValidacaoResultGenerator {
                 Boolean isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(req1);
                 String strwifi = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
                 v = new ValidacaoResult(a.getAcao().toString(), strwifi, isAnyOnline, null);
+                break;
+            case REBOOT:
+                SearchIn req2 = new SearchIn(SearchCriteria.SUBSCRIBER, a.getCustomer().getDesignador());
+                req2.setExecutor("efikaServiceAPI");
+                List<NbiDeviceData> l1 = FactoryAcsService.searchService().search(req2);
+                ForceOnlineDevicesIn req3 = new ForceOnlineDevicesIn();
+                req3.setDevices(l1);
+                req3.setExecutor("efikaServiceAPI");
+                Boolean isAnyOnline1 = FactoryAcsService.equipamentoService().forceAnyOnline(req3);
+                String strrbt = isAnyOnline1 ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
+                v = new ValidacaoResult(a.getAcao().toString(), strrbt, isAnyOnline1, null);
+                break;
+            case FACTORY_RESET:
+                SearchIn req4 = new SearchIn(SearchCriteria.SUBSCRIBER, a.getCustomer().getDesignador());
+                req4.setExecutor("efikaServiceAPI");
+                List<NbiDeviceData> l2 = FactoryAcsService.searchService().search(req4);
+                ForceOnlineDevicesIn req5 = new ForceOnlineDevicesIn();
+                req5.setDevices(l2);
+                req5.setExecutor("efikaServiceAPI");
+                Boolean isAnyOnline2 = FactoryAcsService.equipamentoService().forceAnyOnline(req5);
+                String strfct = isAnyOnline2 ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
+                v = new ValidacaoResult(a.getAcao().toString(), strfct, isAnyOnline2, null);
+                break;
             default:
                 break;
 
@@ -218,6 +241,14 @@ public class ValidacaoResultGenerator {
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoParametros_nok"), Boolean.FALSE, null));
                 break;
             case WIFI_CRED:
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_nok"), Boolean.FALSE, null));
+                return l;
+            case REBOOT:
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_nok"), Boolean.FALSE, null));
+                return l;
+            case FACTORY_RESET:
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_nok"), Boolean.FALSE, null));
                 return l;

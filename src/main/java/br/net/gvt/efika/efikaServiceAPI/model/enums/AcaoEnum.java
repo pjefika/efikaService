@@ -24,7 +24,9 @@ public enum AcaoEnum {
     VLAN_VOIP("Vlan de VoIP"),
     PARAMETROS("Parâmetros de Rede"),
     ATM("ATM"),
-    WIFI_CRED("Nome e senha da rede Wifi");
+    WIFI_CRED("Nome e senha da rede Wifi"),
+    REBOOT("Reinicialização de equipamento"),
+    FACTORY_RESET("Configurações de fábrica");
 //    VALIDADOR_ESTADO_OPER_PORTA,
 //    CORRETOR_PROFILE;
 
