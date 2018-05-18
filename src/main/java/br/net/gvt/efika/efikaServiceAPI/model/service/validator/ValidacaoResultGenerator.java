@@ -53,6 +53,13 @@ public class ValidacaoResultGenerator {
 
     public static ValidacaoResult generate(AcaoValidadora a) throws Exception {
         ValidacaoResult v = null;
+        SearchIn reqAcs = new SearchIn(SearchCriteria.SUBSCRIBER, a.getCustomer().getDesignador());
+        reqAcs.setExecutor("efikaServiceAPI");
+        List<NbiDeviceData> l = null;
+        ForceOnlineDevicesIn reqAcs1 = new ForceOnlineDevicesIn();
+        reqAcs1.setExecutor("efikaServiceAPI");
+        Boolean isAnyOnline = null;
+        String str = null;
         if (CustomerMock.mockIT().contains(a.getCustomer().getInstancia())) {
             return mockValidation(a);
         }
@@ -92,41 +99,29 @@ public class ValidacaoResultGenerator {
                 break;
             case ATM:
                 Boolean booleano = a.getCustomer().getRede().getModeloDslam().equalsIgnoreCase("MA5100");
-                String str = booleano ? "É ATM" : "Não é ATM";
+                str = booleano ? "É ATM" : "Não é ATM";
                 v = new ValidacaoResult("ATM", str, booleano, null);
                 break;
             case WIFI_CRED:
-                SearchIn req = new SearchIn(SearchCriteria.SUBSCRIBER, a.getCustomer().getDesignador());
-                req.setExecutor("efikaServiceAPI");
-                List<NbiDeviceData> l = FactoryAcsService.searchService().search(req);
-                ForceOnlineDevicesIn req1 = new ForceOnlineDevicesIn();
-                req1.setDevices(l);
-                req1.setExecutor("efikaServiceAPI");
-                Boolean isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(req1);
-                String strwifi = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
-                v = new ValidacaoResult(a.getAcao().toString(), strwifi, isAnyOnline, null);
+                l = FactoryAcsService.searchService().search(reqAcs);
+                reqAcs1.setDevices(l);
+                isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1);
+                str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
+                v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
                 break;
             case REBOOT:
-                SearchIn req2 = new SearchIn(SearchCriteria.SUBSCRIBER, a.getCustomer().getDesignador());
-                req2.setExecutor("efikaServiceAPI");
-                List<NbiDeviceData> l1 = FactoryAcsService.searchService().search(req2);
-                ForceOnlineDevicesIn req3 = new ForceOnlineDevicesIn();
-                req3.setDevices(l1);
-                req3.setExecutor("efikaServiceAPI");
-                Boolean isAnyOnline1 = FactoryAcsService.equipamentoService().forceAnyOnline(req3);
-                String strrbt = isAnyOnline1 ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
-                v = new ValidacaoResult(a.getAcao().toString(), strrbt, isAnyOnline1, null);
+                l = FactoryAcsService.searchService().search(reqAcs);
+                reqAcs1.setDevices(l);
+                isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1);
+                str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
+                v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
                 break;
             case FACTORY_RESET:
-                SearchIn req4 = new SearchIn(SearchCriteria.SUBSCRIBER, a.getCustomer().getDesignador());
-                req4.setExecutor("efikaServiceAPI");
-                List<NbiDeviceData> l2 = FactoryAcsService.searchService().search(req4);
-                ForceOnlineDevicesIn req5 = new ForceOnlineDevicesIn();
-                req5.setDevices(l2);
-                req5.setExecutor("efikaServiceAPI");
-                Boolean isAnyOnline2 = FactoryAcsService.equipamentoService().forceAnyOnline(req5);
-                String strfct = isAnyOnline2 ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
-                v = new ValidacaoResult(a.getAcao().toString(), strfct, isAnyOnline2, null);
+                l = FactoryAcsService.searchService().search(reqAcs);
+                reqAcs1.setDevices(l);
+                isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1);
+                str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
+                v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
                 break;
             default:
                 break;
@@ -139,17 +134,17 @@ public class ValidacaoResultGenerator {
         ValidacaoResult v = null;
 
         switch (exec.getNome()) {
-        case GET_ONTS:
-            v = new ValidacaoResult("Onts Disponíveis", "", null, null, null,
-                    FactoryFulltestService.newConfigPortaService()
-                            .ontsDisponiveis(new FulltestRequest(exec.getCustomer(), "efikaServiceAPI")));
-            break;
-        case SET_ONT:
-            v = FactoryFulltestService.newConfigPortaService().setOntToOlt(new SetOntToOltRequest(exec.getCustomer(),
-                    "efikaServiceAPI", new SerialOntGpon(exec.getParametro())));
-            break;
-        default:
-            break;
+            case GET_ONTS:
+                v = new ValidacaoResult("Onts Disponíveis", "", null, null, null,
+                        FactoryFulltestService.newConfigPortaService()
+                                .ontsDisponiveis(new FulltestRequest(exec.getCustomer(), "efikaServiceAPI")));
+                break;
+            case SET_ONT:
+                v = FactoryFulltestService.newConfigPortaService().setOntToOlt(new SetOntToOltRequest(exec.getCustomer(),
+                        "efikaServiceAPI", new SerialOntGpon(exec.getParametro())));
+                break;
+            default:
+                break;
         }
         return v;
 
@@ -158,43 +153,43 @@ public class ValidacaoResultGenerator {
     public static List<ValidacaoResult> fakeGeneration(AcaoEnum a) {
         List<ValidacaoResult> l = new ArrayList<>();
         switch (a) {
-        case ASSOCIACAO_ONT:
-            l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoSerialOnt_ok") + " ABC123456",
-                    Boolean.TRUE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
-                        public SerialOntGpon getSerial() {
-                            return new SerialOntGpon("ABC123456");
-                        }
-                    }, Boolean.FALSE));
-            l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoSerialOnt_nok"), Boolean.FALSE,
-                    new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
-                        public SerialOntGpon getSerial() {
-                            return new SerialOntGpon("");
-                        }
-                    }, null));
-            l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoSerialOnt_ok") + "0123456789",
-                    Boolean.TRUE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
-                        public SerialOntGpon getSerial() {
-                            SerialOntGpon s = new SerialOntGpon();
-                            s.setIdOnt("0123456789");
-                            return s;
-                        }
-                    }, Boolean.FALSE));
-            l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaoSerialOnt_ok") + "0123456789",
-                    Boolean.FALSE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
-                        public SerialOntGpon getSerial() {
-                            SerialOntGpon s = new SerialOntGpon();
-                            s.setIdOnt("0123456789");
-                            return s;
-                        }
-                    }, Boolean.TRUE));
-            l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaoSerialOnt_nok"), Boolean.FALSE,
-                    new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
-                        public SerialOntGpon getSerial() {
-                            SerialOntGpon s = new SerialOntGpon();
-                            s.setIdOnt("0123456789");
-                            return s;
-                        }
-                    }, Boolean.FALSE));
+            case ASSOCIACAO_ONT:
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoSerialOnt_ok") + " ABC123456",
+                        Boolean.TRUE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
+                    public SerialOntGpon getSerial() {
+                        return new SerialOntGpon("ABC123456");
+                    }
+                }, Boolean.FALSE));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoSerialOnt_nok"), Boolean.FALSE,
+                        new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
+                    public SerialOntGpon getSerial() {
+                        return new SerialOntGpon("");
+                    }
+                }, null));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoSerialOnt_ok") + "0123456789",
+                        Boolean.TRUE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
+                    public SerialOntGpon getSerial() {
+                        SerialOntGpon s = new SerialOntGpon();
+                        s.setIdOnt("0123456789");
+                        return s;
+                    }
+                }, Boolean.FALSE));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaoSerialOnt_ok") + "0123456789",
+                        Boolean.FALSE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
+                    public SerialOntGpon getSerial() {
+                        SerialOntGpon s = new SerialOntGpon();
+                        s.setIdOnt("0123456789");
+                        return s;
+                    }
+                }, Boolean.TRUE));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaoSerialOnt_nok"), Boolean.FALSE,
+                        new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
+                    public SerialOntGpon getSerial() {
+                        SerialOntGpon s = new SerialOntGpon();
+                        s.setIdOnt("0123456789");
+                        return s;
+                    }
+                }, Boolean.FALSE));
                 break;
             case CHECK_GERENCIA:
                 l.add(new ValidacaoResult(a.toString(), "Gerência disponível", true, null));
@@ -272,247 +267,247 @@ public class ValidacaoResultGenerator {
     public static ValidacaoResult mockValidation(AcaoValidadora a) {
         ValidacaoResult v = null;
         switch (a.getCustomer().getInstancia()) {
-        case "1151834829":
-            if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
-                v = fakeGeneration(a.getAcao()).get(2);
-            }
-            if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
-                v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size() - 3);
-            }
-            if (a.getAcao() == AcaoEnum.PARAMETROS) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            break;
-        case "1135300239":
-            if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
-                v = fakeGeneration(a.getAcao()).get(2);
-            }
-            if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
-                v = fakeGeneration(a.getAcao()).get(0);
-            }
-            if (a.getAcao() == AcaoEnum.CHECK_GERENCIA) {
-                v = fakeGeneration(a.getAcao()).get(0);
-            }
-            break;
-        case "1135300782":
-            if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
-                v = fakeGeneration(a.getAcao()).get(2);
-            }
-            if (a.getAcao() == AcaoEnum.PARAMETROS) {
-                v = fakeGeneration(a.getAcao()).get(0);
-            }
-            break;
-        case "1135310155":
-            if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
-                v = fakeGeneration(a.getAcao()).get(2);
-            }
-            if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
-                v = fakeGeneration(a.getAcao()).get(0);
-            }
-            if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            break;
-        case "1136891110":
-            if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
-                v = fakeGeneration(a.getAcao()).get(3);
-            }
-            break;
-        case "9156420321":
-            if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            if (a.getAcao() == AcaoEnum.PARAMETROS) {
-                v = fakeGeneration(a.getAcao()).get(0);
-            }
-            break;
-        case "4131495583":
-            if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            break;
-        case "1135302490":
-            if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            break;
-        case "1151842138":
-            if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
-                v = fakeGeneration(a.getAcao()).get(0);
-            }
-            if (a.getAcao() == AcaoEnum.PARAMETROS) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            break;
-        case "1156421670":
-            if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            if (a.getAcao() == AcaoEnum.PARAMETROS) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            break;
-        case "1135302098":
-            if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
-                v = fakeGeneration(a.getAcao()).get(0);
-            }
-            if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
-                v = fakeGeneration(a.getAcao()).get(2);
-            }
-            break;
-        case "1135310138":
-            if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
-                v = fakeGeneration(a.getAcao()).get(0);
-            }
-            if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
-                v = fakeGeneration(a.getAcao()).get(0);
-            }
-            if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
-                v = fakeGeneration(a.getAcao()).get(2);
-            }
-            break;
-        case "1156421252":
-            if (a.getAcao() == AcaoEnum.PROFILE) {
-                v = fakeGeneration(a.getAcao()).get(0);
-            }
-            if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            if (a.getAcao() == AcaoEnum.PARAMETROS) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            break;
-        case "4131496819":
-            if (a.getAcao() == AcaoEnum.PROFILE) {
-                v = fakeGeneration(a.getAcao()).get(0);
-            }
-            if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
-                v = fakeGeneration(a.getAcao()).get(0);
-            }
-            break;
-        case "1151842070":
-            if (a.getAcao() == AcaoEnum.PROFILE) {
-                v = fakeGeneration(a.getAcao()).get(0);
-            }
-            if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
-                v = fakeGeneration(a.getAcao()).get(0);
-            }
-            break;
-        case "4131522654":
-            if (a.getAcao() == AcaoEnum.PROFILE) {
-                v = fakeGeneration(a.getAcao()).get(0);
-            }
-            if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
-                v = fakeGeneration(a.getAcao()).get(2);
-            }
-            break;
-        case "1156422022":
-            if (a.getAcao() == AcaoEnum.PROFILE) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
-                v = fakeGeneration(a.getAcao()).get(2);
-            }
-            break;
-        case "1135300853":
-            if (a.getAcao() == AcaoEnum.PROFILE) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            break;
-        case "1136891105":
-            if (a.getAcao() == AcaoEnum.PROFILE) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            break;
-        case "4131521805":
-            if (a.getAcao() == AcaoEnum.PROFILE) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            break;
-        case "1155230481":
-            if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
-                v = fakeGeneration(a.getAcao()).get(0);
-            }
-            break;
-        case "1136891024":
-            if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
-                v = fakeGeneration(a.getAcao()).get(2);
-            }
-            break;
-        case "1156422076":
-            if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            break;
-        case "1151837555":
-            if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
-                v = fakeGeneration(a.getAcao()).get(2);
-            }
-            break;
-        case "1151841998":
-            if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
-                v = fakeGeneration(a.getAcao()).get(3);
-            }
-            break;
-        case "1135301572":
-            if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
-                v = fakeGeneration(a.getAcao()).get(3);
-            }
-            break;
-        case "1156850068":
-            if (a.getAcao() == AcaoEnum.PARAMETROS) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            break;
-        case "1151842073":
-            if (a.getAcao() == AcaoEnum.PARAMETROS) {
-                v = fakeGeneration(a.getAcao()).get(0);
-            }
-            break;
-        case "1156420632":
-            if (a.getAcao() == AcaoEnum.PARAMETROS) {
-                v = fakeGeneration(a.getAcao()).get(0);
-            }
-            break;
-        case "1135300575":
-            if (a.getAcao() == AcaoEnum.PARAMETROS) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            break;
-        case "1135302761":
-            if (a.getAcao() == AcaoEnum.PARAMETROS) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            break;
-        case "4132650103":
-            if (a.getAcao() == AcaoEnum.PARAMETROS) {
-                v = fakeGeneration(a.getAcao()).get(0);
-            }
-            break;
-        case "4131492882":
-            if (a.getAcao() == AcaoEnum.PARAMETROS) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            break;
-        case "4130176173":
-            if (a.getAcao() == AcaoEnum.PARAMETROS) {
-                v = fakeGeneration(a.getAcao()).get(1);
-            }
-            break;
-        default:
-            break;
+            case "1151834829":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(2);
+                }
+                if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
+                    v = fakeGeneration(a.getAcao()).get(fakeGeneration(a.getAcao()).size() - 3);
+                }
+                if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "1135300239":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(2);
+                }
+                if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.CHECK_GERENCIA) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                break;
+            case "1135300782":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(2);
+                }
+                if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                break;
+            case "1135310155":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(2);
+                }
+                if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "1136891110":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
+                    v = fakeGeneration(a.getAcao()).get(3);
+                }
+                break;
+            case "9156420321":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                break;
+            case "4131495583":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "1135302490":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "1151842138":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "1156421670":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "1135302098":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
+                    v = fakeGeneration(a.getAcao()).get(2);
+                }
+                break;
+            case "1135310138":
+                if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
+                    v = fakeGeneration(a.getAcao()).get(2);
+                }
+                break;
+            case "1156421252":
+                if (a.getAcao() == AcaoEnum.PROFILE) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "4131496819":
+                if (a.getAcao() == AcaoEnum.PROFILE) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                break;
+            case "1151842070":
+                if (a.getAcao() == AcaoEnum.PROFILE) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                break;
+            case "4131522654":
+                if (a.getAcao() == AcaoEnum.PROFILE) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
+                    v = fakeGeneration(a.getAcao()).get(2);
+                }
+                break;
+            case "1156422022":
+                if (a.getAcao() == AcaoEnum.PROFILE) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
+                    v = fakeGeneration(a.getAcao()).get(2);
+                }
+                break;
+            case "1135300853":
+                if (a.getAcao() == AcaoEnum.PROFILE) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "1136891105":
+                if (a.getAcao() == AcaoEnum.PROFILE) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "4131521805":
+                if (a.getAcao() == AcaoEnum.PROFILE) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "1155230481":
+                if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                break;
+            case "1136891024":
+                if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
+                    v = fakeGeneration(a.getAcao()).get(2);
+                }
+                break;
+            case "1156422076":
+                if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "1151837555":
+                if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
+                    v = fakeGeneration(a.getAcao()).get(2);
+                }
+                break;
+            case "1151841998":
+                if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
+                    v = fakeGeneration(a.getAcao()).get(3);
+                }
+                break;
+            case "1135301572":
+                if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
+                    v = fakeGeneration(a.getAcao()).get(3);
+                }
+                break;
+            case "1156850068":
+                if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "1151842073":
+                if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                break;
+            case "1156420632":
+                if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                break;
+            case "1135300575":
+                if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "1135302761":
+                if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "4132650103":
+                if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                break;
+            case "4131492882":
+                if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "4130176173":
+                if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            default:
+                break;
         }
         return v;
     }
