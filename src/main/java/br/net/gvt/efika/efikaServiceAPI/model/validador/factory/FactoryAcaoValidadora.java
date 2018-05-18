@@ -89,6 +89,16 @@ public class FactoryAcaoValidadora {
                     s = "http://10.40.196.171/efika_gps/pages/factoryreset/factoryreset.html?instancia="+acao.getCustomer().getInstancia();
                 }
                 break;
+            case PING:
+                if(acao.getResultado()){
+                    s = "http://10.40.196.171/efika_gps/pages/factoryreset/factoryreset.html?instancia="+acao.getCustomer().getInstancia();
+                }
+                break;
+            case LAN_DEVICES:
+                if(acao.getResultado()){
+                    s = "http://10.40.196.171/efika_gps/pages/factoryreset/factoryreset.html?instancia="+acao.getCustomer().getInstancia();
+                }
+                break;
             default:
                 break;
         }
