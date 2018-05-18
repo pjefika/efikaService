@@ -27,7 +27,8 @@ public enum AcaoEnum {
     WIFI_CRED("Nome e senha da rede Wifi"),
     REBOOT("Reinicialização de equipamento"),
     FACTORY_RESET("Configurações de fábrica"),
-    PING("Ping");
+    PING("Ping"),
+    LAN_DEVICES("Dispositivos conectados");
 
 
     private String value;

@@ -113,6 +113,9 @@ public class FactoryAcaoValidadora {
             case PING:
                 bool = acao.getTipo() != AcaoResultEnum.VALIDADO_NOK;
                 break;
+            case LAN_DEVICES:
+                bool = acao.getTipo() != AcaoResultEnum.VALIDADO_NOK;
+                break;
             default:
                 break;
         }
