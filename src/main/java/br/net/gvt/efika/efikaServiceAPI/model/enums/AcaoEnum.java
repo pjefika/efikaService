@@ -26,9 +26,9 @@ public enum AcaoEnum {
     ATM("ATM"),
     WIFI_CRED("Nome e senha da rede Wifi"),
     REBOOT("Reinicialização de equipamento"),
-    FACTORY_RESET("Configurações de fábrica");
-//    VALIDADOR_ESTADO_OPER_PORTA,
-//    CORRETOR_PROFILE;
+    FACTORY_RESET("Configurações de fábrica"),
+    PING("Ping");
+
 
     private String value;
 

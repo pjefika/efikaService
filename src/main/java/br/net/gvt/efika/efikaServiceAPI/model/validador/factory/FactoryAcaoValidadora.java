@@ -110,6 +110,9 @@ public class FactoryAcaoValidadora {
             case FACTORY_RESET:
                 bool = acao.getTipo() != AcaoResultEnum.VALIDADO_NOK;
                 break;
+            case PING:
+                bool = acao.getTipo() != AcaoResultEnum.VALIDADO_NOK;
+                break;
             default:
                 break;
         }
