@@ -102,19 +102,19 @@ public class FactoryAcaoValidadora {
                 bool = acao.getTipo() != AcaoResultEnum.VALIDADO_NOK;
                 break;
             case WIFI_CRED:
-                bool = acao.getTipo() != AcaoResultEnum.VALIDADO_NOK;
+                bool = acao.getTipo() == AcaoResultEnum.VALIDADO_NOK;
                 break;
             case REBOOT:
-                bool = acao.getTipo() != AcaoResultEnum.VALIDADO_NOK;
+                bool = acao.getTipo() == AcaoResultEnum.VALIDADO_NOK;
                 break;
             case FACTORY_RESET:
-                bool = acao.getTipo() != AcaoResultEnum.VALIDADO_NOK;
+                bool = acao.getTipo() == AcaoResultEnum.VALIDADO_NOK;
                 break;
             case PING:
-                bool = acao.getTipo() != AcaoResultEnum.VALIDADO_NOK;
+                bool = acao.getTipo() == AcaoResultEnum.VALIDADO_NOK;
                 break;
             case LAN_DEVICES:
-                bool = acao.getTipo() != AcaoResultEnum.VALIDADO_NOK;
+                bool = acao.getTipo() == AcaoResultEnum.VALIDADO_NOK;
                 break;
             default:
                 break;
