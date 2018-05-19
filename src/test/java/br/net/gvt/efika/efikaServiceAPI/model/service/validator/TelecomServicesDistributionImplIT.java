@@ -62,7 +62,8 @@ public class TelecomServicesDistributionImplIT {
     @Test
     public void testExecucaoDetalhada() throws Exception {
         System.out.println("execucaoDetalhada");
-        ExecDetailedRequest req = new ExecDetailedRequest("4135016493", "MSTC2FEC6F7C", ExecDetailedEnum.SET_ONT);
+        
+        ExecDetailedRequest req = new ExecDetailedRequest("4133335556", "21736421", ExecDetailedEnum.GET_WIFI);
 //        ExecDetailedRequest req = new ExecDetailedRequest("4135016493", null, ExecDetailedEnum.GET_ONTS);
         TelecomServicesDistributionImpl instance = new TelecomServicesDistributionImpl();
         ExecucaoDetalhada result = instance.execucaoDetalhada(req);

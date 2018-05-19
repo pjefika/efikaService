@@ -26,7 +26,7 @@ public class ExecucaoDetalhada extends AbstractMongoEntity {
 
     private EfikaCustomer customer;
 
-    private Object parametro;
+    private String parametro;
 
     public ExecucaoDetalhada() {
     }
@@ -75,11 +75,11 @@ public class ExecucaoDetalhada extends AbstractMongoEntity {
         this.customer = customer;
     }
 
-    public Object getParametro() {
+    public String getParametro() {
         return parametro;
     }
 
-    public void setParametro(Object parametro) {
+    public void setParametro(String parametro) {
         this.parametro = parametro;
     }
 

@@ -5,6 +5,7 @@
  */
 package br.net.gvt.efika.efikaServiceAPI.model.service.validator;
 
+import br.net.gvt.efika.acs.model.dto.DetailIn;
 import br.net.gvt.efika.acs.model.dto.ForceOnlineDevicesIn;
 import br.net.gvt.efika.acs.model.dto.GetDeviceDataIn;
 import br.net.gvt.efika.acs.model.search.SearchCriteria;
@@ -166,7 +167,7 @@ public class ValidacaoResultGenerator {
                 break;
             case GET_WIFI:
                 GetDeviceDataIn getWifi = new GetDeviceDataIn();
-                getWifi.setDevice((NbiDeviceData) exec.getParametro());
+                getWifi.setGuid(new Long(exec.getParametro()));
                 getWifi.setExecutor("efikaServiceAPI");
                 v = FactoryAcsService.equipamentoService().getWifiInfo(getWifi);
                 break;
