@@ -28,7 +28,8 @@ public enum AcaoEnum {
     REBOOT("Reinicialização de equipamento"),
     FACTORY_RESET("Configurações de fábrica"),
     PING("Ping"),
-    LAN_DEVICES("Dispositivos conectados");
+    LAN_DEVICES("Dispositivos conectados"),
+    DNS("DNS");
 
 
     private String value;

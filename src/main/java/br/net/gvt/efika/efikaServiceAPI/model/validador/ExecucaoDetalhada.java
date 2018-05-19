@@ -7,7 +7,6 @@ package br.net.gvt.efika.efikaServiceAPI.model.validador;
 
 import br.net.gvt.efika.efikaServiceAPI.model.enums.ExecDetailedEnum;
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
-import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import br.net.gvt.efika.mongo.model.entity.AbstractMongoEntity;
 import java.util.Date;
 
@@ -17,7 +16,7 @@ import java.util.Date;
  */
 public class ExecucaoDetalhada extends AbstractMongoEntity {
 
-    private ValidacaoResult valid;
+    private Object valid;
 
     private Date dataInicio;
 
@@ -27,7 +26,7 @@ public class ExecucaoDetalhada extends AbstractMongoEntity {
 
     private EfikaCustomer customer;
 
-    private String parametro;
+    private Object parametro;
 
     public ExecucaoDetalhada() {
     }
@@ -36,11 +35,11 @@ public class ExecucaoDetalhada extends AbstractMongoEntity {
         this.nome = nome;
     }
 
-    public ValidacaoResult getValid() {
+    public Object getValid() {
         return valid;
     }
 
-    public void setValid(ValidacaoResult valid) {
+    public void setValid(Object valid) {
         this.valid = valid;
     }
 
@@ -76,11 +75,11 @@ public class ExecucaoDetalhada extends AbstractMongoEntity {
         this.customer = customer;
     }
 
-    public String getParametro() {
+    public Object getParametro() {
         return parametro;
     }
 
-    public void setParametro(String parametro) {
+    public void setParametro(Object parametro) {
         this.parametro = parametro;
     }
 

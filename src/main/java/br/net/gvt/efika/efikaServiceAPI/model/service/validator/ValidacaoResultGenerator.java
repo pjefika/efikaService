@@ -6,6 +6,7 @@
 package br.net.gvt.efika.efikaServiceAPI.model.service.validator;
 
 import br.net.gvt.efika.acs.model.dto.ForceOnlineDevicesIn;
+import br.net.gvt.efika.acs.model.dto.GetDeviceDataIn;
 import br.net.gvt.efika.acs.model.search.SearchCriteria;
 import br.net.gvt.efika.acs.model.search.SearchIn;
 import br.net.gvt.efika.acs.model.service.factory.FactoryAcsService;
@@ -16,7 +17,6 @@ import br.net.gvt.efika.efikaServiceAPI.model.service.factory.FactoryService;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoValidadora;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.ExecucaoDetalhada;
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
-import br.net.gvt.efika.efika_customer.model.customer.enums.OrigemPlanta;
 import br.net.gvt.efika.efika_customer.model.customer.mock.CustomerMock;
 import br.net.gvt.efika.fulltest.model.fulltest.FulltestRequest;
 import br.net.gvt.efika.fulltest.model.fulltest.SetOntToOltRequest;
@@ -137,6 +137,13 @@ public class ValidacaoResultGenerator {
                 str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
                 v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
                 break;
+            case DNS:
+                l = FactoryAcsService.searchService().search(reqAcs);
+                reqAcs1.setDevices(l);
+                isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1);
+                str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
+                v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
+                break;
             default:
                 break;
 
@@ -144,8 +151,8 @@ public class ValidacaoResultGenerator {
         return v;
     }
 
-    public static ValidacaoResult generate(ExecucaoDetalhada exec) throws Exception {
-        ValidacaoResult v = null;
+    public static Object generate(ExecucaoDetalhada exec) throws Exception {
+        Object v = null;
 
         switch (exec.getNome()) {
             case GET_ONTS:
@@ -155,7 +162,13 @@ public class ValidacaoResultGenerator {
                 break;
             case SET_ONT:
                 v = FactoryFulltestService.newConfigPortaService().setOntToOlt(new SetOntToOltRequest(exec.getCustomer(),
-                        "efikaServiceAPI", new SerialOntGpon(exec.getParametro())));
+                        "efikaServiceAPI", new SerialOntGpon((String) exec.getParametro())));
+                break;
+            case GET_WIFI:
+                GetDeviceDataIn getWifi = new GetDeviceDataIn();
+                getWifi.setDevice((NbiDeviceData) exec.getParametro());
+                getWifi.setExecutor("efikaServiceAPI");
+                v = FactoryAcsService.equipamentoService().getWifiInfo(getWifi);
                 break;
             default:
                 break;

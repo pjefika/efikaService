@@ -11,5 +11,6 @@ package br.net.gvt.efika.efikaServiceAPI.model.enums;
  */
 public enum ExecDetailedEnum {
     GET_ONTS,
-    SET_ONT;
+    SET_ONT,
+    GET_WIFI;
 }
