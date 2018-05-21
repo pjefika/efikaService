@@ -29,7 +29,8 @@ public enum AcaoEnum {
     FACTORY_RESET("Configurações de fábrica"),
     PING("Ping"),
     LAN_DEVICES("Dispositivos conectados"),
-    DNS("DNS");
+    DNS("DNS"),
+    WIFI_CHANNEL("Canal da rede Wifi");
 
 
     private String value;

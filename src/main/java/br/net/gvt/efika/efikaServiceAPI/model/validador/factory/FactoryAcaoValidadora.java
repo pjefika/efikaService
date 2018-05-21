@@ -55,7 +55,7 @@ public class FactoryAcaoValidadora {
             av.setResultado(valid.getResultado());
             av.setUrlCorrecao(urlResponseGenerator(av));
         }
-        if(valid.getNome().isEmpty()){
+        if (valid.getNome().isEmpty()) {
             r = AcaoResultEnum.EXCEPTION;
         }
 //        String m = ResourceBundle.getBundle("messages", FactoryLocale.createLocale(SystemEnum.CRM)).getString(av.getNome() + "_" + r.name());
@@ -71,32 +71,37 @@ public class FactoryAcaoValidadora {
         switch (acao.getAcao()) {
             case ASSOCIACAO_ONT:
                 if (!acao.getResultado()) {
-                    s = "http://10.40.196.171/efika_gps/pages/associacao_olt/associacao_olt.html?instancia="+acao.getCustomer().getInstancia();
+                    s = "http://10.40.196.171/efika_gps/pages/associacao_olt/associacao_olt.html?instancia=" + acao.getCustomer().getInstancia();
                 }
                 break;
             case WIFI_CRED:
-                if(acao.getResultado()){
-                    s = "http://10.40.196.171/efika_gps/pages/wificonf/wificonf.html?instancia="+acao.getCustomer().getInstancia();
+                if (acao.getResultado()) {
+                    s = "http://10.40.196.171/efika_gps/pages/wificonf/wificonf.html?instancia=" + acao.getCustomer().getInstancia();
                 }
                 break;
             case REBOOT:
-                if(acao.getResultado()){
-                    s = "http://10.40.196.171/efika_gps/pages/reboot/reboot.html?instancia="+acao.getCustomer().getInstancia();
+                if (acao.getResultado()) {
+                    s = "http://10.40.196.171/efika_gps/pages/reboot/reboot.html?instancia=" + acao.getCustomer().getInstancia();
                 }
                 break;
             case FACTORY_RESET:
-                if(acao.getResultado()){
-                    s = "http://10.40.196.171/efika_gps/pages/factoryreset/factoryreset.html?instancia="+acao.getCustomer().getInstancia();
+                if (acao.getResultado()) {
+                    s = "http://10.40.196.171/efika_gps/pages/factoryreset/factoryreset.html?instancia=" + acao.getCustomer().getInstancia();
                 }
                 break;
             case PING:
-                if(acao.getResultado()){
-                    s = "http://10.40.196.171/efika_gps/pages/test_ping/test_ping.html?instancia="+acao.getCustomer().getInstancia();
+                if (acao.getResultado()) {
+                    s = "http://10.40.196.171/efika_gps/pages/test_ping/test_ping.html?instancia=" + acao.getCustomer().getInstancia();
                 }
                 break;
             case LAN_DEVICES:
-                if(acao.getResultado()){
-                    s = "http://10.40.196.171/efika_gps/pages/dispcon/dispcon.html?instancia="+acao.getCustomer().getInstancia();
+                if (acao.getResultado()) {
+                    s = "http://10.40.196.171/efika_gps/pages/dispcon/dispcon.html?instancia=" + acao.getCustomer().getInstancia();
+                }
+                break;
+            case WIFI_CHANNEL:
+                if (acao.getResultado()) {
+                    s = "http://10.40.196.171/efika_gps/pages/wificonf/wificonf.html?instancia=" + acao.getCustomer().getInstancia();
                 }
                 break;
             default:
@@ -124,6 +129,9 @@ public class FactoryAcaoValidadora {
                 bool = acao.getTipo() == AcaoResultEnum.VALIDADO_NOK;
                 break;
             case LAN_DEVICES:
+                bool = acao.getTipo() == AcaoResultEnum.VALIDADO_NOK;
+                break;
+            case WIFI_CHANNEL:
                 bool = acao.getTipo() == AcaoResultEnum.VALIDADO_NOK;
                 break;
             default:
