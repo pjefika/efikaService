@@ -174,6 +174,13 @@ public class ValidacaoResultGenerator {
                 str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
                 v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
                 break;
+            case WIFI_STATUS:
+                l = FactoryAcsService.searchService().search(reqAcs);
+                reqAcs1.setDevices(l);
+                isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1);
+                str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
+                v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
+                break;
             default:
                 break;
 
@@ -334,6 +341,10 @@ public class ValidacaoResultGenerator {
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_nok"), Boolean.FALSE, null));
                 return l;
             case WIFI_CHANNEL:
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_nok"), Boolean.FALSE, null));
+                return l;
+            case WIFI_STATUS:
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_nok"), Boolean.FALSE, null));
                 return l;
@@ -651,7 +662,6 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.WIFI_CRED) {
                     v = fakeGeneration(a.getAcao()).get(1);
                 }
-
                 break;
             default:
                 break;

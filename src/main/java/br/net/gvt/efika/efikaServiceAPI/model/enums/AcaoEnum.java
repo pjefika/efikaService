@@ -30,7 +30,8 @@ public enum AcaoEnum {
     PING("Ping"),
     LAN_DEVICES("Dispositivos conectados"),
     DNS("DNS"),
-    WIFI_CHANNEL("Canal da rede Wifi");
+    WIFI_CHANNEL("Canal da rede Wifi"),
+    WIFI_STATUS("Estado da rede Wifi");
 
 
     private String value;
