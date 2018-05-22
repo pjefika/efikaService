@@ -46,30 +46,30 @@ import java.util.logging.Logger;
  * @author G0041775
  */
 public class ValidacaoResultGenerator {
-    
+
     protected static ResourceBundle bundle = ResourceBundle.getBundle("messages", new Locale("co", "CO"));
-    
+
     private static AcaoValidadoraDAO acaoDao = FactoryDAO.acaoDao();
-    
+
     private static ExecucaoDetalhadaDAO execDao = FactoryDAO.execDao();
-    
+
     public ValidacaoResultGenerator() {
     }
-    
+
     public static EfikaCustomer getCust(String instancia) throws Exception {
         Calendar now = Calendar.getInstance();
         now.add(Calendar.MINUTE, -15);
         Date dataLimite = now.getTime();
         return FactoryService.customerFinder().getCustomerFromHist(instancia, dataLimite);
     }
-    
+
     public static Boolean checkRecentSets(String instancia, ExecDetailedEnum exec) throws Exception {
         Calendar now = Calendar.getInstance();
         now.add(Calendar.MINUTE, -15);
         Date dataLimite = now.getTime();
         return execDao.findRecentExec(instancia, exec, dataLimite) != null;
     }
-    
+
     public static ValidacaoResult generate(AcaoValidadora a) throws Exception {
         ValidacaoResult v = null;
         SearchIn reqAcs = new SearchIn(SearchCriteria.SUBSCRIBER, a.getCustomer().getDesignador());
@@ -176,14 +176,14 @@ public class ValidacaoResultGenerator {
                 break;
             default:
                 break;
-            
+
         }
         return v;
     }
-    
+
     public static Object generate(ExecucaoDetalhada exec) throws Exception {
         Object v = null;
-        
+
         switch (exec.getNome()) {
             case GET_ONTS:
                 v = new ValidacaoResult("Onts Disponíveis", "", null, null, null,
@@ -214,15 +214,15 @@ public class ValidacaoResultGenerator {
                     setWifi.setExecutor("efikaServiceAPI");
                     v = FactoryAcsService.equipamentoService().setWifiInfo(setWifi);
                 }
-                
+
                 break;
             default:
                 break;
         }
         return v;
-        
+
     }
-    
+
     public static List<ValidacaoResult> fakeGeneration(AcaoEnum a) {
         List<ValidacaoResult> l = new ArrayList<>();
         switch (a) {
@@ -339,7 +339,7 @@ public class ValidacaoResultGenerator {
                 return l;
             default:
                 break;
-            
+
         }
         l.add(new ValidacaoResult("", "Falha ao conectar-se com o Jump Access.", Boolean.FALSE, Boolean.FALSE));
         l.add(new ValidacaoResult("", "Inventário de Rede inexistente.", Boolean.FALSE, Boolean.FALSE));
@@ -353,7 +353,7 @@ public class ValidacaoResultGenerator {
                 Boolean.FALSE, Boolean.FALSE));
         return l;
     }
-    
+
     public static ValidacaoResult mockValidation(AcaoValidadora a) {
         ValidacaoResult v = null;
         switch (a.getCustomer().getInstancia()) {
@@ -417,7 +417,7 @@ public class ValidacaoResultGenerator {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
                 if (a.getAcao() == AcaoEnum.WIFI_CRED) {
-                    
+
                     try {
                         v = checkRecentSets("9156420321", ExecDetailedEnum.SET_WIFI) ? fakeGeneration(a.getAcao()).get(2) : fakeGeneration(a.getAcao()).get(0);
                     } catch (Exception ex) {
@@ -646,6 +646,9 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.VLANS_VIDEO) {
                     v = fakeGeneration(a.getAcao()).get(3);
                 }
+                break;
+            case "1156437947":
+                v = fakeGeneration(a.getAcao()).get(1);
                 break;
             default:
                 break;
