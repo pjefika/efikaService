@@ -28,6 +28,8 @@ public class ExecucaoDetalhada extends AbstractMongoEntity {
 
     private String parametro;
 
+    private Object setter;
+
     public ExecucaoDetalhada() {
     }
 
@@ -81,6 +83,14 @@ public class ExecucaoDetalhada extends AbstractMongoEntity {
 
     public void setParametro(String parametro) {
         this.parametro = parametro;
+    }
+
+    public Object getSetter() {
+        return setter;
+    }
+
+    public void setSetter(Object setter) {
+        this.setter = setter;
     }
 
 }

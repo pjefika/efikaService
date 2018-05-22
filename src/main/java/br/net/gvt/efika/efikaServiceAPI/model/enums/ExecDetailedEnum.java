@@ -13,5 +13,6 @@ public enum ExecDetailedEnum {
     GET_ONTS,
     SET_ONT,
     GET_WIFI,
+    SET_WIFI,
     SEEK_DEVICES;
 }

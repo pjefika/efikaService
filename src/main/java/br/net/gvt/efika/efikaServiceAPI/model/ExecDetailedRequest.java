@@ -19,13 +19,16 @@ public class ExecDetailedRequest {
 
     private ExecDetailedEnum execucao;
 
+    private Object setter;
+
     public ExecDetailedRequest() {
     }
 
-    public ExecDetailedRequest(String instancia, String parametro, ExecDetailedEnum execucao) {
+    public ExecDetailedRequest(String instancia, String parametro, ExecDetailedEnum execucao, Object setter) {
         this.instancia = instancia;
         this.parametro = parametro;
         this.execucao = execucao;
+        this.setter = setter;
     }
 
     public String getInstancia() {
@@ -50,6 +53,14 @@ public class ExecDetailedRequest {
 
     public void setExecucao(ExecDetailedEnum execucao) {
         this.execucao = execucao;
+    }
+
+    public Object getSetter() {
+        return setter;
+    }
+
+    public void setSetter(Object setter) {
+        this.setter = setter;
     }
 
 }

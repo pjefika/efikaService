@@ -56,9 +56,7 @@ public class TelecomServicesDistributionImpl implements TelecomServicesDistribut
 
     @Override
     public ExecucaoDetalhada execucaoDetalhada(ExecDetailedRequest req) throws Exception {
-        ExecucaoDetalhada exec = FactoryExecucaoDetalhada.create(req.getExecucao());
-        exec.setParametro(req.getParametro());
-        exec.setCustomer(ValidacaoResultGenerator.getCust(req.getInstancia()));
+        ExecucaoDetalhada exec = FactoryExecucaoDetalhada.create(req);
         exec.setValid(ValidacaoResultGenerator.generate(exec));
         exec.setDataFim(Calendar.getInstance().getTime());
         return exec;

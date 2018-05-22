@@ -5,9 +5,9 @@
  */
 package br.net.gvt.efika.efikaServiceAPI.dao.execucao_detalhada;
 
+import br.net.gvt.efika.efikaServiceAPI.model.enums.ExecDetailedEnum;
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import java.util.List;
-import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoValidadora;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.ExecucaoDetalhada;
 import br.net.gvt.efika.mongo.dao.AbstractMongoDAO;
 import br.net.gvt.efika.mongo.dao.MongoEndpointEnum;
@@ -49,6 +49,16 @@ public class ExecucaoDetalhadaDAOImpl extends AbstractMongoDAO<ExecucaoDetalhada
                 .greaterThan(dataLimite)
                 .get()
                 .getCustomer();
+    }
+
+    @Override
+    public ExecucaoDetalhada findRecentExec(String instancia, ExecDetailedEnum exec, Date dataLimite) throws Exception {
+        return getDatastore().createQuery(ExecucaoDetalhada.class)
+                .field("nome")
+                .equal(exec)
+                .field("dataFim")
+                .greaterThan(dataLimite)
+                .get();
     }
 
 }
