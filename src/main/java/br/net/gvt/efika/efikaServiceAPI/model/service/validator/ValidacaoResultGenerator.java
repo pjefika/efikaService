@@ -648,7 +648,10 @@ public class ValidacaoResultGenerator {
                 }
                 break;
             case "1156437947":
-                v = fakeGeneration(a.getAcao()).get(1);
+                if (a.getAcao() == AcaoEnum.WIFI_CRED) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+
                 break;
             default:
                 break;
