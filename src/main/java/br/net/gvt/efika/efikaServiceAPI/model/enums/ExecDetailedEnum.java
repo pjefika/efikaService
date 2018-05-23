@@ -14,5 +14,6 @@ public enum ExecDetailedEnum {
     SET_ONT,
     GET_WIFI,
     SET_WIFI,
-    SEEK_DEVICES;
+    SEEK_DEVICES,
+    REBOOT_DEVICE;
 }

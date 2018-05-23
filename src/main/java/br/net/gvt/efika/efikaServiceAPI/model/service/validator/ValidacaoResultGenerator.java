@@ -133,11 +133,15 @@ public class ValidacaoResultGenerator {
                 }
                 break;
             case REBOOT:
-                l = FactoryAcsService.searchService().search(reqAcs);
-                reqAcs1.setDevices(l);
-                isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1);
-                str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
-                v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
+                if (!checkRecentSets(a.getCustomer().getInstancia(), ExecDetailedEnum.REBOOT_DEVICE)) {
+                    l = FactoryAcsService.searchService().search(reqAcs);
+                    reqAcs1.setDevices(l);
+                    isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1);
+                    str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
+                    v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
+                } else {
+                    v = new ValidacaoResult(a.getAcao().toString(), "Foi executado Reboot recentemente.", Boolean.TRUE, null);
+                }
                 break;
             case FACTORY_RESET:
                 l = FactoryAcsService.searchService().search(reqAcs);
@@ -181,6 +185,9 @@ public class ValidacaoResultGenerator {
                 str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
                 v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
                 break;
+            case TROCA_PACOTES:
+
+                break;
             default:
                 break;
 
@@ -221,7 +228,15 @@ public class ValidacaoResultGenerator {
                     setWifi.setExecutor("efikaServiceAPI");
                     v = FactoryAcsService.equipamentoService().setWifiInfo(setWifi);
                 }
-
+                break;
+            case REBOOT_DEVICE:
+                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1135301572") || exec.getCustomer().getInstancia().equalsIgnoreCase("1157422076")) {
+                    v = Boolean.TRUE;
+                }
+                GetDeviceDataIn getDeviceIn = new GetDeviceDataIn();
+                getDeviceIn.setGuid(new Long(exec.getParametro()));
+                getDeviceIn.setExecutor("efikaServiceAPI");
+                v = FactoryAcsService.equipamentoService().reboot(getDeviceIn);
                 break;
             default:
                 break;
@@ -323,6 +338,7 @@ public class ValidacaoResultGenerator {
             case REBOOT:
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_nok"), Boolean.FALSE, null));
+                l.add(new ValidacaoResult(a.toString(), "Foi executado Reboot recentemente.", Boolean.TRUE, null));
                 return l;
             case FACTORY_RESET:
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
@@ -411,6 +427,9 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.VLANS_VIDEO) {
                     v = fakeGeneration(a.getAcao()).get(3);
                 }
+                if (a.getAcao() == AcaoEnum.REBOOT) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
                 break;
             case "1136891110":
                 if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
@@ -483,6 +502,9 @@ public class ValidacaoResultGenerator {
                 }
                 if (a.getAcao() == AcaoEnum.VLANS_VIDEO) {
                     v = fakeGeneration(a.getAcao()).get(2);
+                }
+                if (a.getAcao() == AcaoEnum.REBOOT) {
+                    v = fakeGeneration(a.getAcao()).get(1);
                 }
                 break;
             case "1135310138":
@@ -583,6 +605,9 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.VLANS_VIDEO) {
                     v = fakeGeneration(a.getAcao()).get(3);
                 }
+                if (a.getAcao() == AcaoEnum.REBOOT) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
                 break;
             case "1151837555":
                 if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
@@ -606,6 +631,9 @@ public class ValidacaoResultGenerator {
                 }
                 if (a.getAcao() == AcaoEnum.VLANS_VIDEO) {
                     v = fakeGeneration(a.getAcao()).get(4);
+                }
+                if (a.getAcao() == AcaoEnum.REBOOT) {
+                    v = fakeGeneration(a.getAcao()).get(0);
                 }
                 break;
             case "1156850068":
