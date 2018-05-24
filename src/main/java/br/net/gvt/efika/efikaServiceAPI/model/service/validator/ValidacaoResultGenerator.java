@@ -281,14 +281,17 @@ public class ValidacaoResultGenerator {
             case REBOOT_DEVICE:
                 if (exec.getCustomer().getInstancia().equalsIgnoreCase("1157422076") || exec.getCustomer().getInstancia().equalsIgnoreCase("1135301572")) {
                     v = Boolean.TRUE;
+                } else {
+                    if (exec.getCustomer().getInstancia().equalsIgnoreCase("1135310155")) {
+                        v = Boolean.FALSE;
+                    } else {
+                        GetDeviceDataIn getDeviceIn = new GetDeviceDataIn();
+                        getDeviceIn.setGuid(new Long(exec.getParametro()));
+                        getDeviceIn.setExecutor("efikaServiceAPI");
+                        v = FactoryAcsService.equipamentoService().reboot(getDeviceIn);
+                    }
                 }
-                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1135310155")) {
-                    v = Boolean.FALSE;
-                }
-                GetDeviceDataIn getDeviceIn = new GetDeviceDataIn();
-                getDeviceIn.setGuid(new Long(exec.getParametro()));
-                getDeviceIn.setExecutor("efikaServiceAPI");
-                v = FactoryAcsService.equipamentoService().reboot(getDeviceIn);
+
                 break;
             default:
                 break;
