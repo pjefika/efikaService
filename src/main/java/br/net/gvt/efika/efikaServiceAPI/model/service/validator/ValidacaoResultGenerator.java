@@ -38,7 +38,6 @@ import com.alcatel.hdm.service.nbi2.NbiDeviceData;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -157,7 +156,8 @@ public class ValidacaoResultGenerator {
                     str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
                     v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
                 } else {
-                    Boolean deucertoreboot = (Boolean) checkRecentSuccessfulSets(a.getCustomer().getInstancia(), ExecDetailedEnum.REBOOT_DEVICE).getValid();
+                    ValidacaoResult vr = (ValidacaoResult) checkRecentSuccessfulSets(a.getCustomer().getInstancia(), ExecDetailedEnum.REBOOT_DEVICE).getValid();
+                    Boolean deucertoreboot = vr.getResultado();
                     str = deucertoreboot ? "Foi executado Reboot recentemente." : "Houve falha ao tentar executar Reboot recentemente.";
                     v = new ValidacaoResult(a.getAcao().toString(), str, deucertoreboot, null);
                 }
@@ -280,15 +280,15 @@ public class ValidacaoResultGenerator {
                 break;
             case REBOOT_DEVICE:
                 if (exec.getCustomer().getInstancia().equalsIgnoreCase("1157422076") || exec.getCustomer().getInstancia().equalsIgnoreCase("1135301572")) {
-                    v = Boolean.TRUE;
+                    v = new ValidacaoResult("Reboot", "", Boolean.TRUE, null);
                 } else {
                     if (exec.getCustomer().getInstancia().equalsIgnoreCase("1135310155")) {
-                        v = Boolean.FALSE;
+                        v = new ValidacaoResult("Reboot", "", Boolean.FALSE, null);
                     } else {
                         GetDeviceDataIn getDeviceIn = new GetDeviceDataIn();
                         getDeviceIn.setGuid(new Long(exec.getParametro()));
                         getDeviceIn.setExecutor("efikaServiceAPI");
-                        v = FactoryAcsService.equipamentoService().reboot(getDeviceIn);
+                        v = v = new ValidacaoResult("Reboot", "", FactoryAcsService.equipamentoService().reboot(getDeviceIn), null);
                     }
                 }
 
@@ -490,8 +490,9 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.REBOOT) {
                     try {
                         if (checkRecentSets("1135310155", ExecDetailedEnum.REBOOT_DEVICE)) {
-                            Boolean deucertoreboot = (Boolean) checkRecentSuccessfulSets("1135310155", ExecDetailedEnum.REBOOT_DEVICE).getValid();
-                            if (deucertoreboot) {
+                            ValidacaoResult vr = (ValidacaoResult) checkRecentSuccessfulSets("1135310155", ExecDetailedEnum.REBOOT_DEVICE).getValid();
+                            Boolean deucertoreboot = vr.getResultado();
+                            if (!deucertoreboot) {
                                 v = fakeGeneration(a.getAcao()).get(3);
                             } else {
                                 v = fakeGeneration(a.getAcao()).get(2);
