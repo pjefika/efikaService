@@ -208,7 +208,7 @@ public class ValidacaoResultGenerator {
                         /**
                          * refact using sipdiag
                          */
-                        getWan.setDevice(l.get(0));
+                        getWan.setGuid(l.get(0).getDeviceGUID());
                         WanInfo first = FactoryAcsService.equipamentoService().getWanInfo(getWan);
                         Thread.sleep(5000);
                         WanInfo second = FactoryAcsService.equipamentoService().getWanInfo(getWan);
