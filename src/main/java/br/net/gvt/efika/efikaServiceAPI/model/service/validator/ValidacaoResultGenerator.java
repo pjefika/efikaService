@@ -472,7 +472,7 @@ public class ValidacaoResultGenerator {
                     v = fakeGeneration(a.getAcao()).get(3);
                 }
                 if (a.getAcao() == AcaoEnum.REBOOT) {
-                    v = fakeGeneration(a.getAcao()).get(1);
+                    v = fakeGeneration(a.getAcao()).get(0);
                 }
                 if (a.getAcao() == AcaoEnum.PING) {
                     v = fakeGeneration(a.getAcao()).get(0);
