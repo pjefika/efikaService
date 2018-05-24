@@ -501,6 +501,7 @@ public class ValidacaoResultGenerator {
                         }
 
                     } catch (Exception e) {
+                        e.printStackTrace();
                         v = fakeGeneration(a.getAcao()).get(0);
                     }
 
