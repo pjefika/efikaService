@@ -35,6 +35,8 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaRedeMetalico;
 import br.net.gvt.efika.fulltest.service.factory.FactoryFulltestService;
 import com.alcatel.hdm.service.nbi2.NbiDeviceData;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -56,6 +58,8 @@ public class ValidacaoResultGenerator {
     private static AcaoValidadoraDAO acaoDao = FactoryDAO.acaoDao();
 
     private static ExecucaoDetalhadaDAO execDao = FactoryDAO.execDao();
+
+    private static ObjectMapper mapper = new ObjectMapper();
 
     public ValidacaoResultGenerator() {
     }
@@ -201,6 +205,8 @@ public class ValidacaoResultGenerator {
                     hasTraffic = second.getPctDown().compareTo(first.getPctDown()) > 0 || second.getPctUp().compareTo(first.getPctUp()) > 0;
                 } else {
                     l = FactoryAcsService.searchService().search(reqAcs);
+                    mapper.convertValue(l, new TypeReference<List<NbiDeviceData>>() {
+                    });
                     reqAcs1.setDevices(l);
                     if (FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1)) {
                         GetDeviceDataIn getWan = new GetDeviceDataIn();
@@ -213,7 +219,7 @@ public class ValidacaoResultGenerator {
                         Thread.sleep(5000);
                         WanInfo second = FactoryAcsService.equipamentoService().getWanInfo(getWan);
                         hasTraffic = new BigInteger(second.getBytesReceived()).compareTo(new BigInteger(first.getBytesReceived())) > 0 || new BigInteger(second.getBytesSent()).compareTo(new BigInteger(first.getBytesSent())) > 0;
-                        
+
                     }
                 }
                 str = hasTraffic ? bundle.getString("trafegoPct_ok") : bundle.getString("trafegoPct_nok");
