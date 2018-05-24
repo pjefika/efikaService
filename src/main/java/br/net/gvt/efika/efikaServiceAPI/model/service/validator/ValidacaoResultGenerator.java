@@ -490,10 +490,16 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.REBOOT) {
                     try {
                         if (checkRecentSets("1135310155", ExecDetailedEnum.REBOOT_DEVICE)) {
-                            v = fakeGeneration(a.getAcao()).get(3);
+                            Boolean deucertoreboot = (Boolean) checkRecentSuccessfulSets("1135310155", ExecDetailedEnum.REBOOT_DEVICE).getValid();
+                            if (deucertoreboot) {
+                                v = fakeGeneration(a.getAcao()).get(3);
+                            } else {
+                                v = fakeGeneration(a.getAcao()).get(2);
+                            }
                         } else {
                             v = fakeGeneration(a.getAcao()).get(0);
                         }
+
                     } catch (Exception e) {
                         v = fakeGeneration(a.getAcao()).get(0);
                     }
