@@ -5,6 +5,7 @@
  */
 package br.net.gvt.efika.efikaServiceAPI.model.service.validator;
 
+import br.net.gvt.efika.acs.model.device.wan.WanInfo;
 import br.net.gvt.efika.acs.model.device.wifi.WifiNets;
 import br.net.gvt.efika.acs.model.dto.ForceOnlineDevicesIn;
 import br.net.gvt.efika.acs.model.dto.GetDeviceDataIn;
@@ -23,6 +24,7 @@ import br.net.gvt.efika.efikaServiceAPI.model.service.factory.FactoryService;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoValidadora;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.ExecucaoDetalhada;
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TipoRede;
 import br.net.gvt.efika.efika_customer.model.customer.mock.CustomerMock;
 import br.net.gvt.efika.fulltest.model.fulltest.FulltestRequest;
 import br.net.gvt.efika.fulltest.model.fulltest.SetOntToOltRequest;
@@ -30,8 +32,10 @@ import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import br.net.gvt.efika.fulltest.model.telecom.properties.TelecomPropertiesEnum;
 import br.net.gvt.efika.fulltest.model.telecom.properties.ValidavelAbs;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaRedeMetalico;
 import br.net.gvt.efika.fulltest.service.factory.FactoryFulltestService;
 import com.alcatel.hdm.service.nbi2.NbiDeviceData;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -186,7 +190,34 @@ public class ValidacaoResultGenerator {
                 v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
                 break;
             case TROCA_PACOTES:
+                Boolean hasTraffic = false;
+                if (a.getCustomer().getRede().getTipo() == TipoRede.METALICA) {
+                    TabelaRedeMetalico first = (TabelaRedeMetalico) FactoryFulltestService.newConfigPortaService().confiabilidadeRede(
+                            new FulltestRequest(a.getCustomer(), "efikaServiceAPI")).getResult();
+                    Thread.sleep(3000);
+                    TabelaRedeMetalico second = (TabelaRedeMetalico) FactoryFulltestService.newConfigPortaService().confiabilidadeRede(
+                            new FulltestRequest(a.getCustomer(), "efikaServiceAPI")).getResult();
 
+                    hasTraffic = second.getPctDown().compareTo(first.getPctDown()) > 0 || second.getPctUp().compareTo(first.getPctUp()) > 0;
+                } else {
+                    l = FactoryAcsService.searchService().search(reqAcs);
+                    reqAcs1.setDevices(l);
+                    if (FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1)) {
+                        GetDeviceDataIn getWan = new GetDeviceDataIn();
+                        getWan.setExecutor("efikaServiceAPI");
+                        /**
+                         * refact using sipdiag
+                         */
+                        getWan.setDevice(l.get(0));
+                        WanInfo first = FactoryAcsService.equipamentoService().getWanInfo(getWan);
+                        Thread.sleep(5000);
+                        WanInfo second = FactoryAcsService.equipamentoService().getWanInfo(getWan);
+                        hasTraffic = new BigInteger(second.getBytesReceived()).compareTo(new BigInteger(first.getBytesReceived())) > 0 || new BigInteger(second.getBytesSent()).compareTo(new BigInteger(first.getBytesSent())) > 0;
+                        
+                    }
+                }
+                str = hasTraffic ? bundle.getString("trafegoPct_ok") : bundle.getString("trafegoPct_nok");
+                v = new ValidacaoResult(a.getAcao().toString(), str, hasTraffic, null);
                 break;
             default:
                 break;
@@ -364,6 +395,10 @@ public class ValidacaoResultGenerator {
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_nok"), Boolean.FALSE, null));
                 return l;
+            case TROCA_PACOTES:
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("trafegoPct_ok"), Boolean.TRUE, null));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("trafegoPct_nok"), Boolean.FALSE, null));
+                break;
             default:
                 break;
 
