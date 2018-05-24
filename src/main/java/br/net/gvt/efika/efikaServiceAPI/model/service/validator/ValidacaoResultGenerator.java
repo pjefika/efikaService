@@ -36,6 +36,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaRedeMet
 import br.net.gvt.efika.fulltest.service.factory.FactoryFulltestService;
 import com.alcatel.hdm.service.nbi2.NbiDeviceData;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -205,6 +206,7 @@ public class ValidacaoResultGenerator {
                     hasTraffic = second.getPctDown().compareTo(first.getPctDown()) > 0 || second.getPctUp().compareTo(first.getPctUp()) > 0;
                 } else {
                     l = FactoryAcsService.searchService().search(reqAcs);
+                    mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
                     mapper.convertValue(l, new TypeReference<List<NbiDeviceData>>() {
                     });
                     reqAcs1.setDevices(l);
