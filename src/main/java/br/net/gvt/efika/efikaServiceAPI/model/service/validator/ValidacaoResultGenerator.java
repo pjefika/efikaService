@@ -80,6 +80,13 @@ public class ValidacaoResultGenerator {
         return execDao.findRecentExec(instancia, exec, dataLimite) != null;
     }
 
+    public static ExecucaoDetalhada checkRecentSuccessfulSets(String instancia, ExecDetailedEnum exec) throws Exception {
+        Calendar now = Calendar.getInstance();
+        now.add(Calendar.MINUTE, -15);
+        Date dataLimite = now.getTime();
+        return execDao.findRecentExec(instancia, exec, dataLimite);
+    }
+
     public static ValidacaoResult generate(AcaoValidadora a) throws Exception {
         ValidacaoResult v = null;
         SearchIn reqAcs = new SearchIn(SearchCriteria.SUBSCRIBER, a.getCustomer().getDesignador());
@@ -150,7 +157,9 @@ public class ValidacaoResultGenerator {
                     str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
                     v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
                 } else {
-                    v = new ValidacaoResult(a.getAcao().toString(), "Foi executado Reboot recentemente.", Boolean.TRUE, null);
+                    Boolean deucertoreboot = (Boolean) checkRecentSuccessfulSets(a.getCustomer().getInstancia(), ExecDetailedEnum.REBOOT_DEVICE).getValid();
+                    str = deucertoreboot ? "Foi executado Reboot recentemente." : "Houve falha ao tentar executar Reboot recentemente.";
+                    v = new ValidacaoResult(a.getAcao().toString(), str, deucertoreboot, null);
                 }
                 break;
             case FACTORY_RESET:
@@ -207,7 +216,7 @@ public class ValidacaoResultGenerator {
                     hasTraffic = second.getPctDown().compareTo(first.getPctDown()) > 0 || second.getPctUp().compareTo(first.getPctUp()) > 0;
                 } else {
                     l = FactoryAcsService.searchService().search(reqAcs);
-                    
+
                     List<NbiDeviceData> l1 = mapper.convertValue(l, new TypeReference<List<NbiDeviceData>>() {
                     });
                     reqAcs1.setDevices(l);
@@ -270,8 +279,11 @@ public class ValidacaoResultGenerator {
                 }
                 break;
             case REBOOT_DEVICE:
-                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1135301572") || exec.getCustomer().getInstancia().equalsIgnoreCase("1157422076")) {
+                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1157422076") || exec.getCustomer().getInstancia().equalsIgnoreCase("1135301572")) {
                     v = Boolean.TRUE;
+                }
+                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1135310155")) {
+                    v = Boolean.FALSE;
                 }
                 GetDeviceDataIn getDeviceIn = new GetDeviceDataIn();
                 getDeviceIn.setGuid(new Long(exec.getParametro()));
@@ -379,6 +391,7 @@ public class ValidacaoResultGenerator {
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_nok"), Boolean.FALSE, null));
                 l.add(new ValidacaoResult(a.toString(), "Foi executado Reboot recentemente.", Boolean.TRUE, null));
+                l.add(new ValidacaoResult(a.toString(), "Houve falha ao tentar executar Reboot recentemente.", Boolean.FALSE, null));
                 return l;
             case FACTORY_RESET:
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
@@ -472,7 +485,16 @@ public class ValidacaoResultGenerator {
                     v = fakeGeneration(a.getAcao()).get(3);
                 }
                 if (a.getAcao() == AcaoEnum.REBOOT) {
-                    v = fakeGeneration(a.getAcao()).get(0);
+                    try {
+                        if (checkRecentSets("1135310155", ExecDetailedEnum.REBOOT_DEVICE)) {
+                            v = fakeGeneration(a.getAcao()).get(3);
+                        } else {
+                            v = fakeGeneration(a.getAcao()).get(0);
+                        }
+                    } catch (Exception e) {
+                        v = fakeGeneration(a.getAcao()).get(0);
+                    }
+
                 }
                 if (a.getAcao() == AcaoEnum.PING) {
                     v = fakeGeneration(a.getAcao()).get(0);
