@@ -474,6 +474,9 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.REBOOT) {
                     v = fakeGeneration(a.getAcao()).get(1);
                 }
+                if (a.getAcao() == AcaoEnum.PING) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
                 break;
             case "1136891110":
                 if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
@@ -488,6 +491,9 @@ public class ValidacaoResultGenerator {
                     v = fakeGeneration(a.getAcao()).get(1);
                 }
                 if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.PING) {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
                 if (a.getAcao() == AcaoEnum.WIFI_CRED) {
@@ -516,6 +522,9 @@ public class ValidacaoResultGenerator {
                 }
                 if (a.getAcao() == AcaoEnum.PARAMETROS) {
                     v = fakeGeneration(a.getAcao()).get(1);
+                }
+                if (a.getAcao() == AcaoEnum.PING) {
+                    v = fakeGeneration(a.getAcao()).get(0);
                 }
                 if (a.getAcao() == AcaoEnum.WIFI_CRED) {
                     try {
@@ -712,6 +721,9 @@ public class ValidacaoResultGenerator {
                 break;
             case "4131492882":
                 if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                if (a.getAcao() == AcaoEnum.PING) {
                     v = fakeGeneration(a.getAcao()).get(1);
                 }
                 break;
