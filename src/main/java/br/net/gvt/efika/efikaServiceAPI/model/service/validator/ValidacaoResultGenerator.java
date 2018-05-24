@@ -38,6 +38,7 @@ import com.alcatel.hdm.service.nbi2.NbiDeviceData;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,7 +61,7 @@ public class ValidacaoResultGenerator {
 
     private static ExecucaoDetalhadaDAO execDao = FactoryDAO.execDao();
 
-    private static ObjectMapper mapper = new ObjectMapper();
+    private static ObjectMapper mapper = new ObjectMapper().configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
 
     public ValidacaoResultGenerator() {
     }
@@ -206,8 +207,8 @@ public class ValidacaoResultGenerator {
                     hasTraffic = second.getPctDown().compareTo(first.getPctDown()) > 0 || second.getPctUp().compareTo(first.getPctUp()) > 0;
                 } else {
                     l = FactoryAcsService.searchService().search(reqAcs);
-                    mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
-                    mapper.convertValue(l, new TypeReference<List<NbiDeviceData>>() {
+                    
+                    List<NbiDeviceData> l1 = mapper.convertValue(l, new TypeReference<List<NbiDeviceData>>() {
                     });
                     reqAcs1.setDevices(l);
                     if (FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1)) {
@@ -216,9 +217,9 @@ public class ValidacaoResultGenerator {
                         /**
                          * refact using sipdiag
                          */
-                        getWan.setGuid(l.get(0).getDeviceGUID());
+                        getWan.setGuid(l1.get(0).getDeviceGUID());
                         WanInfo first = FactoryAcsService.equipamentoService().getWanInfo(getWan);
-                        Thread.sleep(5000);
+                        Thread.sleep(4000);
                         WanInfo second = FactoryAcsService.equipamentoService().getWanInfo(getWan);
                         hasTraffic = new BigInteger(second.getBytesReceived()).compareTo(new BigInteger(first.getBytesReceived())) > 0 || new BigInteger(second.getBytesSent()).compareTo(new BigInteger(first.getBytesSent())) > 0;
 
