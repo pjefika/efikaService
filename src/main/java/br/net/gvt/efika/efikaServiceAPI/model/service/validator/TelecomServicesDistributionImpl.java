@@ -43,6 +43,7 @@ public class TelecomServicesDistributionImpl implements TelecomServicesDistribut
             if (valid.getNome().isEmpty()) {
                 r = AcaoResultEnum.EXCEPTION;
             }
+            av.setTipo(r);
             av.setUrlCorrecao(FactoryAcaoValidadora.urlResponseGenerator(av));
         }
         if (valid.getNome().isEmpty()) {

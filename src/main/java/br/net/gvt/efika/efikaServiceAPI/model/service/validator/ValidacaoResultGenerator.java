@@ -159,7 +159,7 @@ public class ValidacaoResultGenerator {
                     ValidacaoResult vr = (ValidacaoResult) getRecentSets(a.getCustomer().getInstancia(), ExecDetailedEnum.REBOOT_DEVICE).getValid();
                     Boolean deucertoreboot = vr.getResultado();
                     str = deucertoreboot ? "Foi executado Reboot recentemente." : "Houve falha ao tentar executar Reboot recentemente.";
-                    v = new ValidacaoResult(a.getAcao().toString(), str, deucertoreboot, null);
+                    v = new ValidacaoResult(a.getAcao().toString(), str, deucertoreboot, deucertoreboot);
                 }
                 break;
             case FACTORY_RESET:
@@ -180,7 +180,7 @@ public class ValidacaoResultGenerator {
                     ValidacaoResult vr = (ValidacaoResult) getRecentSets(a.getCustomer().getInstancia(), ExecDetailedEnum.PING).getValid();
                     Boolean deucertoping = vr.getResultado();
                     str = deucertoping ? "Foi realizado Ping recentemente." : "Houve falha ao tentar realizar Ping recentemente.";
-                    v = new ValidacaoResult(a.getAcao().toString(), str, deucertoping, null);
+                    v = new ValidacaoResult(a.getAcao().toString(), str, deucertoping, isAnyOnline);
                 }
                 break;
             case LAN_DEVICES:
@@ -409,7 +409,7 @@ public class ValidacaoResultGenerator {
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_nok"), Boolean.FALSE, null));
                 l.add(new ValidacaoResult(a.toString(), "Foi executado Reboot recentemente.", Boolean.TRUE, null));
-                l.add(new ValidacaoResult(a.toString(), "Houve falha ao tentar executar Reboot recentemente.", Boolean.FALSE, null));
+                l.add(new ValidacaoResult(a.toString(), "Houve falha ao tentar executar Reboot recentemente.", Boolean.FALSE, Boolean.FALSE));
                 return l;
             case FACTORY_RESET:
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
@@ -419,7 +419,7 @@ public class ValidacaoResultGenerator {
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_nok"), Boolean.FALSE, null));
                 l.add(new ValidacaoResult(a.toString(), "Foi realizado Ping recentemente.", Boolean.TRUE, null));
-                l.add(new ValidacaoResult(a.toString(), "Houve falha ao tentar realizar Ping recentemente.", Boolean.FALSE, null));
+                l.add(new ValidacaoResult(a.toString(), "Houve falha ao tentar realizar Ping recentemente.", Boolean.FALSE, Boolean.FALSE));
                 return l;
             case LAN_DEVICES:
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
