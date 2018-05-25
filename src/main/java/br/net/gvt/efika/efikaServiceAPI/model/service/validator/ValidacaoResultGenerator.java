@@ -5,6 +5,8 @@
  */
 package br.net.gvt.efika.efikaServiceAPI.model.service.validator;
 
+import br.net.gvt.efika.acs.model.device.interfacestatistics.InterfaceStatistics;
+import br.net.gvt.efika.acs.model.device.lanhost.LanDevice;
 import br.net.gvt.efika.acs.model.device.wan.WanInfo;
 import br.net.gvt.efika.acs.model.device.wifi.WifiNets;
 import br.net.gvt.efika.acs.model.dto.ForceOnlineDevicesIn;
@@ -295,7 +297,7 @@ public class ValidacaoResultGenerator {
                         GetDeviceDataIn getDeviceIn = new GetDeviceDataIn();
                         getDeviceIn.setGuid(new Long(exec.getParametro()));
                         getDeviceIn.setExecutor("efikaServiceAPI");
-                        v = v = new ValidacaoResult("Reboot", "", FactoryAcsService.equipamentoService().reboot(getDeviceIn), null);
+                        v = new ValidacaoResult("Reboot", "", FactoryAcsService.equipamentoService().reboot(getDeviceIn), null);
                     }
                 }
 
@@ -307,6 +309,21 @@ public class ValidacaoResultGenerator {
                     v = new ValidacaoResult("Ping", "", Boolean.TRUE, null);
                 }
 
+                break;
+            case CONNECTED_DEVICES:
+                GetDeviceDataIn getDeviceIn = new GetDeviceDataIn();
+                getDeviceIn.setGuid(new Long(exec.getParametro()));
+                getDeviceIn.setExecutor("efikaServiceAPI");
+                List<LanDevice> devices = FactoryAcsService.equipamentoService().getLanHosts(getDeviceIn);
+                List<InterfaceStatistics> interfaceStatistics = FactoryAcsService.equipamentoService().getInterfaceStatistics(getDeviceIn);
+                v = new Object() {
+                    public List<LanDevice> getLanDevices() {
+                        return devices;
+                    }
+                    public List<InterfaceStatistics> getInterfaceStatistics() {
+                        return interfaceStatistics;
+                    }
+                };
                 break;
             default:
                 break;

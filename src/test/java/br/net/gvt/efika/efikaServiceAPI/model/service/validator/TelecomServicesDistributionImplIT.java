@@ -62,8 +62,7 @@ public class TelecomServicesDistributionImplIT {
     public void testExecucaoDetalhada() throws Exception {
         System.out.println("execucaoDetalhada");
         
-        ExecDetailedRequest req = new ExecDetailedRequest("4130825270", "", ExecDetailedEnum.GET_WIFI, null);
-//        ExecDetailedRequest req = new ExecDetailedRequest("4135016493", null, ExecDetailedEnum.GET_ONTS);
+        ExecDetailedRequest req = new ExecDetailedRequest("4130825270", "25786154", ExecDetailedEnum.CONNECTED_DEVICES, null);
         TelecomServicesDistributionImpl instance = new TelecomServicesDistributionImpl();
         ExecucaoDetalhada result = instance.execucaoDetalhada(req);
         System.out.println(new JacksonMapper(ExecucaoDetalhada.class).serialize(result));
