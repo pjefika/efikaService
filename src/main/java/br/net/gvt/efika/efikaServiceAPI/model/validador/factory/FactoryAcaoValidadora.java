@@ -58,11 +58,11 @@ public class FactoryAcaoValidadora {
             r = AcaoResultEnum.EXCEPTION;
         }
 
+        av.setTipo(r);
         av.setUrlCorrecao(urlResponseGenerator(av));
 //        String m = ResourceBundle.getBundle("messages", FactoryLocale.createLocale(SystemEnum.CRM)).getString(av.getNome() + "_" + r.name());
 
         av.setMensagem(valid.getMensagem());
-        av.setTipo(r);
         av.setConsulta(hasConsulta(av));
         return av;
     }

@@ -40,16 +40,12 @@ public class TelecomServicesDistributionImpl implements TelecomServicesDistribut
         } else {
             r = valid.getResultado() ? AcaoResultEnum.VALIDADO_OK : AcaoResultEnum.VALIDADO_NOK;
             av.setResultado(valid.getResultado());
-            if (valid.getNome().isEmpty()) {
-                r = AcaoResultEnum.EXCEPTION;
-            }
-            av.setTipo(r);
-            av.setUrlCorrecao(FactoryAcaoValidadora.urlResponseGenerator(av));
         }
         if (valid.getNome().isEmpty()) {
             r = AcaoResultEnum.EXCEPTION;
         }
         av.setTipo(r);
+        av.setUrlCorrecao(FactoryAcaoValidadora.urlResponseGenerator(av));
         av.setValid(valid);
         av.setMensagem(valid.getMensagem());
         av.setConsulta(FactoryAcaoValidadora.hasConsulta(av));
