@@ -79,7 +79,7 @@ public class ValidacaoResultGenerator {
         return execDao.findRecentExec(instancia, exec, dataLimite) != null;
     }
 
-    public static ExecucaoDetalhada checkRecentSuccessfulSets(String instancia, ExecDetailedEnum exec) throws Exception {
+    public static ExecucaoDetalhada getRecentSets(String instancia, ExecDetailedEnum exec) throws Exception {
         Calendar now = Calendar.getInstance();
         now.add(Calendar.MINUTE, -15);
         Date dataLimite = now.getTime();
@@ -156,7 +156,7 @@ public class ValidacaoResultGenerator {
                     str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
                     v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
                 } else {
-                    ValidacaoResult vr = (ValidacaoResult) checkRecentSuccessfulSets(a.getCustomer().getInstancia(), ExecDetailedEnum.REBOOT_DEVICE).getValid();
+                    ValidacaoResult vr = (ValidacaoResult) getRecentSets(a.getCustomer().getInstancia(), ExecDetailedEnum.REBOOT_DEVICE).getValid();
                     Boolean deucertoreboot = vr.getResultado();
                     str = deucertoreboot ? "Foi executado Reboot recentemente." : "Houve falha ao tentar executar Reboot recentemente.";
                     v = new ValidacaoResult(a.getAcao().toString(), str, deucertoreboot, null);
@@ -170,11 +170,18 @@ public class ValidacaoResultGenerator {
                 v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
                 break;
             case PING:
-                l = FactoryAcsService.searchService().search(reqAcs);
-                reqAcs1.setDevices(l);
-                isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1);
-                str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
-                v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
+                if (!checkRecentSets(a.getCustomer().getInstancia(), ExecDetailedEnum.PING)) {
+                    l = FactoryAcsService.searchService().search(reqAcs);
+                    reqAcs1.setDevices(l);
+                    isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1);
+                    str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
+                    v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
+                } else {
+                    ValidacaoResult vr = (ValidacaoResult) getRecentSets(a.getCustomer().getInstancia(), ExecDetailedEnum.PING).getValid();
+                    Boolean deucertoreboot = vr.getResultado();
+                    str = deucertoreboot ? "Foi realizado Ping recentemente." : "Houve falha ao tentar realizar Ping recentemente.";
+                    v = new ValidacaoResult(a.getAcao().toString(), str, deucertoreboot, null);
+                }
                 break;
             case LAN_DEVICES:
                 l = FactoryAcsService.searchService().search(reqAcs);
@@ -293,6 +300,9 @@ public class ValidacaoResultGenerator {
                 }
 
                 break;
+            case PING:
+                v = new ValidacaoResult("Ping", "", Boolean.TRUE, null);
+                break;
             default:
                 break;
         }
@@ -403,6 +413,8 @@ public class ValidacaoResultGenerator {
             case PING:
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_nok"), Boolean.FALSE, null));
+                l.add(new ValidacaoResult(a.toString(), "Foi realizado Ping recentemente.", Boolean.TRUE, null));
+                l.add(new ValidacaoResult(a.toString(), "Houve falha ao tentar realizar Ping recentemente.", Boolean.FALSE, null));
                 return l;
             case LAN_DEVICES:
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
@@ -490,7 +502,7 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.REBOOT) {
                     try {
                         if (checkRecentSets("1135310155", ExecDetailedEnum.REBOOT_DEVICE)) {
-                            ValidacaoResult vr = (ValidacaoResult) checkRecentSuccessfulSets("1135310155", ExecDetailedEnum.REBOOT_DEVICE).getValid();
+                            ValidacaoResult vr = (ValidacaoResult) getRecentSets("1135310155", ExecDetailedEnum.REBOOT_DEVICE).getValid();
                             Boolean deucertoreboot = vr.getResultado();
                             if (!deucertoreboot) {
                                 v = fakeGeneration(a.getAcao()).get(3);
@@ -527,7 +539,23 @@ public class ValidacaoResultGenerator {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
                 if (a.getAcao() == AcaoEnum.PING) {
-                    v = fakeGeneration(a.getAcao()).get(0);
+                    try {
+                        if (checkRecentSets("9156420321", ExecDetailedEnum.PING)) {
+                            ValidacaoResult vr = (ValidacaoResult) getRecentSets("9156420321", ExecDetailedEnum.PING).getValid();
+                            Boolean deucertoping = vr.getResultado();
+                            if (!deucertoping) {
+                                v = fakeGeneration(a.getAcao()).get(3);
+                            } else {
+                                v = fakeGeneration(a.getAcao()).get(2);
+                            }
+                        } else {
+                            v = fakeGeneration(a.getAcao()).get(0);
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        v = fakeGeneration(a.getAcao()).get(0);
+                    }
                 }
                 if (a.getAcao() == AcaoEnum.WIFI_CRED) {
 
