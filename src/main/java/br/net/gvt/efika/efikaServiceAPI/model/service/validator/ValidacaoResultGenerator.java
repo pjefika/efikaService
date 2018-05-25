@@ -178,9 +178,9 @@ public class ValidacaoResultGenerator {
                     v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
                 } else {
                     ValidacaoResult vr = (ValidacaoResult) getRecentSets(a.getCustomer().getInstancia(), ExecDetailedEnum.PING).getValid();
-                    Boolean deucertoreboot = vr.getResultado();
-                    str = deucertoreboot ? "Foi realizado Ping recentemente." : "Houve falha ao tentar realizar Ping recentemente.";
-                    v = new ValidacaoResult(a.getAcao().toString(), str, deucertoreboot, null);
+                    Boolean deucertoping = vr.getResultado();
+                    str = deucertoping ? "Foi realizado Ping recentemente." : "Houve falha ao tentar realizar Ping recentemente.";
+                    v = new ValidacaoResult(a.getAcao().toString(), str, deucertoping, null);
                 }
                 break;
             case LAN_DEVICES:
@@ -301,7 +301,12 @@ public class ValidacaoResultGenerator {
 
                 break;
             case PING:
-                v = new ValidacaoResult("Ping", "", Boolean.TRUE, null);
+                if (exec.getCustomer().getInstancia().equalsIgnoreCase("9156420321")) {
+                    v = new ValidacaoResult("Ping", "", Boolean.FALSE, null);
+                } else {
+                    v = new ValidacaoResult("Ping", "", Boolean.TRUE, null);
+                }
+
                 break;
             default:
                 break;
