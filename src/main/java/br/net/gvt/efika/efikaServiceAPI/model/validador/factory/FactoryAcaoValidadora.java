@@ -53,11 +53,12 @@ public class FactoryAcaoValidadora {
         } else {
             r = valid.getResultado() ? AcaoResultEnum.VALIDADO_OK : AcaoResultEnum.VALIDADO_NOK;
             av.setResultado(valid.getResultado());
-            av.setUrlCorrecao(urlResponseGenerator(av));
         }
         if (valid.getNome().isEmpty()) {
             r = AcaoResultEnum.EXCEPTION;
         }
+
+        av.setUrlCorrecao(urlResponseGenerator(av));
 //        String m = ResourceBundle.getBundle("messages", FactoryLocale.createLocale(SystemEnum.CRM)).getString(av.getNome() + "_" + r.name());
 
         av.setMensagem(valid.getMensagem());
@@ -75,32 +76,32 @@ public class FactoryAcaoValidadora {
                 }
                 break;
             case WIFI_CRED:
-                if (acao.getResultado()) {
+                if (acao.getTipo() != AcaoResultEnum.VALIDADO_NOK) {
                     s = "http://10.40.196.171/efika_gps/pages/wificonf/wificonf.html?instancia=" + acao.getCustomer().getInstancia();
                 }
                 break;
             case REBOOT:
-                if (acao.getResultado()) {
+                if (acao.getTipo() != AcaoResultEnum.VALIDADO_NOK) {
                     s = "http://10.40.196.171/efika_gps/pages/reboot/reboot.html?instancia=" + acao.getCustomer().getInstancia();
                 }
                 break;
             case FACTORY_RESET:
-                if (acao.getResultado()) {
+                if (acao.getTipo() != AcaoResultEnum.VALIDADO_NOK) {
                     s = "http://10.40.196.171/efika_gps/pages/factoryreset/factoryreset.html?instancia=" + acao.getCustomer().getInstancia();
                 }
                 break;
             case PING:
-                if (acao.getResultado()) {
+                if (acao.getTipo() != AcaoResultEnum.VALIDADO_NOK) {
                     s = "http://10.40.196.171/efika_gps/pages/test_ping/test_ping.html?instancia=" + acao.getCustomer().getInstancia();
                 }
                 break;
             case LAN_DEVICES:
-                if (acao.getResultado()) {
+                if (acao.getTipo() != AcaoResultEnum.VALIDADO_NOK) {
                     s = "http://10.40.196.171/efika_gps/pages/dispcon/dispcon.html?instancia=" + acao.getCustomer().getInstancia();
                 }
                 break;
             case WIFI_CHANNEL:
-                if (acao.getResultado()) {
+                if (acao.getTipo() != AcaoResultEnum.VALIDADO_NOK) {
                     s = "http://10.40.196.171/efika_gps/pages/wificonf/wificonf.html?instancia=" + acao.getCustomer().getInstancia();
                 }
                 break;
