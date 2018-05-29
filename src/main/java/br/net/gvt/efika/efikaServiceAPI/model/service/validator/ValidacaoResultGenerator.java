@@ -332,6 +332,12 @@ public class ValidacaoResultGenerator {
                 activateWifiIn.setGuid(new Long(exec.getParametro()));
                 v = FactoryAcsService.equipamentoService().activateWifi(activateWifiIn);
                 break;
+            case GET_DNS:
+                GetDeviceDataIn getDnsIn = new GetDeviceDataIn();
+                getDnsIn.setExecutor("efikaServiceAPI");
+                getDnsIn.setGuid(new Long(exec.getParametro()));
+                v = FactoryAcsService.equipamentoService().getDns(getDnsIn);
+                break;
             default:
                 break;
         }

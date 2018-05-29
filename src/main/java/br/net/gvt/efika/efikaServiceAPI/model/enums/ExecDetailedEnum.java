@@ -18,5 +18,7 @@ public enum ExecDetailedEnum {
     SEEK_DEVICES,
     REBOOT_DEVICE,
     PING,
-    CONNECTED_DEVICES;
+    CONNECTED_DEVICES,
+    GET_DNS,
+    SET_DNS;
 }
