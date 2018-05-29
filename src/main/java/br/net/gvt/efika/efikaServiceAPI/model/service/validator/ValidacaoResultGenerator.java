@@ -320,10 +320,17 @@ public class ValidacaoResultGenerator {
                     public List<LanDevice> getLanDevices() {
                         return devices;
                     }
+
                     public List<InterfaceStatistics> getInterfaceStatistics() {
                         return interfaceStatistics;
                     }
                 };
+                break;
+            case ACTIVATE_WIFI:
+                GetDeviceDataIn activateWifiIn = new GetDeviceDataIn();
+                activateWifiIn.setExecutor("efikaServiceAPI");
+                activateWifiIn.setGuid(new Long(exec.getParametro()));
+                v = FactoryAcsService.equipamentoService().activateWifi(activateWifiIn);
                 break;
             default:
                 break;
