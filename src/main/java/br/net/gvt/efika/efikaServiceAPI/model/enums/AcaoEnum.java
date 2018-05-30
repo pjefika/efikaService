@@ -32,7 +32,8 @@ public enum AcaoEnum {
     DNS("DNS"),
     WIFI_CHANNEL("Canal da rede Wifi"),
     WIFI_STATUS("Estado da rede Wifi"),
-    TROCA_PACOTES("Troca de pacotes");
+    TROCA_PACOTES("Troca de pacotes"),
+    FIRMWARE("Versão de Firmware");
 
 
     private String value;

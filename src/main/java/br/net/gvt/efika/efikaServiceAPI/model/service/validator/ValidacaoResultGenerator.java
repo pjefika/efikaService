@@ -168,11 +168,18 @@ public class ValidacaoResultGenerator {
                 }
                 break;
             case FACTORY_RESET:
-                l = FactoryAcsService.searchService().search(reqAcs);
-                reqAcs1.setDevices(l);
-                isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1);
-                str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
-                v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
+                if (!checkRecentSets(a.getCustomer().getInstancia(), ExecDetailedEnum.FACTORY_RESET_DEVICE)) {
+                    l = FactoryAcsService.searchService().search(reqAcs);
+                    reqAcs1.setDevices(l);
+                    isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1);
+                    str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
+                    v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
+                } else {
+                    ValidacaoResult vr = (ValidacaoResult) getRecentSets(a.getCustomer().getInstancia(), ExecDetailedEnum.FACTORY_RESET_DEVICE).getValid();
+                    Boolean deucertoreset = vr.getResultado();
+                    str = deucertoreset ? "Foi executado Reset de Fábrica recentemente." : "Houve falha ao tentar executar Reset de Fábrica recentemente.";
+                    v = new ValidacaoResult(a.getAcao().toString(), str, deucertoreset, deucertoreset);
+                }
                 break;
             case PING:
                 if (!checkRecentSets(a.getCustomer().getInstancia(), ExecDetailedEnum.PING)) {
@@ -215,6 +222,13 @@ public class ValidacaoResultGenerator {
                 v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
                 break;
             case WIFI_STATUS:
+                l = FactoryAcsService.searchService().search(reqAcs);
+                reqAcs1.setDevices(l);
+                isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1);
+                str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
+                v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
+                break;
+            case FIRMWARE:
                 l = FactoryAcsService.searchService().search(reqAcs);
                 reqAcs1.setDevices(l);
                 isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1);
@@ -343,13 +357,11 @@ public class ValidacaoResultGenerator {
             case GET_DNS:
                 if (exec.getCustomer().getInstancia().equalsIgnoreCase("1156421670")) {
                     v = new Dns("200.204.1.4,200.204.1.138");
-                } else if (exec.getCustomer().getInstancia().equalsIgnoreCase("1135302119")) {
+                } else if (exec.getCustomer().getInstancia().equalsIgnoreCase("1148674418")) {
                     v = new Dns("200.175.5.139,200.175.89.139");
                 } else if (exec.getCustomer().getInstancia().equalsIgnoreCase("1151842070")) {
                     v = new Dns("200.204.1.9,200.204.1.137");
                 } else if (exec.getCustomer().getInstancia().equalsIgnoreCase("1135310138")) {
-                    v = new Dns("");
-                } else if (exec.getCustomer().getInstancia().equalsIgnoreCase("1148674418")) {
                     v = new Dns("");
                 } else if (exec.getCustomer().getInstancia().equalsIgnoreCase("1136891105")) {
                     v = new Dns("");
@@ -380,6 +392,12 @@ public class ValidacaoResultGenerator {
                     setDnsIn.setDns(new Dns(dnsServers));
                     v = FactoryAcsService.equipamentoService().setDns(setDnsIn);
                 }
+                break;
+            case FACTORY_RESET_DEVICE:
+                GetDeviceDataIn factoryIn = new GetDeviceDataIn();
+                factoryIn.setExecutor("efikaServiceAPI");
+                factoryIn.setGuid(new Long(exec.getParametro()));
+                v = FactoryAcsService.equipamentoService().factoryReset(factoryIn);
                 break;
             default:
                 break;
@@ -487,6 +505,8 @@ public class ValidacaoResultGenerator {
             case FACTORY_RESET:
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_nok"), Boolean.FALSE, null));
+                l.add(new ValidacaoResult(a.toString(), "Foi executado Reset de Fábrica recentemente.", Boolean.TRUE, null));
+                l.add(new ValidacaoResult(a.toString(), "Houve falha ao tentar executar Reset de Fábrica recentemente.", Boolean.FALSE, Boolean.FALSE));
                 return l;
             case PING:
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
@@ -510,6 +530,12 @@ public class ValidacaoResultGenerator {
             case WIFI_STATUS:
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_nok"), Boolean.FALSE, null));
+                return l;
+            case FIRMWARE:
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_nok"), Boolean.FALSE, null));
+                l.add(new ValidacaoResult(a.toString(), "Foi executado Atualização de Firmware recentemente.", Boolean.TRUE, null));
+                l.add(new ValidacaoResult(a.toString(), "Houve falha ao tentar executar Atualização de Firmware recentemente.", Boolean.FALSE, Boolean.FALSE));
                 return l;
             case TROCA_PACOTES:
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("trafegoPct_ok"), Boolean.TRUE, null));
@@ -920,15 +946,7 @@ public class ValidacaoResultGenerator {
                     v = fakeGeneration(a.getAcao()).get(3);
                 }
                 if (a.getAcao() == AcaoEnum.DNS) {
-                    try {
-                        if (checkRecentSets("1148674418", ExecDetailedEnum.SET_DNS)) {
-                            v = fakeGeneration(a.getAcao()).get(2);
-                        } else {
-                            v = fakeGeneration(a.getAcao()).get(0);
-                        }
-                    } catch (Exception ex) {
-                        v = fakeGeneration(a.getAcao()).get(0);
-                    }
+                    v = fakeGeneration(a.getAcao()).get(0);
                 }
                 break;
             case "1148678349":
@@ -941,11 +959,11 @@ public class ValidacaoResultGenerator {
                     v = fakeGeneration(a.getAcao()).get(1);
                 }
                 break;
-            case "1135302119":
-                if (a.getAcao() == AcaoEnum.DNS) {
-                    v = fakeGeneration(a.getAcao()).get(0);
-                }
-                break;
+//            case "1135302119":
+//                if (a.getAcao() == AcaoEnum.DNS) {
+//                    v = fakeGeneration(a.getAcao()).get(0);
+//                }
+//                break;
             default:
                 break;
         }

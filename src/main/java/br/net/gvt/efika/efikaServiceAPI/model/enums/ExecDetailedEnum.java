@@ -20,5 +20,7 @@ public enum ExecDetailedEnum {
     PING,
     CONNECTED_DEVICES,
     GET_DNS,
-    SET_DNS;
+    SET_DNS,
+    FACTORY_RESET_DEVICE,
+    FIRMWARE_UPDATE;
 }
