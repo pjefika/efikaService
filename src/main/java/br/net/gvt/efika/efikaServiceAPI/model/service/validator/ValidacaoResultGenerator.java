@@ -5,12 +5,14 @@
  */
 package br.net.gvt.efika.efikaServiceAPI.model.service.validator;
 
+import br.net.gvt.efika.acs.model.device.dns.Dns;
 import br.net.gvt.efika.acs.model.device.interfacestatistics.InterfaceStatistics;
 import br.net.gvt.efika.acs.model.device.lanhost.LanDevice;
 import br.net.gvt.efika.acs.model.device.wan.WanInfo;
 import br.net.gvt.efika.acs.model.device.wifi.WifiNets;
 import br.net.gvt.efika.acs.model.dto.ForceOnlineDevicesIn;
 import br.net.gvt.efika.acs.model.dto.GetDeviceDataIn;
+import br.net.gvt.efika.acs.model.dto.SetDnsIn;
 import br.net.gvt.efika.acs.model.dto.SetWifiIn;
 import br.net.gvt.efika.acs.model.search.SearchCriteria;
 import br.net.gvt.efika.acs.model.search.SearchIn;
@@ -26,6 +28,7 @@ import br.net.gvt.efika.efikaServiceAPI.model.service.factory.FactoryService;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoValidadora;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.ExecucaoDetalhada;
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.enums.OrigemPlanta;
 import br.net.gvt.efika.efika_customer.model.customer.enums.TipoRede;
 import br.net.gvt.efika.efika_customer.model.customer.mock.CustomerMock;
 import br.net.gvt.efika.fulltest.model.fulltest.FulltestRequest;
@@ -193,11 +196,16 @@ public class ValidacaoResultGenerator {
                 v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
                 break;
             case DNS:
-                l = FactoryAcsService.searchService().search(reqAcs);
-                reqAcs1.setDevices(l);
-                isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1);
-                str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
-                v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
+                if (!checkRecentSets(a.getCustomer().getInstancia(), ExecDetailedEnum.SET_DNS)) {
+                    l = FactoryAcsService.searchService().search(reqAcs);
+                    reqAcs1.setDevices(l);
+                    isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1);
+                    str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
+                    v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
+                } else {
+                    v = new ValidacaoResult(a.getAcao().toString(), "Foi executada alteração de DNS recentemente.", true, null);
+                }
+
                 break;
             case WIFI_CHANNEL:
                 l = FactoryAcsService.searchService().search(reqAcs);
@@ -333,10 +341,45 @@ public class ValidacaoResultGenerator {
                 v = FactoryAcsService.equipamentoService().activateWifi(activateWifiIn);
                 break;
             case GET_DNS:
-                GetDeviceDataIn getDnsIn = new GetDeviceDataIn();
-                getDnsIn.setExecutor("efikaServiceAPI");
-                getDnsIn.setGuid(new Long(exec.getParametro()));
-                v = FactoryAcsService.equipamentoService().getDns(getDnsIn);
+                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1156421670")) {
+                    v = new Dns("200.204.1.4,200.204.1.138");
+                } else if (exec.getCustomer().getInstancia().equalsIgnoreCase("1135302119")) {
+                    v = new Dns("200.175.5.139,200.175.89.139");
+                } else if (exec.getCustomer().getInstancia().equalsIgnoreCase("1151842070")) {
+                    v = new Dns("200.204.1.9,200.204.1.137");
+                } else if (exec.getCustomer().getInstancia().equalsIgnoreCase("1135310138")) {
+                    v = new Dns("");
+                } else if (exec.getCustomer().getInstancia().equalsIgnoreCase("1148674418")) {
+                    v = new Dns("");
+                } else if (exec.getCustomer().getInstancia().equalsIgnoreCase("1136891105")) {
+                    v = new Dns("");
+                } else {
+                    GetDeviceDataIn getDnsIn = new GetDeviceDataIn();
+                    getDnsIn.setExecutor("efikaServiceAPI");
+                    getDnsIn.setGuid(new Long(exec.getParametro()));
+                    v = FactoryAcsService.equipamentoService().getDns(getDnsIn);
+                }
+
+                break;
+            case SET_DNS:
+                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1151842070")) {
+                    v = new Dns("200.204.1.4,200.204.1.138");
+                } else if (exec.getCustomer().getInstancia().equalsIgnoreCase("1135310138")) {
+                    v = new Dns("200.175.5.139,200.175.89.139");
+                } else if (exec.getCustomer().getInstancia().equalsIgnoreCase("1148674418")) {
+                    v = new Dns("200.175.5.139,200.175.89.139");
+                } else if (exec.getCustomer().getInstancia().equalsIgnoreCase("1136891105")) {
+                    v = new Dns("200.204.1.4,200.204.1.138");
+                } else {
+                    SetDnsIn setDnsIn = new SetDnsIn();
+                    setDnsIn.setExecutor("efikaServiceAPI");
+                    setDnsIn.setGuid(new Long(exec.getParametro()));
+                    String dnsServers = exec.getCustomer().getRede().getPlanta() == OrigemPlanta.VIVO2
+                            ? "200.175.5.139,200.175.89.139"
+                            : "200.204.1.4,200.204.1.138";
+                    setDnsIn.setDns(new Dns(dnsServers));
+                    v = FactoryAcsService.equipamentoService().setDns(setDnsIn);
+                }
                 break;
             default:
                 break;
@@ -458,6 +501,7 @@ public class ValidacaoResultGenerator {
             case DNS:
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_nok"), Boolean.FALSE, null));
+                l.add(new ValidacaoResult(a.toString(), "Foi executada alteração de DNS recentemente.", Boolean.TRUE, null));
                 return l;
             case WIFI_CHANNEL:
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
