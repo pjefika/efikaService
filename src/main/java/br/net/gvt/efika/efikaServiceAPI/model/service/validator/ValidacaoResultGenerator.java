@@ -598,6 +598,9 @@ public class ValidacaoResultGenerator {
                     }
 
                 }
+                if (a.getAcao() == AcaoEnum.DNS) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
                 if (a.getAcao() == AcaoEnum.PING) {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
@@ -608,6 +611,9 @@ public class ValidacaoResultGenerator {
                 }
                 if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
                     v = fakeGeneration(a.getAcao()).get(3);
+                }
+                if (a.getAcao() == AcaoEnum.DNS) {
+                    v = fakeGeneration(a.getAcao()).get(0);
                 }
                 break;
             case "9156420321":
@@ -685,6 +691,9 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.VLANS_VIDEO) {
                     v = fakeGeneration(a.getAcao()).get(4);
                 }
+                if (a.getAcao() == AcaoEnum.DNS) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
                 break;
             case "1135302098":
                 if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
@@ -709,6 +718,17 @@ public class ValidacaoResultGenerator {
                 }
                 if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
                     v = fakeGeneration(a.getAcao()).get(2);
+                }
+                if (a.getAcao() == AcaoEnum.DNS) {
+                    try {
+                        if (checkRecentSets("1135310138", ExecDetailedEnum.SET_DNS)) {
+                            v = fakeGeneration(a.getAcao()).get(2);
+                        } else {
+                            v = fakeGeneration(a.getAcao()).get(0);
+                        }
+                    } catch (Exception ex) {
+                        v = fakeGeneration(a.getAcao()).get(0);
+                    }
                 }
                 break;
             case "1156421252":
@@ -736,6 +756,17 @@ public class ValidacaoResultGenerator {
                 }
                 if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
                     v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.DNS) {
+                    try {
+                        if (checkRecentSets("1151842070", ExecDetailedEnum.SET_DNS)) {
+                            v = fakeGeneration(a.getAcao()).get(2);
+                        } else {
+                            v = fakeGeneration(a.getAcao()).get(0);
+                        }
+                    } catch (Exception ex) {
+                        v = fakeGeneration(a.getAcao()).get(0);
+                    }
                 }
                 break;
             case "4131522654":
@@ -771,6 +802,18 @@ public class ValidacaoResultGenerator {
                 }
                 if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
                     v = fakeGeneration(a.getAcao()).get(1);
+                }
+                if (a.getAcao() == AcaoEnum.DNS) {
+                    try {
+                        if (checkRecentSets("1136891105", ExecDetailedEnum.SET_DNS)) {
+                            v = fakeGeneration(a.getAcao()).get(2);
+                        } else {
+                            v = fakeGeneration(a.getAcao()).get(0);
+                        }
+                    } catch (Exception ex) {
+                        v = fakeGeneration(a.getAcao()).get(0);
+                    }
+
                 }
                 break;
             case "4131521805":
@@ -876,6 +919,17 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.VLANS_VIDEO) {
                     v = fakeGeneration(a.getAcao()).get(3);
                 }
+                if (a.getAcao() == AcaoEnum.DNS) {
+                    try {
+                        if (checkRecentSets("1148674418", ExecDetailedEnum.SET_DNS)) {
+                            v = fakeGeneration(a.getAcao()).get(2);
+                        } else {
+                            v = fakeGeneration(a.getAcao()).get(0);
+                        }
+                    } catch (Exception ex) {
+                        v = fakeGeneration(a.getAcao()).get(0);
+                    }
+                }
                 break;
             case "1148678349":
                 if (a.getAcao() == AcaoEnum.VLANS_VIDEO) {
@@ -885,6 +939,11 @@ public class ValidacaoResultGenerator {
             case "1156437947":
                 if (a.getAcao() == AcaoEnum.WIFI_CRED) {
                     v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "1135302119":
+                if (a.getAcao() == AcaoEnum.DNS) {
+                    v = fakeGeneration(a.getAcao()).get(0);
                 }
                 break;
             default:
