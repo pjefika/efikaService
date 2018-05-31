@@ -10,6 +10,7 @@ import br.net.gvt.efika.acs.model.device.interfacestatistics.InterfaceStatistics
 import br.net.gvt.efika.acs.model.device.lanhost.LanDevice;
 import br.net.gvt.efika.acs.model.device.wan.WanInfo;
 import br.net.gvt.efika.acs.model.device.wifi.WifiNets;
+import br.net.gvt.efika.acs.model.dto.DetailIn;
 import br.net.gvt.efika.acs.model.dto.FirmwareUpdateIn;
 import br.net.gvt.efika.acs.model.dto.ForceOnlineDevicesIn;
 import br.net.gvt.efika.acs.model.dto.GetDeviceDataIn;
@@ -446,6 +447,11 @@ public class ValidacaoResultGenerator {
                 firmwareIn.setGuid(new Long(exec.getParametro()));
                 v = new ValidacaoResult("Firmware Update", "", FactoryAcsService.equipamentoService().firmwareUpdate(firmwareIn), null);
                 break;
+            case GET_FIRMWARE:
+                DetailIn detailIn = new DetailIn();
+                detailIn.setExecutor("efikaServiceAPI");
+                detailIn.setGuid(new Long(exec.getParametro()));
+                v = FactoryAcsService.equipamentoService().getDetail(detailIn);
             default:
                 break;
         }
