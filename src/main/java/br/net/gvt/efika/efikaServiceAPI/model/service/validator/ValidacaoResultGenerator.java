@@ -451,7 +451,7 @@ public class ValidacaoResultGenerator {
                 DetailIn detailIn = new DetailIn();
                 detailIn.setExecutor("efikaServiceAPI");
                 detailIn.setGuid(new Long(exec.getParametro()));
-                v = FactoryAcsService.equipamentoService().getDetail(detailIn);
+                v = FactoryAcsService.equipamentoService().getDetail(detailIn).getFirmware();
             default:
                 break;
         }
