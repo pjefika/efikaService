@@ -6,9 +6,11 @@
 package br.net.gvt.efika.efikaServiceAPI.model.service.validator;
 
 import br.net.gvt.efika.efikaServiceAPI.model.enums.AcaoEnum;
+import br.net.gvt.efika.efikaServiceAPI.model.enums.ExecDetailedEnum;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoValidadora;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.ExecucaoDetalhada;
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.mock.CustomerMock;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import br.net.gvt.efika.util.json.JacksonMapper;
 import java.util.List;
@@ -78,7 +80,11 @@ public class ValidacaoResultGeneratorIT {
     @Test
     public void testGenerate_ExecucaoDetalhada() throws Exception {
         System.out.println("generate");
-        ExecucaoDetalhada exec = null;
+        ExecucaoDetalhada exec = new ExecucaoDetalhada(ExecDetailedEnum.GET_FIRMWARE);
+        exec.setCustomer(ValidacaoResultGenerator.getCust("4130157784"));
+        exec.setParametro("26737329");
+        Object result = ValidacaoResultGenerator.generate(exec);
+        System.out.println(new JacksonMapper<>(Object.class).serialize(result));
     }
 
     /**

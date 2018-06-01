@@ -423,7 +423,7 @@ public class ValidacaoResultGenerator {
                 break;
             case FACTORY_RESET_DEVICE:
 
-                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1155230481")) {
+                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1151842138")) {
                     v = new ValidacaoResult("FactoryReset", "", Boolean.TRUE, null);
                 } else {
                     if (exec.getCustomer().getInstancia().equalsIgnoreCase("1148681918")) {
@@ -436,7 +436,7 @@ public class ValidacaoResultGenerator {
                         GetDeviceDataIn factoryIn = new GetDeviceDataIn();
                         factoryIn.setExecutor("efikaServiceAPI");
                         factoryIn.setGuid(new Long(exec.getParametro()));
-                        v = FactoryAcsService.equipamentoService().factoryReset(factoryIn);
+                        v = new ValidacaoResult("Factory Reset", "", FactoryAcsService.equipamentoService().factoryReset(factoryIn), null);
                     }
                 }
 
@@ -781,6 +781,26 @@ public class ValidacaoResultGenerator {
                     } catch (Exception ex) {
                         v = fakeGeneration(a.getAcao()).get(0);
                         Logger.getLogger(ValidacaoResultGenerator.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                if (a.getAcao() == AcaoEnum.FACTORY_RESET) {
+                    try {
+                        if (checkRecentSets("1151842138", ExecDetailedEnum.FACTORY_RESET_DEVICE)) {
+                            ValidacaoResult vr = (ValidacaoResult) getRecentSets("1151842138", ExecDetailedEnum.FACTORY_RESET_DEVICE)
+                                    .getValid();
+                            Boolean deucertoreset = vr.getResultado();
+                            if (!deucertoreset) {
+                                v = fakeGeneration(a.getAcao()).get(3);
+                            } else {
+                                v = fakeGeneration(a.getAcao()).get(2);
+                            }
+                        } else {
+                            v = fakeGeneration(a.getAcao()).get(0);
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        v = fakeGeneration(a.getAcao()).get(0);
                     }
                 }
                 break;
