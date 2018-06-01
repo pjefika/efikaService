@@ -14,8 +14,10 @@ import br.net.gvt.efika.acs.model.dto.DetailIn;
 import br.net.gvt.efika.acs.model.dto.FirmwareUpdateIn;
 import br.net.gvt.efika.acs.model.dto.ForceOnlineDevicesIn;
 import br.net.gvt.efika.acs.model.dto.GetDeviceDataIn;
+import br.net.gvt.efika.acs.model.dto.GetPhoneNumberIn;
 import br.net.gvt.efika.acs.model.dto.SetDnsIn;
 import br.net.gvt.efika.acs.model.dto.SetWifiIn;
+import br.net.gvt.efika.acs.model.dto.SipDiagnosticsIn;
 import br.net.gvt.efika.acs.model.search.SearchCriteria;
 import br.net.gvt.efika.acs.model.search.SearchIn;
 import br.net.gvt.efika.acs.model.service.factory.FactoryAcsService;
@@ -278,7 +280,18 @@ public class ValidacaoResultGenerator {
                         /**
                          * refact using sipdiag
                          */
-                        getWan.setGuid(l1.get(0).getDeviceGUID());
+                        NbiDeviceData device = null;
+                        for (NbiDeviceData d : l1) {
+                            GetPhoneNumberIn getPhoneIn = new GetPhoneNumberIn();
+                            getPhoneIn.setGuid(d.getDeviceGUID());
+                            getPhoneIn.setExecutor("efikaServiceAPI");
+                            if (FactoryAcsService.equipamentoService().getPhoneNumber(getPhoneIn).getPhoneNumber()
+                                    .contains(a.getCustomer().getInstancia())) {
+                                device = d;
+                            }
+                        }
+                        Long guid = device == null ? l1.get(0).getDeviceGUID() : device.getDeviceGUID();
+                        getWan.setGuid(guid);
                         WanInfo first = FactoryAcsService.equipamentoService().getWanInfo(getWan);
                         Thread.sleep(4000);
                         WanInfo second = FactoryAcsService.equipamentoService().getWanInfo(getWan);
@@ -291,6 +304,9 @@ public class ValidacaoResultGenerator {
                 }
                 str = hasTraffic ? bundle.getString("trafegoPct_ok") : bundle.getString("trafegoPct_nok");
                 v = new ValidacaoResult(a.getAcao().toString(), str, hasTraffic, null);
+                break;
+            case T38:
+
                 break;
             default:
                 break;

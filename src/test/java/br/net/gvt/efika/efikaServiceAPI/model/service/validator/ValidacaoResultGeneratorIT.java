@@ -10,7 +10,6 @@ import br.net.gvt.efika.efikaServiceAPI.model.enums.ExecDetailedEnum;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoValidadora;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.ExecucaoDetalhada;
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
-import br.net.gvt.efika.efika_customer.model.customer.mock.CustomerMock;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import br.net.gvt.efika.util.json.JacksonMapper;
 import java.util.List;
@@ -26,22 +25,22 @@ import static org.junit.Assert.*;
  * @author G0041775
  */
 public class ValidacaoResultGeneratorIT {
-    
+
     public ValidacaoResultGeneratorIT() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -66,12 +65,10 @@ public class ValidacaoResultGeneratorIT {
     @Test
     public void testGenerate_AcaoValidadora() throws Exception {
         System.out.println("generate");
-        AcaoValidadora a = null;
-        ValidacaoResult expResult = null;
+        AcaoValidadora a = new AcaoValidadora(AcaoEnum.TROCA_PACOTES);
+        a.setCustomer(ValidacaoResultGenerator.getCust("4130825270"));
         ValidacaoResult result = ValidacaoResultGenerator.generate(a);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(new JacksonMapper<>(ValidacaoResult.class).serialize(result));
     }
 
     /**
@@ -114,5 +111,5 @@ public class ValidacaoResultGeneratorIT {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
 }
