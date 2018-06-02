@@ -23,5 +23,7 @@ public enum ExecDetailedEnum {
     SET_DNS,
     FACTORY_RESET_DEVICE,
     FIRMWARE_UPDATE,
-    GET_FIRMWARE;
+    GET_FIRMWARE,
+    GET_T38,
+    SET_T38;
 }

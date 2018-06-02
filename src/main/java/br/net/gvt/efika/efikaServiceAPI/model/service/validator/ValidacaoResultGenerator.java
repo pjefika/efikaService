@@ -15,9 +15,11 @@ import br.net.gvt.efika.acs.model.dto.FirmwareUpdateIn;
 import br.net.gvt.efika.acs.model.dto.ForceOnlineDevicesIn;
 import br.net.gvt.efika.acs.model.dto.GetDeviceDataIn;
 import br.net.gvt.efika.acs.model.dto.GetPhoneNumberIn;
+import br.net.gvt.efika.acs.model.dto.GetT38EnabledIn;
 import br.net.gvt.efika.acs.model.dto.SetDnsIn;
+import br.net.gvt.efika.acs.model.dto.SetT38EnabledIn;
 import br.net.gvt.efika.acs.model.dto.SetWifiIn;
-import br.net.gvt.efika.acs.model.dto.SipDiagnosticsIn;
+import br.net.gvt.efika.acs.model.dto.T38Enabled;
 import br.net.gvt.efika.acs.model.search.SearchCriteria;
 import br.net.gvt.efika.acs.model.search.SearchIn;
 import br.net.gvt.efika.acs.model.service.factory.FactoryAcsService;
@@ -257,6 +259,18 @@ public class ValidacaoResultGenerator {
                     v = new ValidacaoResult(a.getAcao().toString(), str, deucertofirmware, isAnyOnline);
                 }
                 break;
+            case T38:
+                if (!checkRecentSets(a.getCustomer().getInstancia(), ExecDetailedEnum.SET_T38)) {
+                    l = FactoryAcsService.searchService().search(reqAcs);
+                    reqAcs1.setDevices(l);
+                    isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1);
+                    str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
+                    v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
+                } else {
+                    v = new ValidacaoResult(a.getAcao().toString(), "Foi realizado Alteração de T38Enabled recentemente.",
+                            Boolean.TRUE, null);
+                }
+                break;
             case TROCA_PACOTES:
                 Boolean hasTraffic = false;
                 if (a.getCustomer().getRede().getTipo() == TipoRede.METALICA) {
@@ -304,9 +318,6 @@ public class ValidacaoResultGenerator {
                 }
                 str = hasTraffic ? bundle.getString("trafegoPct_ok") : bundle.getString("trafegoPct_nok");
                 v = new ValidacaoResult(a.getAcao().toString(), str, hasTraffic, null);
-                break;
-            case T38:
-
                 break;
             default:
                 break;
@@ -468,6 +479,20 @@ public class ValidacaoResultGenerator {
                 detailIn.setExecutor("efikaServiceAPI");
                 detailIn.setGuid(new Long(exec.getParametro()));
                 v = FactoryAcsService.equipamentoService().getDetail(detailIn).getFirmware();
+                break;
+            case GET_T38:
+                GetT38EnabledIn getT38In = new GetT38EnabledIn();
+                getT38In.setExecutor("efikaServiceAPI");
+                getT38In.setGuid(new Long(exec.getParametro()));
+                v = FactoryAcsService.equipamentoService().getT38Enabled(getT38In);
+                break;
+            case SET_T38:
+                SetT38EnabledIn setT38In = new SetT38EnabledIn();
+                setT38In.setExecutor("efikaServiceAPI");
+                setT38In.setGuid(new Long(exec.getParametro()));
+                setT38In.setT38((T38Enabled) exec.getSetter());
+                v = FactoryAcsService.equipamentoService().setT38Enabled(setT38In);
+                break;
             default:
                 break;
         }
@@ -625,6 +650,11 @@ public class ValidacaoResultGenerator {
                 l.add(new ValidacaoResult(a.toString(),
                         "Houve falha ao tentar executar Atualização de Firmware recentemente.", Boolean.FALSE,
                         Boolean.FALSE));
+                return l;
+            case T38:
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_nok"), Boolean.FALSE, null));
+                l.add(new ValidacaoResult(a.toString(), "Foi realizado Alteração de T38Enabled recentemente.", Boolean.TRUE, null));
                 return l;
             case TROCA_PACOTES:
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("trafegoPct_ok"), Boolean.TRUE, null));
