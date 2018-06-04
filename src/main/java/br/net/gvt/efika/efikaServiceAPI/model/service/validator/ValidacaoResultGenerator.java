@@ -701,6 +701,9 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.CHECK_GERENCIA) {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
+                if (a.getAcao() == AcaoEnum.LAN_DEVICES) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
                 break;
             case "1135300782":
                 if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
@@ -748,6 +751,9 @@ public class ValidacaoResultGenerator {
                     v = fakeGeneration(a.getAcao()).get(1);
                 }
                 if (a.getAcao() == AcaoEnum.PING) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.WIFI_CHANNEL) {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
                 break;
@@ -849,6 +855,9 @@ public class ValidacaoResultGenerator {
                         v = fakeGeneration(a.getAcao()).get(0);
                     }
                 }
+                if (a.getAcao() == AcaoEnum.LAN_DEVICES) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
                 break;
             case "1156421670":
                 if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
@@ -862,6 +871,9 @@ public class ValidacaoResultGenerator {
                 }
                 if (a.getAcao() == AcaoEnum.DNS) {
                     v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.WIFI_CHANNEL) {
+                    v = fakeGeneration(a.getAcao()).get(1);
                 }
                 break;
             case "1135302098":
@@ -910,6 +922,9 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.PARAMETROS) {
                     v = fakeGeneration(a.getAcao()).get(1);
                 }
+                if(a.getAcao() == AcaoEnum.LAN_DEVICES){
+                    v = fakeGeneration(a.getAcao()).    get(0);
+                }
                 break;
             case "4131496819":
                 if (a.getAcao() == AcaoEnum.PROFILE) {
@@ -936,6 +951,9 @@ public class ValidacaoResultGenerator {
                     } catch (Exception ex) {
                         v = fakeGeneration(a.getAcao()).get(0);
                     }
+                }
+                if (a.getAcao() == AcaoEnum.WIFI_CHANNEL) {
+                    v = fakeGeneration(a.getAcao()).get(0);
                 }
                 break;
             case "4131522654":
@@ -1121,6 +1139,9 @@ public class ValidacaoResultGenerator {
             case "1148678349":
                 if (a.getAcao() == AcaoEnum.VLANS_VIDEO) {
                     v = fakeGeneration(a.getAcao()).get(3);
+                }
+                if (a.getAcao() == AcaoEnum.LAN_DEVICES) {
+                    v = fakeGeneration(a.getAcao()).get(0);
                 }
                 break;
             case "1156437947":
