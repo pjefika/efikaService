@@ -105,6 +105,11 @@ public class FactoryAcaoValidadora {
                     s = "http://10.40.196.171/efika_gps/pages/wificonf/wificonf.html?instancia=" + acao.getCustomer().getInstancia();
                 }
                 break;
+            case WIFI_STATUS:
+                if (acao.getTipo() != AcaoResultEnum.VALIDADO_NOK) {
+                    s = "http://10.40.196.171/efika_gps/pages/wificonf/wifiactive.html?instancia=" + acao.getCustomer().getInstancia();
+                }
+                break;
             case DNS:
                 if (acao.getTipo() != AcaoResultEnum.VALIDADO_NOK) {
                     s = "http://10.40.196.171/efika_gps/pages/dns/dns.html?instancia=" + acao.getCustomer().getInstancia();
