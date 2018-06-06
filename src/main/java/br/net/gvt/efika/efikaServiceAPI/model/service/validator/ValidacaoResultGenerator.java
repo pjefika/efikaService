@@ -896,7 +896,7 @@ public class ValidacaoResultGenerator {
                 v = fakeGeneration(a.getAcao()).get(1);
             }
             if (a.getAcao() == AcaoEnum.WIFI_STATUS) {
-                v = fakeGeneration(a.getAcao()).get(0);
+                v = fakeGeneration(a.getAcao()).get(1);
             }
             break;
         case "1135310138":
