@@ -65,40 +65,40 @@ import java.util.logging.Logger;
  * @author G0041775
  */
 public class ValidacaoResultGenerator {
-    
+
     protected static ResourceBundle bundle = ResourceBundle.getBundle("messages", new Locale("co", "CO"));
-    
+
     private static AcaoValidadoraDAO acaoDao = FactoryDAO.acaoDao();
-    
+
     private static ExecucaoDetalhadaDAO execDao = FactoryDAO.execDao();
-    
+
     private static ObjectMapper mapper = new ObjectMapper().configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES,
             true);
-    
+
     public ValidacaoResultGenerator() {
     }
-    
+
     public static EfikaCustomer getCust(String instancia) throws Exception {
         Calendar now = Calendar.getInstance();
         now.add(Calendar.MINUTE, -15);
         Date dataLimite = now.getTime();
         return FactoryService.customerFinder().getCustomerFromHist(instancia, dataLimite);
     }
-    
+
     public static Boolean checkRecentSets(String instancia, ExecDetailedEnum exec) throws Exception {
         Calendar now = Calendar.getInstance();
         now.add(Calendar.MINUTE, -15);
         Date dataLimite = now.getTime();
         return execDao.findRecentExec(instancia, exec, dataLimite) != null;
     }
-    
+
     public static ExecucaoDetalhada getRecentSets(String instancia, ExecDetailedEnum exec) throws Exception {
         Calendar now = Calendar.getInstance();
         now.add(Calendar.MINUTE, -15);
         Date dataLimite = now.getTime();
         return execDao.findRecentExec(instancia, exec, dataLimite);
     }
-    
+
     public static ValidacaoResult generate(AcaoValidadora a) throws Exception {
         ValidacaoResult v = null;
         SearchIn reqAcs = new SearchIn(SearchCriteria.SUBSCRIBER, a.getCustomer().getDesignador());
@@ -235,7 +235,7 @@ public class ValidacaoResultGenerator {
                     v = new ValidacaoResult(a.getAcao().toString(), "Foi executada alteração de DNS recentemente.", true,
                             null);
                 }
-                
+
                 break;
             case WIFI_CHANNEL:
                 l = FactoryAcsService.searchService().search(reqAcs);
@@ -287,12 +287,12 @@ public class ValidacaoResultGenerator {
                     Thread.sleep(3000);
                     TabelaRedeMetalico second = (TabelaRedeMetalico) FactoryFulltestService.newConfigPortaService()
                             .confiabilidadeRede(new FulltestRequest(a.getCustomer(), "efikaServiceAPI")).getResult();
-                    
+
                     hasTraffic = second.getPctDown().compareTo(first.getPctDown()) > 0
                             || second.getPctUp().compareTo(first.getPctUp()) > 0;
                 } else {
                     l = FactoryAcsService.searchService().search(reqAcs);
-                    
+
                     List<NbiDeviceData> l1 = mapper.convertValue(l, new TypeReference<List<NbiDeviceData>>() {
                     });
                     reqAcs1.setDevices(l);
@@ -321,7 +321,7 @@ public class ValidacaoResultGenerator {
                                 .compareTo(new BigInteger(first.getBytesReceived())) > 0
                                 || new BigInteger(second.getBytesSent())
                                         .compareTo(new BigInteger(first.getBytesSent())) > 0;
-                        
+
                     }
                 }
                 str = hasTraffic ? bundle.getString("trafegoPct_ok") : bundle.getString("trafegoPct_nok");
@@ -329,14 +329,14 @@ public class ValidacaoResultGenerator {
                 break;
             default:
                 break;
-            
+
         }
         return v;
     }
-    
+
     public static Object generate(ExecucaoDetalhada exec) throws Exception {
         Object v = null;
-        
+
         switch (exec.getNome()) {
             case GET_ONTS:
                 v = new ValidacaoResult("Onts Disponíveis", "", null, null, null,
@@ -384,7 +384,7 @@ public class ValidacaoResultGenerator {
                                 null);
                     }
                 }
-                
+
                 break;
             case PING:
                 if (exec.getCustomer().getInstancia().equalsIgnoreCase("9156420321")) {
@@ -392,7 +392,7 @@ public class ValidacaoResultGenerator {
                 } else {
                     v = new ValidacaoResult("Ping", "", Boolean.TRUE, null);
                 }
-                
+
                 break;
             case CONNECTED_DEVICES:
                 GetDeviceDataIn getDeviceIn = new GetDeviceDataIn();
@@ -405,7 +405,7 @@ public class ValidacaoResultGenerator {
                     public List<LanDevice> getLanDevices() {
                         return devices;
                     }
-                    
+
                     public List<InterfaceStatistics> getInterfaceStatistics() {
                         return interfaceStatistics;
                     }
@@ -434,7 +434,7 @@ public class ValidacaoResultGenerator {
                     getDnsIn.setGuid(new Long(exec.getParametro()));
                     v = FactoryAcsService.equipamentoService().getDns(getDnsIn);
                 }
-                
+
                 break;
             case SET_DNS:
                 if (exec.getCustomer().getInstancia().equalsIgnoreCase("1151842070")) {
@@ -457,7 +457,7 @@ public class ValidacaoResultGenerator {
                 }
                 break;
             case FACTORY_RESET_DEVICE:
-                
+
                 if (exec.getCustomer().getInstancia().equalsIgnoreCase("1151842138")) {
                     v = new ValidacaoResult("FactoryReset", "", Boolean.TRUE, null);
                 } else {
@@ -475,7 +475,7 @@ public class ValidacaoResultGenerator {
                                 FactoryAcsService.equipamentoService().factoryReset(factoryIn), null);
                     }
                 }
-                
+
                 break;
             case FIRMWARE_UPDATE:
                 FirmwareUpdateIn firmwareIn = new FirmwareUpdateIn();
@@ -513,9 +513,9 @@ public class ValidacaoResultGenerator {
                 break;
         }
         return v;
-        
+
     }
-    
+
     public static List<ValidacaoResult> fakeGeneration(AcaoEnum a) {
         List<ValidacaoResult> l = new ArrayList<>();
         switch (a) {
@@ -683,7 +683,7 @@ public class ValidacaoResultGenerator {
                 break;
             default:
                 break;
-            
+
         }
         l.add(new ValidacaoResult("", "Falha ao conectar-se com o Jump Access.", Boolean.FALSE, Boolean.FALSE));
         l.add(new ValidacaoResult("", "Inventário de Rede inexistente.", Boolean.FALSE, Boolean.FALSE));
@@ -697,7 +697,7 @@ public class ValidacaoResultGenerator {
                 Boolean.FALSE, Boolean.FALSE));
         return l;
     }
-    
+
     public static ValidacaoResult mockValidation(AcaoValidadora a) {
         ValidacaoResult v = null;
         switch (a.getCustomer().getInstancia()) {
@@ -761,12 +761,12 @@ public class ValidacaoResultGenerator {
                         } else {
                             v = fakeGeneration(a.getAcao()).get(0);
                         }
-                        
+
                     } catch (Exception e) {
                         e.printStackTrace();
                         v = fakeGeneration(a.getAcao()).get(0);
                     }
-                    
+
                 }
                 if (a.getAcao() == AcaoEnum.DNS) {
                     v = fakeGeneration(a.getAcao()).get(1);
@@ -813,14 +813,14 @@ public class ValidacaoResultGenerator {
                         } else {
                             v = fakeGeneration(a.getAcao()).get(0);
                         }
-                        
+
                     } catch (Exception e) {
                         e.printStackTrace();
                         v = fakeGeneration(a.getAcao()).get(0);
                     }
                 }
                 if (a.getAcao() == AcaoEnum.WIFI_CRED) {
-                    
+
                     try {
                         v = checkRecentSets("9156420321", ExecDetailedEnum.SET_WIFI) ? fakeGeneration(a.getAcao()).get(2)
                                 : fakeGeneration(a.getAcao()).get(0);
@@ -873,7 +873,7 @@ public class ValidacaoResultGenerator {
                         } else {
                             v = fakeGeneration(a.getAcao()).get(0);
                         }
-                        
+
                     } catch (Exception e) {
                         e.printStackTrace();
                         v = fakeGeneration(a.getAcao()).get(0);
@@ -927,6 +927,9 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
                     v = fakeGeneration(a.getAcao()).get(2);
                 }
+                if (a.getAcao() == AcaoEnum.TROCA_PACOTES) {
+                    v = fakeGeneration(a.getAcao()).get(2);
+                }
                 if (a.getAcao() == AcaoEnum.DNS) {
                     try {
                         if (checkRecentSets("1135310138", ExecDetailedEnum.SET_DNS)) {
@@ -960,6 +963,9 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
+                if (a.getAcao() == AcaoEnum.TROCA_PACOTES) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
                 break;
             case "1151842070":
                 if (a.getAcao() == AcaoEnum.PROFILE) {
@@ -967,6 +973,9 @@ public class ValidacaoResultGenerator {
                 }
                 if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
                     v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.TROCA_PACOTES) {
+                    v = fakeGeneration(a.getAcao()).get(1);
                 }
                 if (a.getAcao() == AcaoEnum.DNS) {
                     try {
@@ -1007,6 +1016,10 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.WIFI_STATUS) {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
+                if (a.getAcao() == AcaoEnum.TROCA_PACOTES) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+
                 break;
             case "1135300853":
                 if (a.getAcao() == AcaoEnum.PROFILE) {
@@ -1033,7 +1046,7 @@ public class ValidacaoResultGenerator {
                     } catch (Exception ex) {
                         v = fakeGeneration(a.getAcao()).get(0);
                     }
-                    
+
                 }
                 break;
             case "4131521805":
@@ -1057,7 +1070,7 @@ public class ValidacaoResultGenerator {
                         } else {
                             v = fakeGeneration(a.getAcao()).get(0);
                         }
-                        
+
                     } catch (Exception e) {
                         e.printStackTrace();
                         v = fakeGeneration(a.getAcao()).get(0);
@@ -1069,6 +1082,9 @@ public class ValidacaoResultGenerator {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
                 if (a.getAcao() == AcaoEnum.FACTORY_RESET) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.TROCA_PACOTES) {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
                 break;
@@ -1194,6 +1210,11 @@ public class ValidacaoResultGenerator {
             // v = fakeGeneration(a.getAcao()).get(0);
             // }
             // break;
+            case "4130862424":
+                if (a.getAcao() == AcaoEnum.TROCA_PACOTES) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
             default:
                 break;
         }
