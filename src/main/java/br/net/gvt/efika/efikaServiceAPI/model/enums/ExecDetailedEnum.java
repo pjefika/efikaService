@@ -25,5 +25,6 @@ public enum ExecDetailedEnum {
     FIRMWARE_UPDATE,
     GET_FIRMWARE,
     GET_T38,
-    SET_T38;
+    SET_T38,
+    GET_IPTV_DIAG;
 }

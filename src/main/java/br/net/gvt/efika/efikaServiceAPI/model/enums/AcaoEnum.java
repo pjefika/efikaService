@@ -34,7 +34,8 @@ public enum AcaoEnum {
     WIFI_STATUS("Estado da rede Wifi"),
     TROCA_PACOTES("Troca de pacotes"),
     FIRMWARE("Versão de Firmware"),
-    T38("T38");
+    T38("T38"),
+    IPS_IPTV("IP VoD/Multicast");
 
 
     private String value;

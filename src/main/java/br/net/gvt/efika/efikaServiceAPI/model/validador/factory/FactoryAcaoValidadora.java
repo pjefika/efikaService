@@ -115,6 +115,11 @@ public class FactoryAcaoValidadora {
                     s = "http://10.40.196.171/efika_gps/pages/dns/dns.html?instancia=" + acao.getCustomer().getInstancia();
                 }
                 break;
+            case IPS_IPTV:
+                if (acao.getTipo() != AcaoResultEnum.VALIDADO_NOK) {
+                    s = "http://10.40.196.171/efika_gps/pages/ipvod/ipvod.html?instancia=" + acao.getCustomer().getInstancia();
+                }
+                break;
             default:
                 break;
         }
