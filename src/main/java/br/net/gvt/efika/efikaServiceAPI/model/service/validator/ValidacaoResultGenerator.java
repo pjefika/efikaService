@@ -928,7 +928,7 @@ public class ValidacaoResultGenerator {
                     v = fakeGeneration(a.getAcao()).get(2);
                 }
                 if (a.getAcao() == AcaoEnum.TROCA_PACOTES) {
-                    v = fakeGeneration(a.getAcao()).get(1);
+                    v = fakeGeneration(a.getAcao()).get(0);
                 }
                 if (a.getAcao() == AcaoEnum.DNS) {
                     try {
