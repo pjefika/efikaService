@@ -49,9 +49,9 @@ public class TelecomServicesDistributionImplIT {
     @Test
     public void testValidacao() throws Exception {
         System.out.println("validacao");
-        AcaoEnum acao = AcaoEnum.TROCA_PACOTES;
+        AcaoEnum acao = AcaoEnum.ASSOCIACAO_ONT;
         TelecomServicesDistributionImpl instance = new TelecomServicesDistributionImpl();
-        AcaoValidadora result = instance.validacao(new AcaoRequest(acao, "4130825270"));
+        AcaoValidadora result = instance.validacao(new AcaoRequest(acao, "4430376831"));
         System.out.println(new JacksonMapper(AcaoValidadora.class).serialize(result));
     }
 
@@ -62,7 +62,7 @@ public class TelecomServicesDistributionImplIT {
     public void testExecucaoDetalhada() throws Exception {
         System.out.println("execucaoDetalhada");
         
-        ExecDetailedRequest req = new ExecDetailedRequest("4130825270", "25786154", ExecDetailedEnum.CONNECTED_DEVICES, null);
+        ExecDetailedRequest req = new ExecDetailedRequest("4430376831", "TLCM0002B1C0", ExecDetailedEnum.SET_ONT, null);
         TelecomServicesDistributionImpl instance = new TelecomServicesDistributionImpl();
         ExecucaoDetalhada result = instance.execucaoDetalhada(req);
         System.out.println(new JacksonMapper(ExecucaoDetalhada.class).serialize(result));

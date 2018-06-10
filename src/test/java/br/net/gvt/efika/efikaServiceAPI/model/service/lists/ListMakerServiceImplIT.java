@@ -20,22 +20,22 @@ import org.junit.Test;
  * @author G0041775
  */
 public class ListMakerServiceImplIT {
-    
+
     public ListMakerServiceImplIT() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -44,10 +44,10 @@ public class ListMakerServiceImplIT {
      * Test of listarAcoes method, of class ListMakerServiceImpl.
      */
     @Test
-    public void testListarAcoes() throws Exception{
+    public void testListarAcoes() throws Exception {
         System.out.println("listarAcoes");
         ListMakerServiceImpl instance = new ListMakerServiceImpl();
-        
+
         List<AcaoEnum> result = instance.listarAcoes();
         System.out.println(new JacksonMapper(List.class).serialize(result));
     }
@@ -56,12 +56,17 @@ public class ListMakerServiceImplIT {
      * Test of listarValidacoes method, of class ListMakerServiceImpl.
      */
     @Test
-    public void testListarValidacoes() throws Exception{
+    public void testListarValidacoes() throws Exception {
         System.out.println("listarValidacoes");
-        AcaoEnum acao = AcaoEnum.WIFI_CRED;
-        ListMakerServiceImpl instance = new ListMakerServiceImpl();
-        List<AcaoValidadora> result = instance.listarValidacoes(acao);
-        System.out.println(new JacksonMapper(List.class).serialize(result));
+
+        AcaoEnum[] acoes = AcaoEnum.values();
+        for (int i = 0; i < acoes.length; i++) {
+            AcaoEnum acao = acoes[i];
+            ListMakerServiceImpl instance = new ListMakerServiceImpl();
+            List<AcaoValidadora> result = instance.listarValidacoes(acao);
+            System.out.println(new JacksonMapper(List.class).serialize(result));
+        }
+
     }
-    
+
 }

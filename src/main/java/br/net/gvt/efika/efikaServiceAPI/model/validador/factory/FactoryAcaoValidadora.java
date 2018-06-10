@@ -10,6 +10,7 @@ import br.net.gvt.efika.efikaServiceAPI.model.enums.AcaoResultEnum;
 import br.net.gvt.efika.efikaServiceAPI.model.service.validator.ValidacaoResultGenerator;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoValidadora;
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.enums.OrigemPlanta;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -71,7 +72,7 @@ public class FactoryAcaoValidadora {
         String s = null;
         switch (acao.getAcao()) {
             case ASSOCIACAO_ONT:
-                if (!acao.getResultado()) {
+                if (!acao.getResultado() && acao.getCustomer().getRede().getPlanta() == OrigemPlanta.VIVO2) {
                     s = "http://10.40.196.171/efika_gps/pages/associacao_olt/associacao_olt.html?instancia=" + acao.getCustomer().getInstancia();
                 }
                 break;
