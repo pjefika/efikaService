@@ -131,7 +131,7 @@ public class FactoryAcaoValidadora {
         Boolean bool = true;
         switch (acao.getAcao()) {
             case ASSOCIACAO_ONT:
-                bool = acao.getTipo() != AcaoResultEnum.VALIDADO_NOK;
+                bool = acao.getTipo() != AcaoResultEnum.CORRIGIDO_NOK;
                 break;
             case WIFI_CRED:
                 bool = acao.getTipo() == AcaoResultEnum.VALIDADO_NOK;
