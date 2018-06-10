@@ -59,14 +59,17 @@ public class ListMakerServiceImplIT {
     public void testListarValidacoes() throws Exception {
         System.out.println("listarValidacoes");
 
-        AcaoEnum[] acoes = AcaoEnum.values();
-        for (int i = 0; i < acoes.length; i++) {
-            AcaoEnum acao = acoes[i];
-            ListMakerServiceImpl instance = new ListMakerServiceImpl();
-            List<AcaoValidadora> result = instance.listarValidacoes(acao);
-            System.out.println(new JacksonMapper(List.class).serialize(result));
-        }
-
+//        AcaoEnum[] acoes = AcaoEnum.values();
+//        for (int i = 0; i < acoes.length; i++) {
+//            AcaoEnum acao = acoes[i];
+//            ListMakerServiceImpl instance = new ListMakerServiceImpl();
+//            List<AcaoValidadora> result = instance.listarValidacoes(acao);
+//            System.out.println(new JacksonMapper(List.class).serialize(result));
+//        }
+        AcaoEnum acao = AcaoEnum.ASSOCIACAO_ONT;
+        ListMakerServiceImpl instance = new ListMakerServiceImpl();
+        List<AcaoValidadora> result = instance.listarValidacoes(acao);
+        System.out.println(new JacksonMapper(List.class).serialize(result));
     }
 
 }
