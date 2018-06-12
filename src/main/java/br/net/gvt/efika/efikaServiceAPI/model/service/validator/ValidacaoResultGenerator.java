@@ -295,7 +295,6 @@ public class ValidacaoResultGenerator {
                         getT38.setGuid(guid);
                         T38Enabled t38 = FactoryAcsService.equipamentoService().getT38Enabled(getT38);
                         str = bundle.getString("validacaot38Enabled_ok");
-                        resultado = true;
                         if (t38.getEnabled()) {
                             SetT38EnabledIn setT38 = new SetT38EnabledIn();
                             setT38.setExecutor("efikaServiceAPI");
@@ -303,9 +302,11 @@ public class ValidacaoResultGenerator {
                             setT38.setT38(t38);
                             t38 = FactoryAcsService.equipamentoService().setT38Enabled(setT38);
                             corrigido = !t38.getEnabled();
-                            resultado = corrigido;
                             str = !t38.getEnabled() ? bundle.getString("correcaot38Enabled_ok") : bundle.getString("correcaot38Enabled_nok");
+                        } else {
+                            resultado = true;
                         }
+
                     }
                     v = new ValidacaoResult(a.getAcao().toString(), str, resultado, null, corrigido);
                 } else {
@@ -720,7 +721,7 @@ public class ValidacaoResultGenerator {
             case T38:
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_nok"), Boolean.FALSE, null));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaot38Enabled_ok"), Boolean.TRUE, null));
-                l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaot38Enabled_ok"), Boolean.TRUE, Boolean.TRUE));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaot38Enabled_ok"), Boolean.FALSE, Boolean.TRUE));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaot38Enabled_nok"), Boolean.FALSE, Boolean.FALSE));
                 l.add(new ValidacaoResult("", "Funcionalidade indisponível para este modelo de DSLAM.", Boolean.FALSE, Boolean.FALSE));
                 return l;
