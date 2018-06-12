@@ -6,11 +6,13 @@
 package br.net.gvt.efika.efikaServiceAPI.model.service.validator;
 
 import br.net.gvt.efika.acs.model.device.dns.Dns;
+import br.net.gvt.efika.acs.model.device.firmware.FirmwareInfo;
 import br.net.gvt.efika.acs.model.device.interfacestatistics.InterfaceStatistics;
 import br.net.gvt.efika.acs.model.device.lanhost.LanDevice;
 import br.net.gvt.efika.acs.model.device.wan.WanInfo;
 import br.net.gvt.efika.acs.model.device.wifi.WifiNets;
 import br.net.gvt.efika.acs.model.dto.DetailIn;
+import br.net.gvt.efika.acs.model.dto.FirmwareOut;
 import br.net.gvt.efika.acs.model.dto.FirmwareUpdateIn;
 import br.net.gvt.efika.acs.model.dto.ForceOnlineDevicesIn;
 import br.net.gvt.efika.acs.model.dto.GetDeviceDataIn;
@@ -268,15 +270,46 @@ public class ValidacaoResultGenerator {
                 }
                 break;
             case T38:
-                if (!checkRecentSets(a.getCustomer().getInstancia(), ExecDetailedEnum.SET_T38)) {
+                if (a.getCustomer().getRede().getTipo() != TipoRede.METALICA) {
                     l = FactoryAcsService.searchService().search(reqAcs);
+                    List<NbiDeviceData> l2 = mapper.convertValue(l, new TypeReference<List<NbiDeviceData>>() {
+                    });
                     reqAcs1.setDevices(l);
-                    isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1);
-                    str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
-                    v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
+                    str = bundle.getString("onlineAcs_nok");
+                    Boolean corrigido = null;
+                    Boolean resultado = false;
+                    if (FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1)) {
+                        NbiDeviceData device = null;
+                        for (NbiDeviceData d : l2) {
+                            GetPhoneNumberIn getPhoneIn = new GetPhoneNumberIn();
+                            getPhoneIn.setGuid(d.getDeviceGUID());
+                            getPhoneIn.setExecutor("efikaServiceAPI");
+                            if (FactoryAcsService.equipamentoService().getPhoneNumber(getPhoneIn).getPhoneNumber()
+                                    .contains(a.getCustomer().getInstancia())) {
+                                device = d;
+                            }
+                        }
+                        Long guid = device == null ? l2.get(0).getDeviceGUID() : device.getDeviceGUID();
+                        GetT38EnabledIn getT38 = new GetT38EnabledIn();
+                        getT38.setExecutor("efikaServiceAPI");
+                        getT38.setGuid(guid);
+                        T38Enabled t38 = FactoryAcsService.equipamentoService().getT38Enabled(getT38);
+                        str = bundle.getString("validacaot38Enabled_ok");
+                        resultado = true;
+                        if (t38.getEnabled()) {
+                            SetT38EnabledIn setT38 = new SetT38EnabledIn();
+                            setT38.setExecutor("efikaServiceAPI");
+                            t38.setEnabled(Boolean.FALSE);
+                            setT38.setT38(t38);
+                            t38 = FactoryAcsService.equipamentoService().setT38Enabled(setT38);
+                            corrigido = !t38.getEnabled();
+                            resultado = corrigido;
+                            str = !t38.getEnabled() ? bundle.getString("correcaot38Enabled_ok") : bundle.getString("correcaot38Enabled_nok");
+                        }
+                    }
+                    v = new ValidacaoResult(a.getAcao().toString(), str, resultado, null, corrigido);
                 } else {
-                    v = new ValidacaoResult(a.getAcao().toString(), "Foi realizado Alteração de T38Enabled recentemente.",
-                            Boolean.TRUE, null);
+                    v = new ValidacaoResult("", "Funcionalidade indisponível para este modelo de DSLAM.", Boolean.FALSE, Boolean.FALSE);
                 }
                 break;
             case TROCA_PACOTES:
@@ -478,6 +511,11 @@ public class ValidacaoResultGenerator {
 
                 break;
             case FIRMWARE_UPDATE:
+                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1156421670")) {
+                    v = new ValidacaoResult("Firmware Update", "",
+                            true, null);
+                    break;
+                }
                 FirmwareUpdateIn firmwareIn = new FirmwareUpdateIn();
                 firmwareIn.setExecutor("efikaServiceAPI");
                 firmwareIn.setGuid(new Long(exec.getParametro()));
@@ -485,6 +523,14 @@ public class ValidacaoResultGenerator {
                         FactoryAcsService.equipamentoService().firmwareUpdate(firmwareIn), null);
                 break;
             case GET_FIRMWARE:
+                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1156421670")) {
+                    v = new FirmwareOut(new FirmwareInfo("1.2.3", "1.2.4-preferred"));
+                    break;
+                }
+                if (exec.getCustomer().getInstancia().equalsIgnoreCase("4131492882")) {
+                    v = new FirmwareOut(new FirmwareInfo("1.2.3", "1.2.3-preferred"));
+                    break;
+                }
                 DetailIn detailIn = new DetailIn();
                 detailIn.setExecutor("efikaServiceAPI");
                 detailIn.setGuid(new Long(exec.getParametro()));
@@ -672,10 +718,11 @@ public class ValidacaoResultGenerator {
                         Boolean.FALSE));
                 return l;
             case T38:
-                l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_nok"), Boolean.FALSE, null));
-                l.add(new ValidacaoResult(a.toString(), "Foi realizado Alteração de T38Enabled recentemente.", Boolean.TRUE,
-                        null));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaot38Enabled_ok"), Boolean.TRUE, null));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaot38Enabled_ok"), Boolean.TRUE, Boolean.TRUE));
+                l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaot38Enabled_nok"), Boolean.FALSE, Boolean.FALSE));
+                l.add(new ValidacaoResult("", "Funcionalidade indisponível para este modelo de DSLAM.", Boolean.FALSE, Boolean.FALSE));
                 return l;
             case TROCA_PACOTES:
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("trafegoPct_ok"), Boolean.TRUE, null));
@@ -710,6 +757,9 @@ public class ValidacaoResultGenerator {
                 }
                 if (a.getAcao() == AcaoEnum.PARAMETROS) {
                     v = fakeGeneration(a.getAcao()).get(1);
+                }
+                if (a.getAcao() == AcaoEnum.T38) {
+                    v = fakeGeneration(a.getAcao()).get(4);
                 }
                 break;
             case "1135300239":
@@ -899,6 +949,26 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.WIFI_CHANNEL) {
                     v = fakeGeneration(a.getAcao()).get(1);
                 }
+                if (a.getAcao() == AcaoEnum.FIRMWARE) {
+                    try {
+                        if (checkRecentSets("1156421670", ExecDetailedEnum.FIRMWARE_UPDATE)) {
+                            ValidacaoResult vr = (ValidacaoResult) getRecentSets("1156421670",
+                                    ExecDetailedEnum.FIRMWARE_UPDATE).getValid();
+                            Boolean deucertoreset = vr.getResultado();
+                            if (!deucertoreset) {
+                                v = fakeGeneration(a.getAcao()).get(3);
+                            } else {
+                                v = fakeGeneration(a.getAcao()).get(2);
+                            }
+                        } else {
+                            v = fakeGeneration(a.getAcao()).get(0);
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        v = fakeGeneration(a.getAcao()).get(0);
+                    }
+                }
                 break;
             case "1135302098":
                 if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
@@ -941,6 +1011,9 @@ public class ValidacaoResultGenerator {
                         v = fakeGeneration(a.getAcao()).get(0);
                     }
                 }
+                if (a.getAcao() == AcaoEnum.T38) {
+                    v = fakeGeneration(a.getAcao()).get(2);
+                }
                 break;
             case "1156421252":
                 if (a.getAcao() == AcaoEnum.PROFILE) {
@@ -965,6 +1038,9 @@ public class ValidacaoResultGenerator {
                 }
                 if (a.getAcao() == AcaoEnum.TROCA_PACOTES) {
                     v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.T38) {
+                    v = fakeGeneration(a.getAcao()).get(4);
                 }
                 break;
             case "1151842070":
@@ -1019,6 +1095,9 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.TROCA_PACOTES) {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
+                if (a.getAcao() == AcaoEnum.T38) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
 
                 break;
             case "1135300853":
@@ -1047,6 +1126,9 @@ public class ValidacaoResultGenerator {
                         v = fakeGeneration(a.getAcao()).get(0);
                     }
 
+                }
+                if (a.getAcao() == AcaoEnum.T38) {
+                    v = fakeGeneration(a.getAcao()).get(1);
                 }
                 break;
             case "4131521805":
@@ -1086,6 +1168,9 @@ public class ValidacaoResultGenerator {
                 }
                 if (a.getAcao() == AcaoEnum.TROCA_PACOTES) {
                     v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.T38) {
+                    v = fakeGeneration(a.getAcao()).get(2);
                 }
                 break;
             case "1136891024":
@@ -1130,6 +1215,9 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.REBOOT) {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
+                if (a.getAcao() == AcaoEnum.FIRMWARE) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
                 break;
             case "1156850068":
                 if (a.getAcao() == AcaoEnum.PARAMETROS) {
@@ -1155,6 +1243,9 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.PARAMETROS) {
                     v = fakeGeneration(a.getAcao()).get(1);
                 }
+                if (a.getAcao() == AcaoEnum.T38) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
                 break;
             case "4132650103":
                 if (a.getAcao() == AcaoEnum.PARAMETROS) {
@@ -1170,6 +1261,9 @@ public class ValidacaoResultGenerator {
                 }
                 if (a.getAcao() == AcaoEnum.PING) {
                     v = fakeGeneration(a.getAcao()).get(1);
+                }
+                if (a.getAcao() == AcaoEnum.FIRMWARE) {
+                    v = fakeGeneration(a.getAcao()).get(0);
                 }
                 break;
             case "4130176173":
@@ -1204,6 +1298,9 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.FACTORY_RESET) {
                     v = fakeGeneration(a.getAcao()).get(1);
                 }
+                if (a.getAcao() == AcaoEnum.CHECK_GERENCIA) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
                 break;
             // case "1135302119":
             // if (a.getAcao() == AcaoEnum.DNS) {
@@ -1212,6 +1309,9 @@ public class ValidacaoResultGenerator {
             // break;
             case "4130862424":
                 if (a.getAcao() == AcaoEnum.TROCA_PACOTES) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
+                if (a.getAcao() == AcaoEnum.T38) {
                     v = fakeGeneration(a.getAcao()).get(1);
                 }
                 break;
