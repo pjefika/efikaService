@@ -27,6 +27,9 @@ public class CustomerFinderImpl implements CustomerFinder {
     public EfikaCustomer getCustomerFromHist(String instancia, Date dataLimite) throws Exception {
 
         if (CustomerMock.mockIT().contains(instancia)) {
+            if (instancia.equalsIgnoreCase("1148681918")) {
+                return getCustomer(new GenericRequest(instancia, "efikaServiceAPI"));
+            }
             return CustomerMock.mockIt(instancia);
         }
 

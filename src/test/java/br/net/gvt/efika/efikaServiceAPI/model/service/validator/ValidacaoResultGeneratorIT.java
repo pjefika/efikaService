@@ -77,9 +77,10 @@ public class ValidacaoResultGeneratorIT {
     @Test
     public void testGenerate_ExecucaoDetalhada() throws Exception {
         System.out.println("generate");
-        ExecucaoDetalhada exec = new ExecucaoDetalhada(ExecDetailedEnum.GET_FIRMWARE);
+        ExecucaoDetalhada exec = new ExecucaoDetalhada(ExecDetailedEnum.SET_WIFI);
         exec.setCustomer(ValidacaoResultGenerator.getCust("4130157784"));
-        exec.setParametro("26737329");
+        exec.setParametro("28265797");
+        
         Object result = ValidacaoResultGenerator.generate(exec);
         System.out.println(new JacksonMapper<>(Object.class).serialize(result));
     }

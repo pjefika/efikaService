@@ -10,6 +10,7 @@ import br.net.gvt.efika.acs.model.device.firmware.FirmwareInfo;
 import br.net.gvt.efika.acs.model.device.interfacestatistics.InterfaceStatistics;
 import br.net.gvt.efika.acs.model.device.lanhost.LanDevice;
 import br.net.gvt.efika.acs.model.device.wan.WanInfo;
+import br.net.gvt.efika.acs.model.device.wifi.WifiInfoFull;
 import br.net.gvt.efika.acs.model.device.wifi.WifiNets;
 import br.net.gvt.efika.acs.model.dto.DetailIn;
 import br.net.gvt.efika.acs.model.dto.FirmwareOut;
@@ -399,6 +400,9 @@ public class ValidacaoResultGenerator {
                 } else {
                     SetWifiIn setWifi = new SetWifiIn();
                     setWifi.setGuid(new Long(exec.getParametro()));
+                    List<WifiInfoFull> lewifi = mapper.convertValue(exec.getSetter(), new TypeReference<List<WifiInfoFull>>() {
+                    });
+                    setWifi.setWifi(new WifiNets(lewifi));
                     setWifi.setExecutor("efikaServiceAPI");
                     v = FactoryAcsService.equipamentoService().setWifiInfo(setWifi);
                 }
