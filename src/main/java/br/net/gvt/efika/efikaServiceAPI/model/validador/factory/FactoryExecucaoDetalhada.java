@@ -21,7 +21,7 @@ public class FactoryExecucaoDetalhada {
         exec.setDataInicio(Calendar.getInstance().getTime());
         exec.setParametro(req.getParametro());
         exec.setSetter(req.getSetter());
-        exec.setCustomer(ValidacaoResultGenerator.getCust(req.getInstancia()));
+        exec.setCustomer(new ValidacaoResultGenerator().getCust(req.getInstancia()));
 
         return exec;
     }

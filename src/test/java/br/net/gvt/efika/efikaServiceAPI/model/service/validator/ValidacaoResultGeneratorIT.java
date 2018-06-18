@@ -53,8 +53,8 @@ public class ValidacaoResultGeneratorIT {
         System.out.println("getCust");
         String instancia = "";
         EfikaCustomer expResult = null;
-        EfikaCustomer result = ValidacaoResultGenerator.getCust(instancia);
-        assertEquals(expResult, result);
+//        EfikaCustomer result = ValidacaoResultGenerator.getCust(instancia);
+//        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -66,9 +66,9 @@ public class ValidacaoResultGeneratorIT {
     public void testGenerate_AcaoValidadora() throws Exception {
         System.out.println("generate");
         AcaoValidadora a = new AcaoValidadora(AcaoEnum.TROCA_PACOTES);
-        a.setCustomer(ValidacaoResultGenerator.getCust("4130825270"));
-        ValidacaoResult result = ValidacaoResultGenerator.generate(a);
-        System.out.println(new JacksonMapper<>(ValidacaoResult.class).serialize(result));
+//        a.setCustomer(ValidacaoResultGenerator.getCust("4130825270"));
+//        ValidacaoResult result = ValidacaoResultGenerator.generate(a);
+//        System.out.println(new JacksonMapper<>(ValidacaoResult.class).serialize(result));
     }
 
     /**
@@ -78,11 +78,11 @@ public class ValidacaoResultGeneratorIT {
     public void testGenerate_ExecucaoDetalhada() throws Exception {
         System.out.println("generate");
         ExecucaoDetalhada exec = new ExecucaoDetalhada(ExecDetailedEnum.SET_WIFI);
-        exec.setCustomer(ValidacaoResultGenerator.getCust("4130157784"));
+//        exec.setCustomer(ValidacaoResultGenerator.getCust("4130157784"));
         exec.setParametro("28265797");
         
-        Object result = ValidacaoResultGenerator.generate(exec);
-        System.out.println(new JacksonMapper<>(Object.class).serialize(result));
+//        Object result = ValidacaoResultGenerator.generate(exec);
+//        System.out.println(new JacksonMapper<>(Object.class).serialize(result));
     }
 
     /**
@@ -93,8 +93,8 @@ public class ValidacaoResultGeneratorIT {
         System.out.println("fakeGeneration");
         AcaoEnum a = null;
         List<ValidacaoResult> expResult = null;
-        List<ValidacaoResult> result = ValidacaoResultGenerator.fakeGeneration(a);
-        assertEquals(expResult, result);
+//        List<ValidacaoResult> result = ValidacaoResultGenerator.fakeGeneration(a);
+//        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -107,8 +107,8 @@ public class ValidacaoResultGeneratorIT {
         System.out.println("mockValidation");
         AcaoValidadora a = null;
         ValidacaoResult expResult = null;
-        ValidacaoResult result = ValidacaoResultGenerator.mockValidation(a);
-        assertEquals(expResult, result);
+//        ValidacaoResult result = ValidacaoResultGenerator.mockValidation(a);
+//        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

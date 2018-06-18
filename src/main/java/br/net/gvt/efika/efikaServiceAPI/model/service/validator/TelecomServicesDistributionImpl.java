@@ -20,11 +20,11 @@ public class TelecomServicesDistributionImpl implements TelecomServicesDistribut
     @Override
     public AcaoValidadora validacao(AcaoRequest acao) throws Exception {
         AcaoValidadora av = FactoryAcaoValidadora.create(acao.getAcao());
-        av.setCustomer(ValidacaoResultGenerator.getCust(acao.getInstancia()));
+        av.setCustomer(new ValidacaoResultGenerator().getCust(acao.getInstancia()));
         AcaoResultEnum r;
         ValidacaoResult valid = null;
         try {
-            valid = ValidacaoResultGenerator.generate(av);
+            valid = new ValidacaoResultGenerator().generate(av);
         } catch (Exception e) {
             e.printStackTrace();
             valid = new ValidacaoResult("", e.getMessage(), Boolean.FALSE, Boolean.FALSE);
@@ -57,7 +57,7 @@ public class TelecomServicesDistributionImpl implements TelecomServicesDistribut
     @Override
     public ExecucaoDetalhada execucaoDetalhada(ExecDetailedRequest req) throws Exception {
         ExecucaoDetalhada exec = FactoryExecucaoDetalhada.create(req);
-        exec.setValid(ValidacaoResultGenerator.generate(exec));
+        exec.setValid(new ValidacaoResultGenerator().generate(exec));
         exec.setDataFim(Calendar.getInstance().getTime());
         return exec;
     }

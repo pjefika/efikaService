@@ -31,9 +31,7 @@ import br.net.gvt.efika.efikaServiceAPI.dao.acao_validadora.AcaoValidadoraDAO;
 import br.net.gvt.efika.efikaServiceAPI.dao.execucao_detalhada.ExecucaoDetalhadaDAO;
 import br.net.gvt.efika.efikaServiceAPI.dao.factory.FactoryDAO;
 import br.net.gvt.efika.efikaServiceAPI.model.enums.AcaoEnum;
-import static br.net.gvt.efika.efikaServiceAPI.model.enums.AcaoEnum.ASSOCIACAO_ONT;
 import br.net.gvt.efika.efikaServiceAPI.model.enums.ExecDetailedEnum;
-import static br.net.gvt.efika.efikaServiceAPI.model.enums.ExecDetailedEnum.GET_ONTS;
 import br.net.gvt.efika.efikaServiceAPI.model.service.factory.FactoryService;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoValidadora;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.ExecucaoDetalhada;
@@ -69,40 +67,40 @@ import java.util.logging.Logger;
  */
 public class ValidacaoResultGenerator {
 
-    protected static ResourceBundle bundle = ResourceBundle.getBundle("messages", new Locale("co", "CO"));
+    protected ResourceBundle bundle = ResourceBundle.getBundle("messages", new Locale("co", "CO"));
 
-    private static AcaoValidadoraDAO acaoDao = FactoryDAO.acaoDao();
+    private AcaoValidadoraDAO acaoDao = FactoryDAO.acaoDao();
 
-    private static ExecucaoDetalhadaDAO execDao = FactoryDAO.execDao();
+    private ExecucaoDetalhadaDAO execDao = FactoryDAO.execDao();
 
-    private static ObjectMapper mapper = new ObjectMapper().configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES,
+    private ObjectMapper mapper = new ObjectMapper().configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES,
             true);
 
     public ValidacaoResultGenerator() {
     }
 
-    public static EfikaCustomer getCust(String instancia) throws Exception {
+    public EfikaCustomer getCust(String instancia) throws Exception {
         Calendar now = Calendar.getInstance();
         now.add(Calendar.MINUTE, -15);
         Date dataLimite = now.getTime();
         return FactoryService.customerFinder().getCustomerFromHist(instancia, dataLimite);
     }
 
-    public static Boolean checkRecentSets(String instancia, ExecDetailedEnum exec) throws Exception {
+    public Boolean checkRecentSets(String instancia, ExecDetailedEnum exec) throws Exception {
         Calendar now = Calendar.getInstance();
         now.add(Calendar.MINUTE, -15);
         Date dataLimite = now.getTime();
         return execDao.findRecentExec(instancia, exec, dataLimite) != null;
     }
 
-    public static ExecucaoDetalhada getRecentSets(String instancia, ExecDetailedEnum exec) throws Exception {
+    public ExecucaoDetalhada getRecentSets(String instancia, ExecDetailedEnum exec) throws Exception {
         Calendar now = Calendar.getInstance();
         now.add(Calendar.MINUTE, -15);
         Date dataLimite = now.getTime();
         return execDao.findRecentExec(instancia, exec, dataLimite);
     }
 
-    public static ValidacaoResult generate(AcaoValidadora a) throws Exception {
+    public ValidacaoResult generate(AcaoValidadora a) throws Exception {
         ValidacaoResult v = null;
         SearchIn reqAcs = new SearchIn(SearchCriteria.SUBSCRIBER, a.getCustomer().getDesignador());
         reqAcs.setExecutor("efikaServiceAPI");
@@ -120,6 +118,9 @@ public class ValidacaoResultGenerator {
                         .getOntFromOlt(new FulltestRequest(a.getCustomer(), "efikaServiceAPI"));
                 break;
             case CHECK_GERENCIA:
+                if (a.getCustomer().getInstancia().equalsIgnoreCase("10.141.23.137")) {
+                    return fakeGeneration(a.getAcao()).get(0);
+                }
                 v = new ValidacaoResult(a.getAcao().toString(), "Gerência disponível", FactoryFulltestService
                         .newConfigPortaService().isManageable(new FulltestRequest(a.getCustomer(), "efikaServiceAPI")),
                         null);
@@ -369,7 +370,7 @@ public class ValidacaoResultGenerator {
         return v;
     }
 
-    public static Object generate(ExecucaoDetalhada exec) throws Exception {
+    public Object generate(ExecucaoDetalhada exec) throws Exception {
         Object v = null;
 
         switch (exec.getNome()) {
@@ -567,7 +568,7 @@ public class ValidacaoResultGenerator {
 
     }
 
-    public static List<ValidacaoResult> fakeGeneration(AcaoEnum a) {
+    public List<ValidacaoResult> fakeGeneration(AcaoEnum a) {
         List<ValidacaoResult> l = new ArrayList<>();
         switch (a) {
             case ASSOCIACAO_ONT:
@@ -750,7 +751,7 @@ public class ValidacaoResultGenerator {
         return l;
     }
 
-    public static ValidacaoResult mockValidation(AcaoValidadora a) {
+    public ValidacaoResult mockValidation(AcaoValidadora a) {
         ValidacaoResult v = null;
         switch (a.getCustomer().getInstancia()) {
             case "1151834829":
