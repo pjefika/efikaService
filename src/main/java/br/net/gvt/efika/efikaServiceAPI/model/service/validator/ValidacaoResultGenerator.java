@@ -20,6 +20,7 @@ import br.net.gvt.efika.acs.model.dto.GetDeviceDataIn;
 import br.net.gvt.efika.acs.model.dto.GetIptvDiagnosticsIn;
 import br.net.gvt.efika.acs.model.dto.GetPhoneNumberIn;
 import br.net.gvt.efika.acs.model.dto.GetT38EnabledIn;
+import br.net.gvt.efika.acs.model.dto.IptvDiagnostics;
 import br.net.gvt.efika.acs.model.dto.SetDnsIn;
 import br.net.gvt.efika.acs.model.dto.SetT38EnabledIn;
 import br.net.gvt.efika.acs.model.dto.SetWifiIn;
@@ -556,6 +557,25 @@ public class ValidacaoResultGenerator {
                 v = FactoryAcsService.equipamentoService().setT38Enabled(setT38In);
                 break;
             case GET_IPTV_DIAG:
+                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1135310155")
+                        || exec.getCustomer().getInstancia().equalsIgnoreCase("1151842073")) {
+                    IptvDiagnostics iptvDiag = new IptvDiagnostics();
+                    iptvDiag.setIpMulticast("10.0.0.1");
+                    iptvDiag.setIpVod("10.0.0.1");
+                    v = iptvDiag;
+                    break;
+                }
+                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1148678349")) {
+                    IptvDiagnostics iptvDiag = new IptvDiagnostics();
+                    if (exec.getParametro().equalsIgnoreCase("321")) {
+                        iptvDiag.setIpMulticast("10.0.0.1");
+                        iptvDiag.setIpVod("10.0.0.1");
+                    } else {
+                        iptvDiag.setIpMulticast("");
+                    }
+                    v = iptvDiag;
+                    break;
+                }
                 GetIptvDiagnosticsIn getIptvIn = new GetIptvDiagnosticsIn();
                 getIptvIn.setExecutor("efikaServiceAPI");
                 getIptvIn.setGuid(new Long(exec.getParametro()));

@@ -73,57 +73,57 @@ public class FactoryAcaoValidadora {
         switch (acao.getAcao()) {
             case ASSOCIACAO_ONT:
                 if (acao.getTipo() == AcaoResultEnum.CORRIGIDO_NOK && acao.getCustomer().getRede().getPlanta() != OrigemPlanta.VIVO1) {
-                    s = "http://10.129.166.137/efika_gps/pages/associacao_olt/associacao_olt.html?instancia=" + acao.getCustomer().getInstancia();
+                    s = "http://10.40.196.171/efika_gps/pages/associacao_olt/associacao_olt.php";
                 }
                 break;
             case WIFI_CRED:
                 if (acao.getTipo() != AcaoResultEnum.VALIDADO_NOK) {
-                    s = "http://10.129.166.137/efika_gps/pages/wificonf/wificonf.html?instancia=" + acao.getCustomer().getInstancia();
+                    s = "http://10.40.196.171/efika_gps/pages/wificonf/wificonf.php";
                 }
                 break;
             case REBOOT:
                 if (acao.getTipo() != AcaoResultEnum.VALIDADO_NOK) {
-                    s = "http://10.129.166.137/efika_gps/pages/reboot/reboot.html?instancia=" + acao.getCustomer().getInstancia();
+                    s = "http://10.40.196.171/efika_gps/pages/reboot/reboot.php";
                 }
                 break;
             case FACTORY_RESET:
                 if (acao.getTipo() != AcaoResultEnum.VALIDADO_NOK) {
-                    s = "http://10.129.166.137/efika_gps/pages/factoryreset/factoryreset.html?instancia=" + acao.getCustomer().getInstancia();
+                    s = "http://10.40.196.171/efika_gps/pages/factoryreset/factoryreset.php";
                 }
                 break;
             case PING:
                 if (acao.getTipo() != AcaoResultEnum.VALIDADO_NOK) {
-                    s = "http://10.129.166.137/efika_gps/pages/test_ping/test_ping.html?instancia=" + acao.getCustomer().getInstancia();
+                    s = "http://10.40.196.171/efika_gps/pages/test_ping/test_ping.php";
                 }
                 break;
             case LAN_DEVICES:
                 if (acao.getTipo() != AcaoResultEnum.VALIDADO_NOK) {
-                    s = "http://10.129.166.137/efika_gps/pages/dispcon/dispcon.html?instancia=" + acao.getCustomer().getInstancia();
+                    s = "http://10.40.196.171/efika_gps/pages/dispcon/dispcon.php";
                 }
                 break;
             case WIFI_CHANNEL:
                 if (acao.getTipo() != AcaoResultEnum.VALIDADO_NOK) {
-                    s = "http://10.129.166.137/efika_gps/pages/wificonf/wificonf.html?instancia=" + acao.getCustomer().getInstancia();
+                    s = "http://10.40.196.171/efika_gps/pages/wificonf/wificonf.php";
                 }
                 break;
             case WIFI_STATUS:
                 if (acao.getTipo() != AcaoResultEnum.VALIDADO_NOK) {
-                    s = "http://10.129.166.137/efika_gps/pages/wificonf/wifiactive.html?instancia=" + acao.getCustomer().getInstancia();
+                    s = "http://10.40.196.171/efika_gps/pages/wificonf/wifiactive.php";
                 }
                 break;
             case DNS:
                 if (acao.getTipo() != AcaoResultEnum.VALIDADO_NOK) {
-                    s = "http://10.129.166.137/efika_gps/pages/dns/dns.html?instancia=" + acao.getCustomer().getInstancia();
+                    s = "http://10.40.196.171/efika_gps/pages/dns/dns.php";
                 }
                 break;
             case IPS_IPTV:
                 if (acao.getTipo() != AcaoResultEnum.VALIDADO_NOK) {
-                    s = "http://10.129.166.137/efika_gps/pages/ipvod/ipvod.html?instancia=" + acao.getCustomer().getInstancia();
+                    s = "http://10.40.196.171/efika_gps/pages/ipvod/ipvod.php";
                 }
                 break;
             case FIRMWARE:
                 if (acao.getTipo() != AcaoResultEnum.VALIDADO_NOK) {
-                    s = "http://10.129.166.137/efika_gps/pages/firmwareupdate/firmwareupdate.html?instancia=" + acao.getCustomer().getInstancia();
+                    s = "http://10.40.196.171/efika_gps/pages/firmwareupdate/firmwareupdate.php";
                 }
                 break;
             default:
