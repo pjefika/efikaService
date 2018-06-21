@@ -576,6 +576,9 @@ public class ValidacaoResultGenerator {
                     v = iptvDiag;
                     break;
                 }
+                if(exec.getCustomer().getInstancia().equalsIgnoreCase("1156422076")){
+                    v = new IptvDiagnostics();
+                }
                 GetIptvDiagnosticsIn getIptvIn = new GetIptvDiagnosticsIn();
                 getIptvIn.setExecutor("efikaServiceAPI");
                 getIptvIn.setGuid(new Long(exec.getParametro()));
