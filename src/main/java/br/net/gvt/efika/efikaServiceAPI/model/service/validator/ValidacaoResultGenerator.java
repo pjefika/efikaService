@@ -856,6 +856,9 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.WIFI_CHANNEL) {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
+                if (a.getAcao() == AcaoEnum.IPS_IPTV) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
                 break;
             case "1136891110":
                 if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
@@ -1136,6 +1139,9 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
                     v = fakeGeneration(a.getAcao()).get(1);
                 }
+                if (a.getAcao() == AcaoEnum.IPS_IPTV){
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
                 break;
             case "1136891105":
                 if (a.getAcao() == AcaoEnum.PROFILE) {
@@ -1217,6 +1223,9 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.REBOOT) {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
+                if (a.getAcao() == AcaoEnum.IPS_IPTV) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
                 break;
             case "1151837555":
                 if (a.getAcao() == AcaoEnum.VLAN_VOIP) {
@@ -1255,6 +1264,9 @@ public class ValidacaoResultGenerator {
                 break;
             case "1151842073":
                 if (a.getAcao() == AcaoEnum.PARAMETROS) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.IPS_IPTV) {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
                 break;
@@ -1316,6 +1328,9 @@ public class ValidacaoResultGenerator {
                     v = fakeGeneration(a.getAcao()).get(3);
                 }
                 if (a.getAcao() == AcaoEnum.LAN_DEVICES) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.IPS_IPTV) {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
                 break;
