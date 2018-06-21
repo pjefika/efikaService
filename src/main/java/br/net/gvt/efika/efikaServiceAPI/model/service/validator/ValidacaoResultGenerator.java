@@ -561,7 +561,7 @@ public class ValidacaoResultGenerator {
                         || exec.getCustomer().getInstancia().equalsIgnoreCase("1151842073")) {
                     IptvDiagnostics iptvDiag = new IptvDiagnostics();
                     iptvDiag.setIpMulticast("10.0.0.1");
-                    iptvDiag.setIpVod("10.0.0.1");
+                    iptvDiag.setIpVod("10.0.1.2");
                     v = iptvDiag;
                     break;
                 }
