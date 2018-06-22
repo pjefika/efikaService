@@ -438,9 +438,9 @@ public class ValidacaoResultGenerator {
                 GetDeviceDataIn getDeviceIn = new GetDeviceDataIn();
                 getDeviceIn.setGuid(new Long(exec.getParametro()));
                 getDeviceIn.setExecutor("efikaServiceAPI");
-                List<LanDevice> devices = FactoryAcsService.equipamentoService().getLanHosts(getDeviceIn);
                 List<InterfaceStatistics> interfaceStatistics = FactoryAcsService.equipamentoService()
                         .getInterfaceStatistics(getDeviceIn);
+                List<LanDevice> devices = FactoryAcsService.equipamentoService().getLanHosts(getDeviceIn);
                 v = new Object() {
                     public List<LanDevice> getLanDevices() {
                         return devices;
