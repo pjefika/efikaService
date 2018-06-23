@@ -438,18 +438,19 @@ public class ValidacaoResultGenerator {
                 GetDeviceDataIn getDeviceIn = new GetDeviceDataIn();
                 getDeviceIn.setGuid(new Long(exec.getParametro()));
                 getDeviceIn.setExecutor("efikaServiceAPI");
-                List<InterfaceStatistics> interfaceStatistics = FactoryAcsService.equipamentoService()
-                        .getInterfaceStatistics(getDeviceIn);
-                List<LanDevice> devices = FactoryAcsService.equipamentoService().getLanHosts(getDeviceIn);
-                v = new Object() {
-                    public List<LanDevice> getLanDevices() {
-                        return devices;
-                    }
-
-                    public List<InterfaceStatistics> getInterfaceStatistics() {
-                        return interfaceStatistics;
-                    }
-                };
+                List<LanDevice> devices = mapper.convertValue(FactoryAcsService.equipamentoService().getLanHosts(getDeviceIn),
+                        new TypeReference<List<LanDevice>>() {
+                });
+                v = devices;
+                break;
+            case INTERFACE_STATISTICS:
+                GetDeviceDataIn getInterfaceStatisticsIn = new GetDeviceDataIn();
+                getInterfaceStatisticsIn.setGuid(new Long(exec.getParametro()));
+                getInterfaceStatisticsIn.setExecutor("efikaServiceAPI");
+                List<InterfaceStatistics> interfaceStatistics = mapper.convertValue(FactoryAcsService.equipamentoService()
+                        .getInterfaceStatistics(getInterfaceStatisticsIn), new TypeReference<List<InterfaceStatistics>>() {
+                });
+                v = interfaceStatistics;
                 break;
             case ACTIVATE_WIFI:
                 GetDeviceDataIn activateWifiIn = new GetDeviceDataIn();
@@ -576,7 +577,7 @@ public class ValidacaoResultGenerator {
                     v = iptvDiag;
                     break;
                 }
-                if(exec.getCustomer().getInstancia().equalsIgnoreCase("1156422076")){
+                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1156422076")) {
                     v = new IptvDiagnostics();
                 }
                 GetIptvDiagnosticsIn getIptvIn = new GetIptvDiagnosticsIn();
@@ -1139,7 +1140,7 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
                     v = fakeGeneration(a.getAcao()).get(1);
                 }
-                if (a.getAcao() == AcaoEnum.IPS_IPTV){
+                if (a.getAcao() == AcaoEnum.IPS_IPTV) {
                     v = fakeGeneration(a.getAcao()).get(1);
                 }
                 break;

@@ -19,6 +19,7 @@ public enum ExecDetailedEnum {
     REBOOT_DEVICE,
     PING,
     CONNECTED_DEVICES,
+    INTERFACE_STATISTICS,
     GET_DNS,
     SET_DNS,
     FACTORY_RESET_DEVICE,

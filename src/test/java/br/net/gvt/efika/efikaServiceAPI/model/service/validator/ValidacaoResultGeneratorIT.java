@@ -82,6 +82,7 @@ public class ValidacaoResultGeneratorIT {
         exec.setParametro("26113822");
         
         Object result = new ValidacaoResultGenerator().generate(exec);
+        System.out.println("LERESULT");
         System.out.println(new JacksonMapper<>(Object.class).serialize(result));
     }
 
