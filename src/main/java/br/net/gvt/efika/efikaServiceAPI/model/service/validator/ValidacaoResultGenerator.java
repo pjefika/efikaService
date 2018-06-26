@@ -223,11 +223,20 @@ public class ValidacaoResultGenerator {
                 v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
                 break;
             case IPS_IPTV:
-                l = FactoryAcsService.searchService().search(reqAcs);
-                reqAcs1.setDevices(l);
-                isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1);
-                str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
-                v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
+                if (!checkRecentSets(a.getCustomer().getInstancia(), ExecDetailedEnum.GET_IPTV_DIAG)) {
+                    l = FactoryAcsService.searchService().search(reqAcs);
+                    reqAcs1.setDevices(l);
+                    isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1);
+                    str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
+                    v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
+                } else {
+                    IptvDiagnostics vr = (IptvDiagnostics) getRecentSets(a.getCustomer().getInstancia(),
+                            ExecDetailedEnum.GET_IPTV_DIAG).getValid();
+                    Boolean deucertoips = vr.getIpMulticast() != null && vr.getIpVod() != null && !vr.getIpMulticast().isEmpty() && !vr.getIpVod().isEmpty();
+                    str = deucertoips ? "Foi validado IP Multicast e VoD"
+                            : "Identificado IP Multicast ou VoD inválido(s) recentemente.";
+                    v = new ValidacaoResult(a.getAcao().toString(), str, deucertoips, null);
+                }
                 break;
             case DNS:
                 if (!checkRecentSets(a.getCustomer().getInstancia(), ExecDetailedEnum.SET_DNS)) {
@@ -269,7 +278,7 @@ public class ValidacaoResultGenerator {
                     Boolean deucertofirmware = vr.getResultado();
                     str = deucertofirmware ? "Foi realizado Atualização de Firmware recentemente."
                             : "Houve falha ao tentar realizar Atualização de Firmware recentemente.";
-                    v = new ValidacaoResult(a.getAcao().toString(), str, deucertofirmware, isAnyOnline);
+                    v = new ValidacaoResult(a.getAcao().toString(), str, deucertofirmware, null);
                 }
                 break;
             case T38:
@@ -723,6 +732,8 @@ public class ValidacaoResultGenerator {
             case IPS_IPTV:
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_nok"), Boolean.FALSE, null));
+                l.add(new ValidacaoResult(a.toString(), "Foi validado IP Multicast e VoD", Boolean.TRUE, null));
+                l.add(new ValidacaoResult(a.toString(), "Identificado IP Multicast ou VoD inválido(s) recentemente.", Boolean.FALSE, null));
                 return l;
             case DNS:
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("onlineAcs_ok"), Boolean.TRUE, null));
@@ -858,7 +869,16 @@ public class ValidacaoResultGenerator {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
                 if (a.getAcao() == AcaoEnum.IPS_IPTV) {
-                    v = fakeGeneration(a.getAcao()).get(0);
+                    try {
+                        if (checkRecentSets("1135310155", ExecDetailedEnum.GET_IPTV_DIAG)) {
+                            v = fakeGeneration(a.getAcao()).get(2);
+                        } else {
+                            v = fakeGeneration(a.getAcao()).get(0);
+                        }
+                    } catch (Exception e) {
+                        v = fakeGeneration(a.getAcao()).get(0);
+                    }
+
                 }
                 break;
             case "1136891110":
@@ -1225,7 +1245,15 @@ public class ValidacaoResultGenerator {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
                 if (a.getAcao() == AcaoEnum.IPS_IPTV) {
-                    v = fakeGeneration(a.getAcao()).get(0);
+                    try {
+                        if (checkRecentSets("1135310155", ExecDetailedEnum.GET_IPTV_DIAG)) {
+                            v = fakeGeneration(a.getAcao()).get(3);
+                        } else {
+                            v = fakeGeneration(a.getAcao()).get(0);
+                        }
+                    } catch (Exception e) {
+                        v = fakeGeneration(a.getAcao()).get(0);
+                    }
                 }
                 break;
             case "1151837555":
@@ -1268,7 +1296,15 @@ public class ValidacaoResultGenerator {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
                 if (a.getAcao() == AcaoEnum.IPS_IPTV) {
-                    v = fakeGeneration(a.getAcao()).get(0);
+                    try {
+                        if (checkRecentSets("1135310155", ExecDetailedEnum.GET_IPTV_DIAG)) {
+                            v = fakeGeneration(a.getAcao()).get(2);
+                        } else {
+                            v = fakeGeneration(a.getAcao()).get(0);
+                        }
+                    } catch (Exception e) {
+                        v = fakeGeneration(a.getAcao()).get(0);
+                    }
                 }
                 break;
             case "1156420632":
@@ -1332,7 +1368,15 @@ public class ValidacaoResultGenerator {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
                 if (a.getAcao() == AcaoEnum.IPS_IPTV) {
-                    v = fakeGeneration(a.getAcao()).get(0);
+                    try {
+                        if (checkRecentSets("1135310155", ExecDetailedEnum.GET_IPTV_DIAG)) {
+                            v = fakeGeneration(a.getAcao()).get(3);
+                        } else {
+                            v = fakeGeneration(a.getAcao()).get(0);
+                        }
+                    } catch (Exception e) {
+                        v = fakeGeneration(a.getAcao()).get(0);
+                    }
                 }
                 break;
             case "1156437947":
