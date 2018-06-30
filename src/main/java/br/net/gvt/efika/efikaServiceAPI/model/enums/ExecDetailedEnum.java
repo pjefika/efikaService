@@ -27,5 +27,6 @@ public enum ExecDetailedEnum {
     GET_FIRMWARE,
     GET_T38,
     SET_T38,
-    GET_IPTV_DIAG;
+    GET_IPTV_DIAG,
+    IS_DEVICE_ONLINE;
 }

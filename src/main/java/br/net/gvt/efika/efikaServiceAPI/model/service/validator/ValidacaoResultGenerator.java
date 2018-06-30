@@ -9,18 +9,22 @@ import br.net.gvt.efika.acs.model.device.dns.Dns;
 import br.net.gvt.efika.acs.model.device.firmware.FirmwareInfo;
 import br.net.gvt.efika.acs.model.device.interfacestatistics.InterfaceStatistics;
 import br.net.gvt.efika.acs.model.device.lanhost.LanDevice;
+import br.net.gvt.efika.acs.model.device.ping.PingRequest;
+import br.net.gvt.efika.acs.model.device.ping.PingResponse;
 import br.net.gvt.efika.acs.model.device.wan.WanInfo;
 import br.net.gvt.efika.acs.model.device.wifi.WifiInfoFull;
 import br.net.gvt.efika.acs.model.device.wifi.WifiNets;
 import br.net.gvt.efika.acs.model.dto.DetailIn;
 import br.net.gvt.efika.acs.model.dto.FirmwareOut;
 import br.net.gvt.efika.acs.model.dto.FirmwareUpdateIn;
+import br.net.gvt.efika.acs.model.dto.ForceOnlineDeviceIn;
 import br.net.gvt.efika.acs.model.dto.ForceOnlineDevicesIn;
 import br.net.gvt.efika.acs.model.dto.GetDeviceDataIn;
 import br.net.gvt.efika.acs.model.dto.GetIptvDiagnosticsIn;
 import br.net.gvt.efika.acs.model.dto.GetPhoneNumberIn;
 import br.net.gvt.efika.acs.model.dto.GetT38EnabledIn;
 import br.net.gvt.efika.acs.model.dto.IptvDiagnostics;
+import br.net.gvt.efika.acs.model.dto.PingDiagnosticIn;
 import br.net.gvt.efika.acs.model.dto.SetDnsIn;
 import br.net.gvt.efika.acs.model.dto.SetT38EnabledIn;
 import br.net.gvt.efika.acs.model.dto.SetWifiIn;
@@ -207,9 +211,9 @@ public class ValidacaoResultGenerator {
                     str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
                     v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
                 } else {
-                    ValidacaoResult vr = (ValidacaoResult) getRecentSets(a.getCustomer().getInstancia(),
+                    PingResponse vr = (PingResponse) getRecentSets(a.getCustomer().getInstancia(),
                             ExecDetailedEnum.PING).getValid();
-                    Boolean deucertoping = vr.getResultado();
+                    Boolean deucertoping = new Integer(vr.getQtdFailures()).compareTo(new Integer(vr.getRepetitions()) / 2) <= 0;
                     str = deucertoping ? "Foi realizado Ping recentemente."
                             : "Houve falha ao tentar realizar Ping recentemente.";
                     v = new ValidacaoResult(a.getAcao().toString(), str, deucertoping, isAnyOnline);
@@ -439,7 +443,13 @@ public class ValidacaoResultGenerator {
                 if (exec.getCustomer().getInstancia().equalsIgnoreCase("9156420321")) {
                     v = new ValidacaoResult("Ping", "", Boolean.FALSE, null);
                 } else {
-                    v = new ValidacaoResult("Ping", "", Boolean.TRUE, null);
+                    PingDiagnosticIn pingIn = new PingDiagnosticIn();
+                    pingIn.setGuid(new Long(exec.getParametro()));
+                    pingIn.setExecutor("efikaServiceAPI");
+                    PingRequest pingReq = new PingRequest();
+                    pingReq.setDestAddress((String) exec.getSetter());
+                    pingIn.setRequest(pingReq);
+                    v = FactoryAcsService.equipamentoService().pingDiagnostic(pingIn);
                 }
 
                 break;
@@ -593,6 +603,14 @@ public class ValidacaoResultGenerator {
                 getIptvIn.setExecutor("efikaServiceAPI");
                 getIptvIn.setGuid(new Long(exec.getParametro()));
                 v = FactoryAcsService.equipamentoService().getIptvDiagnostics(getIptvIn);
+                break;
+            case IS_DEVICE_ONLINE:
+                ForceOnlineDeviceIn getOnlineIn = new ForceOnlineDeviceIn();
+                getOnlineIn.setExecutor("efikaServiceAPI");
+//                NbiDeviceData device = mapper.convertValue(exec.getSetter(), new TypeReference<NbiDeviceData>() {
+//                });
+                getOnlineIn.setGuid(new Long(exec.getParametro()));
+                v = new ValidacaoResult("", "", FactoryAcsService.equipamentoService().forceOnline(getOnlineIn), null);
                 break;
             default:
                 break;
