@@ -624,41 +624,15 @@ public class ValidacaoResultGenerator {
         switch (a) {
             case ASSOCIACAO_ONT:
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoSerialOnt_ok") + " ABC123456",
-                        Boolean.TRUE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
-                    public SerialOntGpon getSerial() {
-                        return new SerialOntGpon("ABC123456");
-                    }
-                }, Boolean.FALSE));
+                        Boolean.TRUE, null, Boolean.FALSE));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoSerialOnt_nok"), Boolean.FALSE,
-                        new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
-                    public SerialOntGpon getSerial() {
-                        return new SerialOntGpon("");
-                    }
-                }, null));
+                        null, null));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoSerialOnt_ok") + "0123456789",
-                        Boolean.TRUE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
-                    public SerialOntGpon getSerial() {
-                        SerialOntGpon s = new SerialOntGpon();
-                        s.setIdOnt("0123456789");
-                        return s;
-                    }
-                }, Boolean.FALSE));
+                        Boolean.TRUE, null, Boolean.FALSE));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaoSerialOnt_ok") + "0123456789",
-                        Boolean.FALSE, new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
-                    public SerialOntGpon getSerial() {
-                        SerialOntGpon s = new SerialOntGpon();
-                        s.setIdOnt("0123456789");
-                        return s;
-                    }
-                }, Boolean.TRUE));
+                        Boolean.FALSE, null, Boolean.TRUE));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaoSerialOnt_nok"), Boolean.FALSE,
-                        new ValidavelAbs(TelecomPropertiesEnum.SerialOntGpon) {
-                    public SerialOntGpon getSerial() {
-                        SerialOntGpon s = new SerialOntGpon();
-                        s.setIdOnt("0123456789");
-                        return s;
-                    }
-                }, Boolean.FALSE));
+                        null, Boolean.FALSE));
                 break;
             case CHECK_GERENCIA:
                 l.add(new ValidacaoResult(a.toString(), "Gerência disponível", true, null));
