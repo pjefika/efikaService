@@ -56,6 +56,8 @@ public class ExecucaoDetalhadaDAOImpl extends AbstractMongoDAO<ExecucaoDetalhada
         List<ExecucaoDetalhada> l = getDatastore().createQuery(ExecucaoDetalhada.class)
                 .field("nome")
                 .equal(exec)
+                .field("customer.instancia")
+                .equal(instancia)
                 .field("dataFim")
                 .greaterThan(dataLimite)
                 .asList();

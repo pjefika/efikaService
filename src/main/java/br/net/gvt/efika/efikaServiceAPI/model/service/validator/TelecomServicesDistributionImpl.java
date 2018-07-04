@@ -25,11 +25,13 @@ public class TelecomServicesDistributionImpl implements TelecomServicesDistribut
         ValidacaoResult valid = null;
         try {
             valid = new ValidacaoResultGenerator().generate(av);
+            
         } catch (Exception e) {
             e.printStackTrace();
             valid = new ValidacaoResult("", e.getMessage(), Boolean.FALSE, Boolean.FALSE);
         }
 
+        
         if (valid.getFoiCorrigido() != null) {
             if (valid.getResultado()) {
                 r = AcaoResultEnum.VALIDADO_OK;

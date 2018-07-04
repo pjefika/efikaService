@@ -98,6 +98,13 @@ public class ValidacaoResultGenerator {
         return execDao.findRecentExec(instancia, exec, dataLimite) != null;
     }
 
+    public Boolean checkRecentActions(String instancia, AcaoEnum acao) throws Exception {
+        Calendar now = Calendar.getInstance();
+        now.add(Calendar.MINUTE, -15);
+        Date dataLimite = now.getTime();
+        return acaoDao.findRecentExec(instancia, acao, dataLimite) != null;
+    }
+
     public ExecucaoDetalhada getRecentSets(String instancia, ExecDetailedEnum exec) throws Exception {
         Calendar now = Calendar.getInstance();
         now.add(Calendar.MINUTE, -15);
@@ -402,6 +409,7 @@ public class ValidacaoResultGenerator {
                 getWifi.setGuid(new Long(exec.getParametro()));
                 getWifi.setExecutor("efikaServiceAPI");
                 v = FactoryAcsService.equipamentoService().getWifiInfo(getWifi);
+
                 break;
             case SEEK_DEVICES:
                 SearchIn reqAcs = new SearchIn(SearchCriteria.SUBSCRIBER, exec.getCustomer().getDesignador());
@@ -800,7 +808,7 @@ public class ValidacaoResultGenerator {
                     v = fakeGeneration(a.getAcao()).get(2);
                 }
                 if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
-                    v = fakeGeneration(a.getAcao()).get(0);
+                    v = fakeGeneration(a.getAcao()).get(2);
                 }
                 if (a.getAcao() == AcaoEnum.CHECK_GERENCIA) {
                     v = fakeGeneration(a.getAcao()).get(0);
@@ -878,7 +886,7 @@ public class ValidacaoResultGenerator {
                     v = fakeGeneration(a.getAcao()).get(1);
                 }
                 if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
-                    v = fakeGeneration(a.getAcao()).get(3);
+                    v = fakeGeneration(a.getAcao()).get(2);
                 }
                 if (a.getAcao() == AcaoEnum.DNS) {
                     v = fakeGeneration(a.getAcao()).get(0);
@@ -929,6 +937,18 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
                     v = fakeGeneration(a.getAcao()).get(1);
                 }
+                if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
+                    try {
+                        if (checkRecentActions("4131495583", AcaoEnum.ASSOCIACAO_ONT)) {
+                            v = fakeGeneration(a.getAcao()).get(0);
+                        } else {
+                            v = fakeGeneration(a.getAcao()).get(1);
+                        }
+                    } catch (Exception e) {
+                        v = fakeGeneration(a.getAcao()).get(1);
+                    }
+
+                }
                 break;
             case "1135302490":
                 if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
@@ -938,6 +958,9 @@ public class ValidacaoResultGenerator {
             case "1151842138":
                 if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
                     v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
+                    v = fakeGeneration(a.getAcao()).get(3);
                 }
                 if (a.getAcao() == AcaoEnum.PARAMETROS) {
                     v = fakeGeneration(a.getAcao()).get(1);
@@ -1073,6 +1096,9 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.LAN_DEVICES) {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
+                if (a.getAcao() == AcaoEnum.WIFI_STATUS) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
                 break;
             case "4131496819":
                 if (a.getAcao() == AcaoEnum.PROFILE) {
@@ -1089,6 +1115,9 @@ public class ValidacaoResultGenerator {
                 }
                 break;
             case "1151842070":
+                if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
+                    v = fakeGeneration(a.getAcao()).get(3);
+                }
                 if (a.getAcao() == AcaoEnum.PROFILE) {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }

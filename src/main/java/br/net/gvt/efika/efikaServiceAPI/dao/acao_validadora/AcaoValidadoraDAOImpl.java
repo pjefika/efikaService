@@ -5,6 +5,7 @@
  */
 package br.net.gvt.efika.efikaServiceAPI.dao.acao_validadora;
 
+import br.net.gvt.efika.efikaServiceAPI.model.enums.AcaoEnum;
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import java.util.List;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoValidadora;
@@ -48,6 +49,23 @@ public class AcaoValidadoraDAOImpl extends AbstractMongoDAO<AcaoValidadora> impl
                 .greaterThan(dataLimite)
                 .get()
                 .getCustomer();
+    }
+
+    @Override
+    public AcaoValidadora findRecentExec(String instancia, AcaoEnum acao, Date dataLimite) throws Exception {
+        List<AcaoValidadora> l = getDatastore().createQuery(AcaoValidadora.class)
+                .field("acao")
+                .equal(acao)
+                .field("customer.instancia")
+                .equal(instancia)
+                .field("dataFim")
+                .greaterThan(dataLimite)
+                .asList();
+        try {
+            return l.get(l.size() - 1);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }
