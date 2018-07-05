@@ -431,11 +431,11 @@ public class ValidacaoResultGenerator {
                 }
                 break;
             case REBOOT_DEVICE:
-                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1157422076")
+                if (exec.getCustomer().getInstancia().equalsIgnoreCase("4131496819")
                         || exec.getCustomer().getInstancia().equalsIgnoreCase("1135301572")) {
                     v = new ValidacaoResult("Reboot", "", Boolean.TRUE, null);
                 } else {
-                    if (exec.getCustomer().getInstancia().equalsIgnoreCase("1135310155")) {
+                    if (exec.getCustomer().getInstancia().equalsIgnoreCase("1151841998")) {
                         v = new ValidacaoResult("Reboot", "", Boolean.FALSE, null);
                     } else {
                         GetDeviceDataIn getDeviceIn = new GetDeviceDataIn();
@@ -896,6 +896,9 @@ public class ValidacaoResultGenerator {
                 }
                 break;
             case "9156420321":
+                if (a.getAcao() == AcaoEnum.REBOOT) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
                 if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
                     v = fakeGeneration(a.getAcao()).get(1);
                 }
@@ -1105,6 +1108,11 @@ public class ValidacaoResultGenerator {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
                 break;
+            case "1932091862":
+                if (a.getAcao() == AcaoEnum.WIFI_STATUS) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                break;
             case "4131496819":
                 if (a.getAcao() == AcaoEnum.PROFILE) {
                     v = fakeGeneration(a.getAcao()).get(0);
@@ -1117,6 +1125,26 @@ public class ValidacaoResultGenerator {
                 }
                 if (a.getAcao() == AcaoEnum.T38) {
                     v = fakeGeneration(a.getAcao()).get(4);
+                }
+                if (a.getAcao() == AcaoEnum.REBOOT) {
+                    try {
+                        if (checkRecentSets("4131496819", ExecDetailedEnum.REBOOT_DEVICE)) {
+                            ValidacaoResult vr = (ValidacaoResult) getRecentSets("4131496819",
+                                    ExecDetailedEnum.REBOOT_DEVICE).getValid();
+                            Boolean deucertoreboot = vr.getResultado();
+                            if (!deucertoreboot) {
+                                v = fakeGeneration(a.getAcao()).get(3);
+                            } else {
+                                v = fakeGeneration(a.getAcao()).get(2);
+                            }
+                        } else {
+                            v = fakeGeneration(a.getAcao()).get(0);
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        v = fakeGeneration(a.getAcao()).get(0);
+                    }
                 }
                 break;
             case "1151842070":
@@ -1296,6 +1324,27 @@ public class ValidacaoResultGenerator {
                 }
                 if (a.getAcao() == AcaoEnum.VLANS_VIDEO) {
                     v = fakeGeneration(a.getAcao()).get(3);
+                }
+                if (a.getAcao() == AcaoEnum.REBOOT) {
+                    try {
+                        if (checkRecentSets("1151841998", ExecDetailedEnum.REBOOT_DEVICE)) {
+                            ValidacaoResult vr = (ValidacaoResult) getRecentSets("1151841998",
+                                    ExecDetailedEnum.REBOOT_DEVICE).getValid();
+                            Boolean deucertoreboot = vr.getResultado();
+                            if (!deucertoreboot) {
+                                v = fakeGeneration(a.getAcao()).get(3);
+                            } else {
+                                v = fakeGeneration(a.getAcao()).get(2);
+                            }
+                        } else {
+                            v = fakeGeneration(a.getAcao()).get(0);
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        v = fakeGeneration(a.getAcao()).get(0);
+                    }
+
                 }
                 break;
             case "1135301572":
