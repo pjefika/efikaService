@@ -93,7 +93,7 @@ public class ValidacaoResultGenerator {
 
     public Boolean checkRecentSets(String instancia, ExecDetailedEnum exec) throws Exception {
         Calendar now = Calendar.getInstance();
-        now.add(Calendar.MINUTE, -15);
+        now.add(Calendar.MINUTE, -5);
         Date dataLimite = now.getTime();
         return execDao.findRecentExec(instancia, exec, dataLimite) != null;
     }
