@@ -100,7 +100,7 @@ public class ValidacaoResultGenerator {
 
     public Boolean checkRecentActions(String instancia, AcaoEnum acao) throws Exception {
         Calendar now = Calendar.getInstance();
-        now.add(Calendar.MINUTE, -15);
+        now.add(Calendar.MINUTE, -1);
         Date dataLimite = now.getTime();
         return acaoDao.findRecentExec(instancia, acao, dataLimite) != null;
     }
@@ -636,7 +636,7 @@ public class ValidacaoResultGenerator {
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoSerialOnt_nok"), Boolean.FALSE,
                         null, null));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("validacaoSerialOnt_ok") + "0123456789",
-                        Boolean.TRUE, null, Boolean.FALSE));
+                        Boolean.TRUE, null, null));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaoSerialOnt_ok") + "0123456789",
                         Boolean.FALSE, null, Boolean.TRUE));
                 l.add(new ValidacaoResult(a.toString(), bundle.getString("correcaoSerialOnt_nok"), Boolean.FALSE,
@@ -881,7 +881,7 @@ public class ValidacaoResultGenerator {
 
                 }
                 break;
-            case "1136891110":
+            case "1151838540":
                 if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
                     v = fakeGeneration(a.getAcao()).get(1);
                 }
@@ -942,10 +942,10 @@ public class ValidacaoResultGenerator {
                         if (checkRecentActions("4131495583", AcaoEnum.ASSOCIACAO_ONT)) {
                             v = fakeGeneration(a.getAcao()).get(0);
                         } else {
-                            v = fakeGeneration(a.getAcao()).get(1);
+                            v = fakeGeneration(a.getAcao()).get(4);
                         }
                     } catch (Exception e) {
-                        v = fakeGeneration(a.getAcao()).get(1);
+                        v = fakeGeneration(a.getAcao()).get(4);
                     }
 
                 }
@@ -953,6 +953,11 @@ public class ValidacaoResultGenerator {
             case "1135302490":
                 if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
                     v = fakeGeneration(a.getAcao()).get(1);
+                }
+                break;
+            case "1151841759":
+                if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
+                    v = fakeGeneration(a.getAcao()).get(3);
                 }
                 break;
             case "1151842138":
@@ -1315,6 +1320,9 @@ public class ValidacaoResultGenerator {
             case "1151842073":
                 if (a.getAcao() == AcaoEnum.PARAMETROS) {
                     v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.VLANS_VIDEO) {
+                    v = fakeGeneration(a.getAcao()).get(2);
                 }
                 if (a.getAcao() == AcaoEnum.IPS_IPTV) {
                     try {
