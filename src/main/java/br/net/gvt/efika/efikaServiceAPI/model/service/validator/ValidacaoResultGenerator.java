@@ -100,7 +100,7 @@ public class ValidacaoResultGenerator {
 
     public Boolean checkRecentActions(String instancia, AcaoEnum acao) throws Exception {
         Calendar now = Calendar.getInstance();
-        now.add(Calendar.MINUTE, -1);
+        now.add(Calendar.MINUTE, -5);
         Date dataLimite = now.getTime();
         return acaoDao.findRecentExec(instancia, acao, dataLimite) != null;
     }
@@ -431,7 +431,7 @@ public class ValidacaoResultGenerator {
                 }
                 break;
             case REBOOT_DEVICE:
-                if (exec.getCustomer().getInstancia().equalsIgnoreCase("4131496819")
+                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1135311017")
                         || exec.getCustomer().getInstancia().equalsIgnoreCase("1135301572")) {
                     v = new ValidacaoResult("Reboot", "", Boolean.TRUE, null);
                 } else {
@@ -448,7 +448,7 @@ public class ValidacaoResultGenerator {
 
                 break;
             case PING:
-                if (exec.getCustomer().getInstancia().equalsIgnoreCase("9156420321")) {
+                if (exec.getCustomer().getInstancia().equalsIgnoreCase("9156420321") || exec.getCustomer().getInstancia().equalsIgnoreCase("4130862424")) {
                     v = new ValidacaoResult("Ping", "", Boolean.FALSE, null);
                 } else {
                     PingDiagnosticIn pingIn = new PingDiagnosticIn();
@@ -802,6 +802,9 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.T38) {
                     v = fakeGeneration(a.getAcao()).get(4);
                 }
+                if (a.getAcao() == AcaoEnum.PING) {
+                    v = fakeGeneration(a.getAcao()).get(1);
+                }
                 break;
             case "1135300239":
                 if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
@@ -1113,7 +1116,7 @@ public class ValidacaoResultGenerator {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
                 break;
-            case "4131496819":
+            case "1135311017":
                 if (a.getAcao() == AcaoEnum.PROFILE) {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
@@ -1128,8 +1131,8 @@ public class ValidacaoResultGenerator {
                 }
                 if (a.getAcao() == AcaoEnum.REBOOT) {
                     try {
-                        if (checkRecentSets("4131496819", ExecDetailedEnum.REBOOT_DEVICE)) {
-                            ValidacaoResult vr = (ValidacaoResult) getRecentSets("4131496819",
+                        if (checkRecentSets("1135311017", ExecDetailedEnum.REBOOT_DEVICE)) {
+                            ValidacaoResult vr = (ValidacaoResult) getRecentSets("1135311017",
                                     ExecDetailedEnum.REBOOT_DEVICE).getValid();
                             Boolean deucertoreboot = vr.getResultado();
                             if (!deucertoreboot) {
@@ -1480,6 +1483,17 @@ public class ValidacaoResultGenerator {
                 }
                 if (a.getAcao() == AcaoEnum.T38) {
                     v = fakeGeneration(a.getAcao()).get(1);
+                }
+                if (a.getAcao() == AcaoEnum.PING) {
+                    try {
+                        if (checkRecentSets("4130862424", ExecDetailedEnum.PING)) {
+                            v = fakeGeneration(a.getAcao()).get(3);
+                        } else {
+                            v = fakeGeneration(a.getAcao()).get(0);
+                        }
+                    } catch (Exception e) {
+                        v = fakeGeneration(a.getAcao()).get(0);
+                    }
                 }
                 break;
             default:
