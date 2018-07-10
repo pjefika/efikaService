@@ -8,7 +8,9 @@ package br.net.gvt.efika.efikaServiceAPI.model.validador;
 import br.net.gvt.efika.efikaServiceAPI.model.enums.ExecDetailedEnum;
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.mongo.model.entity.AbstractMongoEntity;
+import com.mongodb.DBObject;
 import java.util.Date;
+import org.mongodb.morphia.annotations.PreLoad;
 
 /**
  *

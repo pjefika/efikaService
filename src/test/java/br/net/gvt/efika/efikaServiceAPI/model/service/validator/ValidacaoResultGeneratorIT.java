@@ -65,10 +65,12 @@ public class ValidacaoResultGeneratorIT {
     @Test
     public void testGenerate_AcaoValidadora() throws Exception {
         System.out.println("generate");
-        AcaoValidadora a = new AcaoValidadora(AcaoEnum.TROCA_PACOTES);
-//        a.setCustomer(ValidacaoResultGenerator.getCust("4130825270"));
-//        ValidacaoResult result = ValidacaoResultGenerator.generate(a);
-//        System.out.println(new JacksonMapper<>(ValidacaoResult.class).serialize(result));
+        AcaoValidadora a = new AcaoValidadora(AcaoEnum.PING);
+        EfikaCustomer ec = new EfikaCustomer("4130862424");
+        ec.setInstancia("4130862424");
+        a.setCustomer(ec);
+        ValidacaoResult result = new ValidacaoResultGenerator().generate(a);
+        System.out.println(new JacksonMapper<>(ValidacaoResult.class).serialize(result));
     }
 
     /**

@@ -35,6 +35,8 @@ import br.net.gvt.efika.acs.model.service.factory.FactoryAcsService;
 import br.net.gvt.efika.efikaServiceAPI.dao.acao_validadora.AcaoValidadoraDAO;
 import br.net.gvt.efika.efikaServiceAPI.dao.execucao_detalhada.ExecucaoDetalhadaDAO;
 import br.net.gvt.efika.efikaServiceAPI.dao.factory.FactoryDAO;
+import br.net.gvt.efika.efikaServiceAPI.model.GenericOut;
+import br.net.gvt.efika.efikaServiceAPI.model.StringParam;
 import br.net.gvt.efika.efikaServiceAPI.model.enums.AcaoEnum;
 import br.net.gvt.efika.efikaServiceAPI.model.enums.ExecDetailedEnum;
 import br.net.gvt.efika.efikaServiceAPI.model.service.factory.FactoryService;
@@ -47,8 +49,6 @@ import br.net.gvt.efika.efika_customer.model.customer.mock.CustomerMock;
 import br.net.gvt.efika.fulltest.model.fulltest.FulltestRequest;
 import br.net.gvt.efika.fulltest.model.fulltest.SetOntToOltRequest;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
-import br.net.gvt.efika.fulltest.model.telecom.properties.TelecomPropertiesEnum;
-import br.net.gvt.efika.fulltest.model.telecom.properties.ValidavelAbs;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaRedeMetalico;
 import br.net.gvt.efika.fulltest.service.factory.FactoryFulltestService;
@@ -418,7 +418,8 @@ public class ValidacaoResultGenerator {
                 break;
             case SET_WIFI:
                 if (exec.getCustomer().getInstancia().equalsIgnoreCase("9156420321")
-                        || exec.getCustomer().getInstancia().equalsIgnoreCase("1151842138")) {
+                        || exec.getCustomer().getInstancia().equalsIgnoreCase("1151842138")
+                        || exec.getCustomer().getInstancia().equalsIgnoreCase("4132650103")) {
                     v = new WifiNets();
                 } else {
                     SetWifiIn setWifi = new SetWifiIn();
@@ -455,7 +456,8 @@ public class ValidacaoResultGenerator {
                     pingIn.setGuid(new Long(exec.getParametro()));
                     pingIn.setExecutor("efikaServiceAPI");
                     PingRequest pingReq = new PingRequest();
-                    pingReq.setDestAddress((String) exec.getSetter());
+                    StringParam p = (StringParam) exec.getSetter();
+                    pingReq.setDestAddress(p.getParam());
                     pingIn.setRequest(pingReq);
                     v = FactoryAcsService.equipamentoService().pingDiagnostic(pingIn);
                 }
@@ -546,7 +548,8 @@ public class ValidacaoResultGenerator {
 
                 break;
             case FIRMWARE_UPDATE:
-                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1156421670")) {
+                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1156421670")
+                        || exec.getCustomer().getInstancia().equalsIgnoreCase("1151837555")) {
                     v = new ValidacaoResult("Firmware Update", "",
                             true, null);
                     break;
@@ -558,11 +561,12 @@ public class ValidacaoResultGenerator {
                         FactoryAcsService.equipamentoService().firmwareUpdate(firmwareIn), null);
                 break;
             case GET_FIRMWARE:
-                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1156421670")) {
+                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1156421670")
+                        || exec.getCustomer().getInstancia().equalsIgnoreCase("1151837555")) {
                     v = new FirmwareOut(new FirmwareInfo("1.2.3", "1.2.4-preferred"));
                     break;
                 }
-                if (exec.getCustomer().getInstancia().equalsIgnoreCase("4131492882")) {
+                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1151837555")) {
                     v = new FirmwareOut(new FirmwareInfo("1.2.3", "1.2.3-preferred"));
                     break;
                 }
@@ -586,22 +590,32 @@ public class ValidacaoResultGenerator {
                 break;
             case GET_IPTV_DIAG:
                 if (exec.getCustomer().getInstancia().equalsIgnoreCase("1135310155")
-                        || exec.getCustomer().getInstancia().equalsIgnoreCase("1151842073")) {
+                        || exec.getCustomer().getInstancia().equalsIgnoreCase("1156421670")) {
                     IptvDiagnostics iptvDiag = new IptvDiagnostics();
                     iptvDiag.setIpMulticast("10.0.0.1");
                     iptvDiag.setIpVod("10.0.1.2");
-                    v = iptvDiag;
+                    GenericOut g = new GenericOut();
+                    g.setResult(iptvDiag);
+                    StringParam param = mapper.convertValue(exec.getSetter(), new TypeReference<StringParam>() {
+                    });
+                    g.setParam(param);
+                    v = g;
                     break;
                 }
-                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1148678349")) {
+                if (exec.getCustomer().getInstancia().equalsIgnoreCase("1155230481")) {
                     IptvDiagnostics iptvDiag = new IptvDiagnostics();
                     if (exec.getParametro().equalsIgnoreCase("321")) {
                         iptvDiag.setIpMulticast("10.0.0.1");
-                        iptvDiag.setIpVod("10.0.0.1");
+                        iptvDiag.setIpVod("10.0.0.2");
                     } else {
                         iptvDiag.setIpMulticast("");
                     }
-                    v = iptvDiag;
+                    GenericOut g = new GenericOut();
+                    g.setResult(iptvDiag);
+                    StringParam param = mapper.convertValue(exec.getSetter(), new TypeReference<StringParam>() {
+                    });
+                    g.setParam(param);
+                    v = g;
                     break;
                 }
                 if (exec.getCustomer().getInstancia().equalsIgnoreCase("1156422076")) {
@@ -610,7 +624,13 @@ public class ValidacaoResultGenerator {
                 GetIptvDiagnosticsIn getIptvIn = new GetIptvDiagnosticsIn();
                 getIptvIn.setExecutor("efikaServiceAPI");
                 getIptvIn.setGuid(new Long(exec.getParametro()));
-                v = FactoryAcsService.equipamentoService().getIptvDiagnostics(getIptvIn);
+                IptvDiagnostics ipdiag = FactoryAcsService.equipamentoService().getIptvDiagnostics(getIptvIn);
+                GenericOut g = new GenericOut();
+                g.setResult(ipdiag);
+                StringParam param = mapper.convertValue(exec.getSetter(), new TypeReference<StringParam>() {
+                });
+                g.setParam(param);
+                v = g;
                 break;
             case IS_DEVICE_ONLINE:
                 ForceOnlineDeviceIn getOnlineIn = new ForceOnlineDeviceIn();
@@ -826,6 +846,26 @@ public class ValidacaoResultGenerator {
                 }
                 if (a.getAcao() == AcaoEnum.PARAMETROS) {
                     v = fakeGeneration(a.getAcao()).get(0);
+                }
+                break;
+            case "1135306867":
+                if (a.getAcao() == AcaoEnum.ASSOCIACAO_ONT) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                break;
+            case "1135310608":
+                if (a.getAcao() == AcaoEnum.VLANS_VIDEO) {
+                    v = fakeGeneration(a.getAcao()).get(2);
+                }
+                break;
+            case "4131498468":
+                if (a.getAcao() == AcaoEnum.VLANS_VIDEO) {
+                    v = fakeGeneration(a.getAcao()).get(3);
+                }
+                break;
+            case "4131495698":
+                if (a.getAcao() == AcaoEnum.WIFI_STATUS) {
+                    v = fakeGeneration(a.getAcao()).get(1);
                 }
                 break;
             case "1135310155":
@@ -1048,6 +1088,19 @@ public class ValidacaoResultGenerator {
                         v = fakeGeneration(a.getAcao()).get(0);
                     }
                 }
+                if (a.getAcao() == AcaoEnum.IPS_IPTV) {
+                    try {
+                        if (checkRecentSets("1156421670", ExecDetailedEnum.GET_IPTV_DIAG)) {
+                            v = fakeGeneration(a.getAcao()).get(2);
+                        } else {
+                            v = fakeGeneration(a.getAcao()).get(0);
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        v = fakeGeneration(a.getAcao()).get(0);
+                    }
+                }
                 break;
             case "1135302098":
                 if (a.getAcao() == AcaoEnum.ESTADO_PORTA) {
@@ -1124,6 +1177,9 @@ public class ValidacaoResultGenerator {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
                 if (a.getAcao() == AcaoEnum.TROCA_PACOTES) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.WIFI_STATUS) {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
                 if (a.getAcao() == AcaoEnum.T38) {
@@ -1285,10 +1341,38 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.T38) {
                     v = fakeGeneration(a.getAcao()).get(2);
                 }
+                if (a.getAcao() == AcaoEnum.IPS_IPTV) {
+                    try {
+                        if (checkRecentSets("1155230481", ExecDetailedEnum.GET_IPTV_DIAG)) {
+                            GenericOut g = (GenericOut) getRecentSets("1155230481",
+                                    ExecDetailedEnum.GET_IPTV_DIAG).getValid();
+                            IptvDiagnostics vr = (IptvDiagnostics) g.getResult();
+                            Boolean deucertoreset = vr.getIpMulticast() != null && vr.getIpVod() != null
+                                    && !vr.getIpMulticast().isEmpty() && !vr.getIpVod().isEmpty()
+                                    && !vr.getIpMulticast().equalsIgnoreCase("0.0.0.0")
+                                    && !vr.getIpVod().equalsIgnoreCase("0.0.0.0");
+                            if (!deucertoreset) {
+                                v = fakeGeneration(a.getAcao()).get(3);
+                                v.setMensagem("Identificado IP Multicast ou VoD inválido(s) recentemente para o equipamento " + g.getParam().getParam() + ".");
+                            } else {
+                                v = fakeGeneration(a.getAcao()).get(2);
+                            }
+                        } else {
+                            v = fakeGeneration(a.getAcao()).get(0);
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        v = fakeGeneration(a.getAcao()).get(0);
+                    }
+                }
                 break;
             case "1136891024":
                 if (a.getAcao() == AcaoEnum.VLAN_BANDA) {
                     v = fakeGeneration(a.getAcao()).get(2);
+                }
+                if (a.getAcao() == AcaoEnum.WIFI_CHANNEL) {
+                    v = fakeGeneration(a.getAcao()).get(1);
                 }
                 break;
             case "1156422076":
@@ -1319,6 +1403,26 @@ public class ValidacaoResultGenerator {
                 }
                 if (a.getAcao() == AcaoEnum.VLANS_VIDEO) {
                     v = fakeGeneration(a.getAcao()).get(2);
+                }
+                if (a.getAcao() == AcaoEnum.FIRMWARE) {
+                    try {
+                        if (checkRecentSets("1151837555", ExecDetailedEnum.FIRMWARE_UPDATE)) {
+                            ValidacaoResult vr = (ValidacaoResult) getRecentSets("1151837555",
+                                    ExecDetailedEnum.FIRMWARE_UPDATE).getValid();
+                            Boolean deucertoreset = vr.getResultado();
+                            if (!deucertoreset) {
+                                v = fakeGeneration(a.getAcao()).get(3);
+                            } else {
+                                v = fakeGeneration(a.getAcao()).get(2);
+                            }
+                        } else {
+                            v = fakeGeneration(a.getAcao()).get(0);
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        v = fakeGeneration(a.getAcao()).get(0);
+                    }
                 }
                 break;
             case "1151841998":
@@ -1413,6 +1517,18 @@ public class ValidacaoResultGenerator {
                 if (a.getAcao() == AcaoEnum.WIFI_STATUS) {
                     v = fakeGeneration(a.getAcao()).get(0);
                 }
+                if (a.getAcao() == AcaoEnum.WIFI_CHANNEL) {
+                    v = fakeGeneration(a.getAcao()).get(0);
+                }
+                if (a.getAcao() == AcaoEnum.WIFI_CRED) {
+                    try {
+                        v = checkRecentSets("4132650103", ExecDetailedEnum.SET_WIFI) ? fakeGeneration(a.getAcao()).get(2)
+                                : fakeGeneration(a.getAcao()).get(0);
+                    } catch (Exception ex) {
+                        v = fakeGeneration(a.getAcao()).get(0);
+                        Logger.getLogger(ValidacaoResultGenerator.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
                 break;
             case "4131492882":
                 if (a.getAcao() == AcaoEnum.PARAMETROS) {
@@ -1422,7 +1538,7 @@ public class ValidacaoResultGenerator {
                     v = fakeGeneration(a.getAcao()).get(1);
                 }
                 if (a.getAcao() == AcaoEnum.FIRMWARE) {
-                    v = fakeGeneration(a.getAcao()).get(0);
+                    v = fakeGeneration(a.getAcao()).get(1);
                 }
                 break;
             case "4130176173":
@@ -1492,6 +1608,7 @@ public class ValidacaoResultGenerator {
                             v = fakeGeneration(a.getAcao()).get(0);
                         }
                     } catch (Exception e) {
+                        e.printStackTrace();
                         v = fakeGeneration(a.getAcao()).get(0);
                     }
                 }
