@@ -241,12 +241,16 @@ public class ValidacaoResultGenerator {
                     str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
                     v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
                 } else {
-                    IptvDiagnostics vr = (IptvDiagnostics) getRecentSets(a.getCustomer().getInstancia(),
+                    GenericOut g = (GenericOut) getRecentSets(a.getCustomer().getInstancia(),
                             ExecDetailedEnum.GET_IPTV_DIAG).getValid();
-                    Boolean deucertoips = vr.getIpMulticast() != null && vr.getIpVod() != null && !vr.getIpMulticast().isEmpty() && !vr.getIpVod().isEmpty();
-                    str = deucertoips ? "Foi validado IP Multicast e VoD"
-                            : "Identificado IP Multicast ou VoD inválido(s) recentemente.";
-                    v = new ValidacaoResult(a.getAcao().toString(), str, deucertoips, null);
+                    IptvDiagnostics vr = (IptvDiagnostics) g.getResult();
+                    Boolean deucertodiag = vr.getIpMulticast() != null && vr.getIpVod() != null
+                            && !vr.getIpMulticast().isEmpty() && !vr.getIpVod().isEmpty()
+                            && !vr.getIpMulticast().equalsIgnoreCase("0.0.0.0")
+                            && !vr.getIpVod().equalsIgnoreCase("0.0.0.0");
+                    str = deucertodiag ? "Foi validado IP Multicast e VoD recentemente."
+                            : "Identificado IP Multicast ou VoD inválido(s) recentemente para o equipamento " + g.getParam().getParam() + ".";
+                    v = new ValidacaoResult(a.getAcao().toString(), str, deucertodiag, deucertodiag);
                 }
                 break;
             case DNS:
