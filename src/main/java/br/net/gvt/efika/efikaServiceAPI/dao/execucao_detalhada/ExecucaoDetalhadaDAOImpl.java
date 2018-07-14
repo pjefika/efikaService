@@ -53,16 +53,16 @@ public class ExecucaoDetalhadaDAOImpl extends AbstractMongoDAO<ExecucaoDetalhada
 
     @Override
     public ExecucaoDetalhada findRecentExec(String instancia, ExecDetailedEnum exec, Date dataLimite) throws Exception {
-        List<ExecucaoDetalhada> l = getDatastore().createQuery(ExecucaoDetalhada.class)
+        ExecucaoDetalhada l = getDatastore().createQuery(ExecucaoDetalhada.class)
                 .field("nome")
                 .equal(exec)
                 .field("customer.instancia")
                 .equal(instancia)
                 .field("dataFim")
                 .greaterThan(dataLimite)
-                .asList();
+                .get();
         try {
-            return l.get(l.size() - 1);
+            return l;
         } catch (Exception e) {
             return null;
         }
