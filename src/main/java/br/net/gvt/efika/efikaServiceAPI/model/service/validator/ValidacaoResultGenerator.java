@@ -267,11 +267,16 @@ public class ValidacaoResultGenerator {
 
                 break;
             case WIFI_CHANNEL:
-                l = FactoryAcsService.searchService().search(reqAcs);
-                reqAcs1.setDevices(l);
-                isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1);
-                str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
-                v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
+                if (!checkRecentSets(a.getCustomer().getInstancia(), ExecDetailedEnum.SET_WIFI)) {
+                    l = FactoryAcsService.searchService().search(reqAcs);
+                    reqAcs1.setDevices(l);
+                    isAnyOnline = FactoryAcsService.equipamentoService().forceAnyOnline(reqAcs1);
+                    str = isAnyOnline ? bundle.getString("onlineAcs_ok") : bundle.getString("onlineAcs_nok");
+                    v = new ValidacaoResult(a.getAcao().toString(), str, isAnyOnline, null);
+                } else {
+                    v = new ValidacaoResult(a.getAcao().toString(), "Foi executada alteração em Wifi recentemente.",
+                            Boolean.TRUE, null);
+                }
                 break;
             case WIFI_STATUS:
                 l = FactoryAcsService.searchService().search(reqAcs);
