@@ -460,7 +460,9 @@ public class ValidacaoResultGenerator {
                     pingIn.setGuid(new Long(exec.getParametro()));
                     pingIn.setExecutor("efikaServiceAPI");
                     PingRequest pingReq = new PingRequest();
-                    StringParam p = (StringParam) exec.getSetter();
+                    StringParam p = mapper.convertValue(exec.getSetter(),
+                        new TypeReference<List<StringParam>>() {
+                });
                     pingReq.setDestAddress(p.getParam());
                     pingIn.setRequest(pingReq);
                     v = FactoryAcsService.equipamentoService().pingDiagnostic(pingIn);
