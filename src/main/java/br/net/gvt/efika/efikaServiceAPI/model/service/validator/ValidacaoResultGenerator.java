@@ -350,9 +350,16 @@ public class ValidacaoResultGenerator {
                 if (a.getCustomer().getRede().getTipo() == TipoRede.METALICA) {
                     TabelaRedeMetalico first = (TabelaRedeMetalico) FactoryFulltestService.newConfigPortaService()
                             .confiabilidadeRede(new FulltestRequest(a.getCustomer(), "efikaServiceAPI")).getResult();
-                    Thread.sleep(3000);
-                    TabelaRedeMetalico second = (TabelaRedeMetalico) FactoryFulltestService.newConfigPortaService()
-                            .confiabilidadeRede(new FulltestRequest(a.getCustomer(), "efikaServiceAPI")).getResult();
+                    Thread.sleep(5000);
+                    TabelaRedeMetalico second;
+                    try {
+                        second = (TabelaRedeMetalico) FactoryFulltestService.newConfigPortaService()
+                                .confiabilidadeRede(new FulltestRequest(a.getCustomer(), "efikaServiceAPI")).getResult();
+                    } catch (Exception e) {
+                        Thread.sleep(5000);
+                        second = (TabelaRedeMetalico) FactoryFulltestService.newConfigPortaService()
+                                .confiabilidadeRede(new FulltestRequest(a.getCustomer(), "efikaServiceAPI")).getResult();
+                    }
 
                     hasTraffic = second.getPctDown().compareTo(first.getPctDown()) > 0
                             || second.getPctUp().compareTo(first.getPctUp()) > 0;
@@ -466,8 +473,8 @@ public class ValidacaoResultGenerator {
                     pingIn.setExecutor("efikaServiceAPI");
                     PingRequest pingReq = new PingRequest();
                     StringParam p = mapper.convertValue(exec.getSetter(),
-                        new TypeReference<StringParam>() {
-                });
+                            new TypeReference<StringParam>() {
+                    });
                     pingReq.setDestAddress(p.getParam());
                     pingIn.setRequest(pingReq);
                     v = FactoryAcsService.equipamentoService().pingDiagnostic(pingIn);

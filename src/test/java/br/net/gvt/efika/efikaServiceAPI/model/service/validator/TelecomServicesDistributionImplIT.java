@@ -51,7 +51,7 @@ public class TelecomServicesDistributionImplIT {
         System.out.println("validacao");
         AcaoEnum acao = AcaoEnum.ASSOCIACAO_ONT;
         TelecomServicesDistributionImpl instance = new TelecomServicesDistributionImpl();
-        AcaoValidadora result = instance.validacao(new AcaoRequest(acao, "1151838540"));
+        AcaoValidadora result = instance.validacao(new AcaoRequest(acao, "1137423880"));
         System.out.println(new JacksonMapper(AcaoValidadora.class).serialize(result));
     }
 
