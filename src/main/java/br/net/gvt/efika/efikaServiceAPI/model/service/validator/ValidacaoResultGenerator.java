@@ -331,6 +331,7 @@ public class ValidacaoResultGenerator {
                             SetT38EnabledIn setT38 = new SetT38EnabledIn();
                             setT38.setExecutor("efikaServiceAPI");
                             t38.setEnabled(Boolean.FALSE);
+                            setT38.setGuid(getT38.getGuid());
                             setT38.setT38(t38);
                             t38 = FactoryAcsService.equipamentoService().setT38Enabled(setT38);
                             corrigido = !t38.getEnabled();
