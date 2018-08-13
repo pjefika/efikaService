@@ -44,6 +44,7 @@ import br.net.gvt.efika.efikaServiceAPI.model.validador.AcaoValidadora;
 import br.net.gvt.efika.efikaServiceAPI.model.validador.ExecucaoDetalhada;
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.efika_customer.model.customer.enums.OrigemPlanta;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaLinha;
 import br.net.gvt.efika.efika_customer.model.customer.enums.TipoRede;
 import br.net.gvt.efika.efika_customer.model.customer.mock.CustomerMock;
 import br.net.gvt.efika.fulltest.model.fulltest.FulltestRequest;
@@ -130,9 +131,6 @@ public class ValidacaoResultGenerator {
                         .getOntFromOlt(new FulltestRequest(a.getCustomer(), "efikaServiceAPI"));
                 break;
             case CHECK_GERENCIA:
-                if (a.getCustomer().getInstancia().equalsIgnoreCase("10.141.23.137")) {
-                    return fakeGeneration(a.getAcao()).get(0);
-                }
                 v = new ValidacaoResult(a.getAcao().toString(), "Gerência disponível", FactoryFulltestService
                         .newConfigPortaService().isManageable(new FulltestRequest(a.getCustomer(), "efikaServiceAPI")),
                         null);
@@ -302,7 +300,7 @@ public class ValidacaoResultGenerator {
                 }
                 break;
             case T38:
-                if (a.getCustomer().getRede().getTipo() != TipoRede.METALICA) {
+                if (a.getCustomer().getServicos().getTipoLinha() == TecnologiaLinha.SIP) {
                     l = FactoryAcsService.searchService().search(reqAcs);
                     List<NbiDeviceData> l2 = mapper.convertValue(l, new TypeReference<List<NbiDeviceData>>() {
                     });

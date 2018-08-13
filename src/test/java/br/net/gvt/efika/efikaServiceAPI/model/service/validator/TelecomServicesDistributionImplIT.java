@@ -49,9 +49,9 @@ public class TelecomServicesDistributionImplIT {
     @Test
     public void testValidacao() throws Exception {
         System.out.println("validacao");
-        AcaoEnum acao = AcaoEnum.ASSOCIACAO_ONT;
+        AcaoEnum acao = AcaoEnum.TROCA_PACOTES;
         TelecomServicesDistributionImpl instance = new TelecomServicesDistributionImpl();
-        AcaoValidadora result = instance.validacao(new AcaoRequest(acao, "1137423880"));
+        AcaoValidadora result = instance.validacao(new AcaoRequest(acao, "BHE-811OZ6Y6QU-013"));
         System.out.println(new JacksonMapper(AcaoValidadora.class).serialize(result));
     }
 

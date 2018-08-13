@@ -34,7 +34,11 @@ public class CustomerFinderImpl implements CustomerFinder {
         }
 
         try {
-            return FactoryDAO.newAcaoValidadoraDAO().findRecentCustomer(instancia, dataLimite);
+            EfikaCustomer ec = FactoryDAO.newAcaoValidadoraDAO().findRecentCustomer(instancia, dataLimite);
+            if (ec.getRede().getIpDslam() != null && !ec.getRede().getIpDslam().isEmpty()) {
+                return ec;
+            }
+            return getCustomer(new GenericRequest(instancia, "efikaServiceAPI"));
         } catch (Exception e) {
             return getCustomer(new GenericRequest(instancia, "efikaServiceAPI"));
         }
